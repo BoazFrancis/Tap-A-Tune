@@ -4,6 +4,7 @@
 // Definitions - need to go in .h file
 void read_binary_file(int* m, char* path);
 void fetch_decode_execute(int* m);
+int extractBits(int* n, int start, int length);
 
 int main(int argc, char** argv) {
 
@@ -42,14 +43,13 @@ void read_binary_file(int* m, char* path) {
 
   // Reading the input file
   int pos = 0;
-  int read_success = 0;
+  int read_success = -1;
 
   // Keep reading bytes into memory until nothing left to read
-  do {
+  while (read_success != 0) {
     read_success = fread(&m[pos], sizeof(int), 1, input);
     pos++;
   }
-  while (read_success != 0);
 
   // Close the file
   fclose(input);
@@ -63,11 +63,47 @@ void fetch_decode_execute(int* m) {
 
   do {
     
+    // Get the next instruction and increment PC
     ir = m[pc];
     pc++;
 
-    // Need to check the "Cond" part of the instruction,
-    // first 4 bits on page 4
+    // Get the 4 most significant bits which is the "Cond"
+    int cond = extractBits(&ir, 28, 4);
+
+    switch (cond) {
+      
+      // Z set
+      case 0:
+      break;
+
+      // Z clear
+      case 1:
+      break;
+
+      // N equals V
+      case 10:
+      break;
+
+      // N not equal to V
+      case 11:
+      break;
+
+      // Z clear AND (N equals V)
+      case 12:
+      break;
+
+      // Z set OR (N not equals to V)
+      case 13:
+      break;
+
+      // Al flag
+      case 14:
+      break;
+
+      default:
+      break;
+
+    }
 
     /*
       switch (get_instruction_type(&ir)) {
@@ -93,5 +129,23 @@ void fetch_decode_execute(int* m) {
 
   }
   while (ir != 0);
+
+}
+
+int extractBits(int* n, int start, int length) {
+
+  // Set up an empty mask
+	int mask = 0;
+
+  // Fill the mask with 1s from start to length
+	for (int i = 0; i < length; i++) {
+		mask |= (1 << (start + i));
+	}
+
+  // Find the common bits in n
+  int common = *n & mask;
+
+  // Return just those bits i.e. ignore any zeros to the right by shifting
+	return (unsigned int) common >> start;
 
 }
