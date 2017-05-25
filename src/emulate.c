@@ -1,61 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char **argv) {
+void read_binary_file(int* mem, char* path);
 
-  // Get filename from command line
-  char* name = argv[1];
+int main(int argc, char** argv) {
 
-  FILE *file;
-	unsigned char *buffer;
-	unsigned long fileLen;
-
-	//Open file
-	file = fopen(name, "rb");
-	if (!file) {
-		fprintf(stderr, "Unable to open file %s", name);
-		return 0;
+  // Check for correct number of arguments
+	if (argc != 2) {
+		printf("No file provided\n");
+		return EXIT_FAILURE;
 	}
 
-	//Get file length
-	fseek(file, 0, SEEK_END);
-	fileLen = ftell(file);
-	fseek(file, 0, SEEK_SET);
+  // Memory store
+  int max_memory_size = (1 << 4);
+  int memory[max_memory_size];
 
-	// Allocate memory
-	buffer = (unsigned char *)malloc(fileLen);
-	if (!buffer) {
-		fprintf(stderr, "Memory error!");
-    fclose(file);
-		return 0;
+  // Initialise size of memory
+  for (int i = 0; i < max_memory_size; i++) {
+		memory[i] = 0;
 	}
 
-	// Read file contents into buffer
-  int memory_size = 4;
+  read_binary_file(memory, argv[1]);
 
-  for (int i=0; i<fileLen/memory_size; i++) {
-    fread(buffer, memory_size, 1, file);
-    for (int j=0; j<memory_size; j++) {
-      printf("%02x", buffer[j]);
-    }
-    printf("\n");
+  // Print out file
+  for (int i=0; i<sizeof(memory)/sizeof(int); i++) {
+    printf("%x\n", memory[i]);
   }
-
-	fclose(file);
-
-	free(buffer);
 
   return 0;
 
 }
 
-/*
-Building a binary file loader.
-Writing the emulator loop, comprising:
-– Simulation of the ARM pipeline, with an execute, decode, fetch cycle.
-– Simulated execution of the four types of instruction (data processing, multiply, single data
-transfer, branch) given above. Note that there are no opcodes for the different instruction
-types, so you will have to find a pattern to distinguish between instructions.
-– The emulator should terminate when it executes an all-0 instruction.
-– Upon termination, output the state of the registers.
-*/
+void read_binary_file(int* mem, char* path) {
+	
+  // Open the input file
+	FILE* input = fopen(path, "rb");
+
+	// Reading the input file
+	int pos = 0;
+  int read_success = 0;
+
+	// Keep reading bytes into memory until nothing left to read
+  do {
+		read_success = fread(&mem[pos], sizeof(int), 1, input);
+		pos++;
+	}
+  while (read_success != 0);
+
+  // Close the file
+	fclose(input);
+
+}
