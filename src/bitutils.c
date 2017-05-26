@@ -97,3 +97,23 @@ signed int sign_extension(signed int n, int sbits, int ebits) {
   return n;
 
 }
+
+/**
+ * Binary rotate left
+ * @param val - the number being shifted
+ * @param shiftBy - the number of bits to shift by
+ * @returns the rotated value
+*/
+unsigned int rotate_left(const unsigned int val, int shiftBy) {
+  return (val << shiftBy) | (val >> (sizeof(val)*8 - shiftBy));
+}
+
+/**
+ * Binary rotate right
+ * @param val - the number being shifted
+ * @param shiftBy - the number of bits to shift by
+ * @returns the rotated value
+*/
+unsigned int rotate_right(const unsigned int val, int shiftBy) {
+  return (val >> shiftBy) | (val << (sizeof(val)*8 - shiftBy));
+}

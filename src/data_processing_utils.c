@@ -11,13 +11,13 @@ unsigned int destRegPos = binary_to_decimal(extract_bits(ir, 12, 4));
 unsigned int srcRegVal = proc.registers[srcRegPos];
 
 /**
- * Extracts bits from 'start' to start+length from the 32 bit int
+ * Sets destination register to (Rn AND operand2)
+ * @param Rn
  * @param
- * @param start - The start bit position (from right to left)
  * @param length - Number of bits to extract
  * @returns the extracted bits
 */
-and() {
+void and() {
 
 }
 
