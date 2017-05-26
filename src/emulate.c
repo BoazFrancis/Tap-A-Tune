@@ -23,12 +23,13 @@ int main(int argc, char** argv) {
 
   read_binary_file(&proc, argv[1]);
 
-  // Print out memory (for testing only)
-  for (int i=0; i<sizeof(proc.memory)/sizeof(int); i++) {
-    printf("%x\n", proc.memory[i]);
-  }
-
   fetch_decode_execute(&proc);
+
+  // Print the registers
+  print_registers(&proc);
+
+  // Print the non-zero memory
+  print_nonzeromemory(&proc);
 
   return 0;
 

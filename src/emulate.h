@@ -31,6 +31,8 @@ enum instruction_type {
 void fetch_decode_execute(struct ARM* proc);
 int check_condition_bits(struct ARM* proc);
 enum instruction_type get_instruction_type(int* ir);
+void print_registers(struct ARM* proc);
+void print_nonzeromemory(struct ARM* proc);
 
 // Data processing instructions
 void data_processing(struct ARM* proc);
