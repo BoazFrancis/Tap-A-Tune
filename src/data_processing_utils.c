@@ -29,6 +29,23 @@ int arithmeticShiftRight(const int val, unsigned int shiftBy) {
   return sign_extension(val, 32, 32 + shiftBy) >> shiftBy;
 }
 
+signed int sign_extension(signed int n, int sbits, int ebits) {
+
+  // Get the value of the (sbits)th bit of n
+  int significant_bit = n & (1 << (sbits-1));
+
+  // If MSB is 1, then fill the last (ebits-sbits) with a 1,
+  // otherwise return the same number where the rest of the int are 0s
+  if (significant_bit == 1) {
+    for (int i=0; i<(ebits-sbits); i++) {
+      n |= (1 << (sbits+i));
+    }
+  }
+
+  return n;
+
+}
+
 /**
  * Sets destination register to (Rn AND operand2)
  * @param Rn

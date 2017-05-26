@@ -36,6 +36,9 @@ enum instruction_type get_instruction_type(int* ir);
 
 // Data processing instructions
 void data_processing(int* ir);
+unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy);
+int logicalShiftRight(const int val, unsigned int shiftBy);
+int arithmeticShiftRight(const int val, unsigned int shiftBy);
 
 // Mutliply instructions
 void multiply(int* ir);
