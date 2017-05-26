@@ -7,7 +7,7 @@
 */
 void data_processing(int* ir) {
   if (extract_bit(ir, 25) == 1) {
-
+    unsigned int op2 =
   }
 
   unsigned int opcode = extract_bits(ir, 21, 4);
