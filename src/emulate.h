@@ -35,10 +35,13 @@ enum instruction_type get_instruction_type(int* ir);
 void data_processing(int* ir);
 
 // Mutliply instructions
-void multiply(int* ir);
+void multiply(struct ARM* proc);
+void multiply_with_accumulate(int* ir, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
+void multiply_regular(int* ir, unsigned int d, unsigned int m, unsigned int s);
 
 // Single data transfer instructions
-void single_data_transfer(int* ir);
+void single_data_transfer(struct ARM* proc);
+void ldr(struct ARM* proc, unsigned int d, )
 
 // Branch instructions
 void branch(int* ir);
