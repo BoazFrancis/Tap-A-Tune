@@ -43,7 +43,7 @@ void fetch_decode_execute(struct ARM proc) {
 int check_condition_bits(struct ARM proc) {
 
   // Get the 4 most significant bits which is the "Cond"
-  int cond = extract_bits(&proc.ir, 28, 4);
+  int cond = extract_bits(&proc.ir, COND_START, COND_NUM_BITS);
 
   unsigned int v = extract_bit(proc.registers, CPSR_V);
   unsigned int c = extract_bit(proc.registers, CPSR_C);
@@ -52,33 +52,13 @@ int check_condition_bits(struct ARM proc) {
 
   switch (cond) {
 
-    // Z set
-    case 0:
-    return z == 1;
-
-    // Z clear
-    case 1:
-    return z == 0;
-
-    // N equals V
-    case 10:
-    return n == v;
-
-    // N not equal to V
-    case 11:
-    return n != v;
-
-    // Z clear AND (N equals V)
-    case 12:
-    return z == 0 && n == v;
-
-    // Z set OR (N not equals to V)
-    case 13:
-    return z == 1 || n != v;
-
-    // Al flag
-    case 14:
-    return 1;
+    case Z_SET:                 return z == 1;
+    case Z_CLEAR:               return z == 0;
+    case N_EQUALS_V:            return n == v;
+    case N_NOT_V:               return n != v;
+    case Z_CLEAR_N_EQUALS_V:    return z == 0 && n == v;
+    case Z_SET_N_NOT_V:         return z == 1 || n != v;
+    case AL_FLAG:               return 1;
 
     default:
     fprintf(stderr, "Unknown condition");
