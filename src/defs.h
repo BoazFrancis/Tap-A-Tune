@@ -21,6 +21,9 @@
 #define Z_SET_N_NOT_V 13
 #define AL_FLAG 14
 
+#define BRANCH_OFFSET_START 0
+#define BRANCH_OFFSET_LEN 24
+
 // CPSR register
 #define CPSR_N 31
 #define CPSR_C 29

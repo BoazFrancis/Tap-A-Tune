@@ -73,3 +73,27 @@ unsigned int base_to_base(int from, int to, unsigned int n) {
   }
   return new_number;
 }
+
+/**
+ * Sign extend an integer
+ * @param n - The original number
+ * @param sbits - The starting number of bits
+ * @param ebits - The ending number of bits
+ * @returns the new sign extension
+*/
+signed int sign_extension(signed int n, int sbits, int ebits) {
+
+  // Get the value of the (sbits)th bit of n
+  int significant_bit = n & (1 << (sbits-1))
+
+  // If MSB is 1, then fill the last (ebits-sbits) with a 1,
+  // otherwise return the same number where the rest of the int are 0s
+  if (significant_bit == 1) {
+    for (int i=0; i<(ebits-sbits); i++) {
+      n |= (1 << (sbits+i));
+    }
+  }
+
+  return n;
+
+}
