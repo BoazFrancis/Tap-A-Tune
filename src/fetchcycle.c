@@ -1,54 +1,55 @@
 #include <stdio.h>
 #include "emulate.h"
 
-void fetch_decode_execute(struct ARM proc) {
+void fetch_decode_execute(struct ARM* proc) {
 
-  proc.pc = 0;
-  proc.ir = 0;
+  proc->pc = 0;
+  proc->ir = 0;
 
   do {
 
     // Get the next instruction and increment PC
-    proc.ir = proc.memory[proc.pc];
-    proc.pc++;
+    proc->ir = proc->memory[proc->pc];
+    proc->pc++;
 
     if (check_condition_bits(proc) == 1) {
 
-      switch (get_instruction_type(&proc.ir)) {
+      switch (get_instruction_type(&proc->ir)) {
 
         case DATA_PROCESSING:
-        data_processing(&proc.ir);
+        //data_processing(&proc->ir);
         break;
 
         case BRANCH:
-        branch(&proc.ir);
+        //branch(&proc->ir);
         break;
 
         case MULTIPLY:
-        multiply(&proc.ir);
+        //multiply(&proc->ir);
         break;
 
         case SINGLE_DATA_TRANSFER:
-        single_data_transfer(&proc.ir);
+        //single_data_transfer(&proc->ir);
         break;
+
       }
 
     }
 
   }
-  while (proc.ir != 0);
+  while (proc->ir != 0);
 
 }
 
-int check_condition_bits(struct ARM proc) {
+int check_condition_bits(struct ARM* proc) {
 
   // Get the 4 most significant bits which is the "Cond"
-  int cond = extract_bits(&proc.ir, COND_START, COND_NUM_BITS);
+  int cond = extract_bits(&proc->ir, COND_START, COND_NUM_BITS);
 
-  unsigned int v = extract_bit(proc.registers, CPSR_V);
-  unsigned int c = extract_bit(proc.registers, CPSR_C);
-  unsigned int z = extract_bit(proc.registers, CPSR_Z);
-  unsigned int n = extract_bit(proc.registers, CPSR_N);
+  unsigned int v = extract_bit(proc->registers, CPSR_V);
+  unsigned int c = extract_bit(proc->registers, CPSR_C);
+  unsigned int z = extract_bit(proc->registers, CPSR_Z);
+  unsigned int n = extract_bit(proc->registers, CPSR_N);
 
   switch (cond) {
 

@@ -9,7 +9,7 @@ struct ARM {
 };
 
 // Reading binary files
-void read_binary_file(int* memory, char* path);
+void read_binary_file(struct ARM* proc, char* path);
 
 // Bit-utils
 int extract_bits(int* n, int start, int length);
@@ -27,8 +27,8 @@ enum instruction_type {
 };
 
 // Fetch-execute cycle
-void fetch_decode_execute(struct ARM proc);
-int check_condition_bits(struct ARM proc);
+void fetch_decode_execute(struct ARM* proc);
+int check_condition_bits(struct ARM* proc);
 enum instruction_type get_instruction_type(int* ir);
 
 // Data processing instructions
