@@ -5,16 +5,16 @@
  * Executes the data processing instructions
  * @param ir - The pointer to the instruction register
 */
-void data_processing(int* ir) {
+void data_processing(struct ARM* proc) {
   // if the operand2 is an immediate value
-  if (extract_bit(ir, 25) == 1) {
+  if (extract_bit(&proc->ir, 25) == 1) {
     unsigned int op2
-      = rotate_right(extract_bits(ir, 0, 8), 2*extract_bits(ir, 8, 4));
+      = rotate_right(extract_bits(&proc->ir, 0, 8), 2*extract_bits(&proc->ir, 8, 4));
   }
   // if the operand2 is a register
   else {
-    unsigned int fourth_bit = extract_bit(ir, 4);
-    unsigned int shiftType = extract_bits(ir, 5, 2);
+    unsigned int fourth_bit = extract_bit(&proc->ir, 4);
+    unsigned int shiftType = extract_bits(&proc->ir, 5, 2);
     /*switch (shiftType) {
       case 0:
 
@@ -26,7 +26,7 @@ void data_processing(int* ir) {
 
   }
 
-  unsigned int opcode = extract_bits(ir, 21, 4);
+  unsigned int opcode = extract_bits(&proc->ir, 21, 4);
 
 /*  switch (opcode) {
     case 0:

@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
   for (int i=0; i<sizeof(proc.memory)/sizeof(int); i++) {
     printf("%x\n", proc.memory[i]);
   }
- 
+  printf("%i", arithmeticShiftRight(-10, 5));
   fetch_decode_execute(proc);
 
   return 0;

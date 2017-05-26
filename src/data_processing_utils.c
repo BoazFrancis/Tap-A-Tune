@@ -20,14 +20,14 @@ unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy) {
   return val << shiftBy;
 }
 
-int logicalShiftRight() {
+int logicalShiftRight(const int val, unsigned int shiftBy) {
   return val >> shiftBy;
 }
 
 
-/*int arithmeticShiftRight() {
-
-}*/
+int arithmeticShiftRight(const int val, unsigned int shiftBy) {
+  return sign_extension(val, 32, 32 + shiftBy) >> shiftBy;
+}
 
 /**
  * Sets destination register to (Rn AND operand2)
