@@ -48,31 +48,36 @@ int check_condition_bits(struct ARM proc) {
   // Get the 4 most significant bits which is the "Cond"
   int cond = extract_bits(&proc.ir, 28, 4);
 
+  unsigned int v = extract_bit(proc.registers, CPSR_V);
+  unsigned int c = extract_bit(proc.registers, CPSR_C);
+  unsigned int z = extract_bit(proc.registers, CPSR_Z);
+  unsigned int n = extract_bit(proc.registers, CPSR_N);
+
   switch (cond) {
 
     // Z set
     case 0:
-    break;
+    return z == 1;
 
     // Z clear
     case 1:
-    break;
+    return z == 0;
 
     // N equals V
     case 10:
-    break;
+    return n == v;
 
     // N not equal to V
     case 11:
-    break;
+    return n != v;
 
     // Z clear AND (N equals V)
     case 12:
-    break;
+    return z == 0 && n == v;
 
     // Z set OR (N not equals to V)
     case 13:
-    break;
+    return z == 1 || n != v;
 
     // Al flag
     case 14:
