@@ -14,27 +14,24 @@ void fetch_decode_execute(struct ARM proc) {
 
     if (check_condition_bits(proc) == 1) {
 
-      /*
-        switch (get_instruction_type(&ir)) {
+      switch (get_instruction_type(&proc.ir)) {
 
-          case DATA_PROCESSING:
-          data_processing(&ir);
-          break;
+        case DATA_PROCESSING:
+        data_processing(&proc.ir);
+        break;
 
-          case BRANCH:
-          branch(&ir);
-          break;
+        case BRANCH:
+        branch(&proc.ir);
+        break;
 
-          case MULTIPLY:
-          multiply(&ir);
-          break;
+        case MULTIPLY:
+        multiply(&proc.ir);
+        break;
 
-          case SINGLE_DATA_TRANSFER:
-          single_data_transfer(&ir);
-          break;
-        }
-
-      */
+        case SINGLE_DATA_TRANSFER:
+        single_data_transfer(&proc.ir);
+        break;
+      }
 
     }
 
@@ -88,5 +85,23 @@ int check_condition_bits(struct ARM proc) {
     return 0;
 
   }
+
+}
+
+enum instruction_type get_instruction_type(int* ir) {
+
+  if (is_bit_set(ir, BRANCH_IDENTIFIER)) {
+    return BRANCH;
+  }
+
+  if (is_bit_set(ir, SINGLE_DATA_IDENTIFIER)) {
+    return SINGLE_DATA_TRANSFER;
+  }
+
+  if (is_bit_set(ir, MULT_ID_1) && is_bit_set(ir, MULT_ID_2)) {
+    return MULTIPLY;
+  }
+
+  return DATA_PROCESSING;
 
 }
