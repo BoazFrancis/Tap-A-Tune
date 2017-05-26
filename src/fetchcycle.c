@@ -17,7 +17,7 @@ void fetch_decode_execute(struct ARM* proc) {
       switch (get_instruction_type(&proc->ir)) {
 
         case DATA_PROCESSING:
-        //data_processing(&proc->ir);
+        data_processing(proc);
         break;
 
         case BRANCH:

@@ -7,9 +7,11 @@
 */
 void data_processing(struct ARM* proc) {
 
+  unsigned int op2 = 0;
+
   // if the operand2 is an immediate value
   if (extract_bit(&proc->ir, 25) == 1) {
-    unsigned int op2 = rotate_right(extract_bits(&proc->ir, 0, 8), 2*extract_bits(&proc->ir, 8, 4));
+    op2 = rotate_right(extract_bits(&proc->ir, 0, 8), 2*extract_bits(&proc->ir, 8, 4));
   }
   // if the operand2 is a register
   else {
@@ -27,6 +29,11 @@ void data_processing(struct ARM* proc) {
   }
 
   unsigned int opcode = extract_bits(&proc->ir, 21, 4);
+
+  if (opcode == 13) {
+    // Move instruction
+    move(proc, extract_bits(&proc->ir, 12, 4), op2);
+  }
 
 /*  switch (opcode) {
     case 0:

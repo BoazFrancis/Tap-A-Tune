@@ -39,6 +39,7 @@ void print_nonzeromemory(struct ARM* proc);
 
 // Data processing instructions
 void data_processing(struct ARM* proc);
+void move(struct ARM* proc, int register_d, int operand);
 
 // Mutliply instructions
 void multiply(struct ARM* proc);
