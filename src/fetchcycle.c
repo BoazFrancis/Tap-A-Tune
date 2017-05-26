@@ -13,7 +13,7 @@ void fetch_decode_execute(struct ARM proc) {
     proc.pc++;
 
     if (check_condition_bits(proc) == 1) {
-
+/*
       switch (get_instruction_type(&proc.ir)) {
 
         case DATA_PROCESSING:
@@ -31,7 +31,7 @@ void fetch_decode_execute(struct ARM proc) {
         case SINGLE_DATA_TRANSFER:
         single_data_transfer(&proc.ir);
         break;
-      }
+      }*/
 
     }
 

@@ -17,6 +17,9 @@ int extract_bit(int* n, int start);
 int is_bit_set(int* n, int bit);
 unsigned int binary_to_decimal(unsigned int bin);
 unsigned int base_to_base(int from, int to, unsigned int n);
+unsigned int rotate_left(const unsigned int val, int shiftBy);
+unsigned int rotate_right(const unsigned int val, int shiftBy);
+
 
 // Type of instruction
 enum instruction_type {

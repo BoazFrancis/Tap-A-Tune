@@ -13,11 +13,11 @@ int main(int argc, char** argv) {
   struct ARM proc;
 
   // Initialise size of memory
-  for (int i = 0; i < max_memory_size; i++) {
+  for (int i = 0; i < MAX_MEMORY_SIZE; i++) {
     proc.memory[i] = 0;
   }
 
-  for (int i = 0; i < number_of_registers; i++) {
+  for (int i = 0; i < NUM_REGISTERS; i++) {
     proc.registers[i] = 0;
   }
 
@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
   for (int i=0; i<sizeof(proc.memory)/sizeof(int); i++) {
     printf("%x\n", proc.memory[i]);
   }
-
+ 
   fetch_decode_execute(proc);
 
   return 0;
