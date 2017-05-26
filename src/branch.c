@@ -4,7 +4,7 @@
 void branch(struct ARM* proc) {
 
   // Get bits 0-24 for 2s complement offset
-  signed int offset = extract_bits(ir, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);
+  signed int offset = extract_bits(&proc->ir, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);
 
   // Shift left by 2 bits
   // and sign extend the offset from 24 to 32 bits
@@ -12,6 +12,6 @@ void branch(struct ARM* proc) {
   signed signextend = sign_extension(shifted, 24, 32);
 
   // Add to PC
-  proc->pc = signextend;
+  proc->pc += signextend;
 
 }

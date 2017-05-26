@@ -84,7 +84,7 @@ unsigned int base_to_base(int from, int to, unsigned int n) {
 signed int sign_extension(signed int n, int sbits, int ebits) {
 
   // Get the value of the (sbits)th bit of n
-  int significant_bit = n & (1 << (sbits-1))
+  int significant_bit = n & (1 << (sbits-1));
 
   // If MSB is 1, then fill the last (ebits-sbits) with a 1,
   // otherwise return the same number where the rest of the int are 0s

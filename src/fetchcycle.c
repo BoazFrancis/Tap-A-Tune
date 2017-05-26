@@ -21,15 +21,19 @@ void fetch_decode_execute(struct ARM* proc) {
         break;
 
         case BRANCH:
-        //branch(&proc->ir);
+        branch(proc);
         break;
 
         case MULTIPLY:
-        //multiply(&proc->ir);
+        multiply(proc);
         break;
 
         case SINGLE_DATA_TRANSFER:
         //single_data_transfer(&proc->ir);
+        break;
+
+        default:
+        fprintf(stderr, "Unknown instruction type\n");
         break;
 
       }

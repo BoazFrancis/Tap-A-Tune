@@ -17,6 +17,7 @@ int extract_bit(int* n, int start);
 int is_bit_set(int* n, int bit);
 unsigned int binary_to_decimal(unsigned int bin);
 unsigned int base_to_base(int from, int to, unsigned int n);
+signed int sign_extension(signed int n, int sbits, int ebits);
 
 // Type of instruction
 enum instruction_type {
@@ -36,8 +37,8 @@ void data_processing(struct ARM* proc);
 
 // Mutliply instructions
 void multiply(struct ARM* proc);
-void multiply_with_accumulate(int* ir, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
-void multiply_regular(int* ir, unsigned int d, unsigned int m, unsigned int s);
+void multiply_with_accumulate(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
+void multiply_regular(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s);
 
 // Single data transfer instructions
 void single_data_transfer(struct ARM* proc);
