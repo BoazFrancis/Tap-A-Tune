@@ -32,13 +32,13 @@ int check_condition_bits(struct ARM proc);
 enum instruction_type get_instruction_type(int* ir);
 
 // Data processing instructions
-void data_processing(int* ir);
+void data_processing(struct ARM* proc);
 
 // Mutliply instructions
-void multiply(int* ir);
+void multiply(struct ARM* proc);
 
 // Single data transfer instructions
-void single_data_transfer(int* ir);
+void single_data_transfer(struct ARM* proc);
 
 // Branch instructions
-void branch(int* ir);
+void branch(struct ARM* proc);
