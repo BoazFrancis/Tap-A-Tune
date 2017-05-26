@@ -1,11 +1,9 @@
-// Define in separate file
-#define max_memory_size (1 << 4)
-#define number_of_registers 17
+#include "defs.h"
 
 // Create the ARM struct
 struct ARM {
-   int memory[max_memory_size];
-   int registers[number_of_registers];
+   int memory[MAX_MEMORY_SIZE];
+   int registers[NUM_REGISTERS];
    int pc;
    int ir;
 };

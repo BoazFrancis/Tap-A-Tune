@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include "emulate.h"
 
+/**
+ * Reads the file into memory
+ * @param memory - The memory pointer
+ * @param path - The string of the filename
+ * @returns void
+*/
 void read_binary_file(int* memory, char* path) {
 
   // Open the input file

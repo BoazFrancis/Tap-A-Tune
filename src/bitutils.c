@@ -25,6 +25,12 @@ int extract_bits(int* n, int start, int length) {
 
 }
 
+/**
+ * Extracts a single bit from a longer int
+ * @param n - The instruction
+ * @param start - The start bit position (from right to left)
+ * @returns the extracted bit
+*/
 int extract_bit(int* n, int start) {
   return extract_bits(n, start, 1);
 }
