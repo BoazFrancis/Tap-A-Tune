@@ -12,5 +12,10 @@ void print_registers(struct ARM* proc) {
 }
 
 void print_nonzeromemory(struct ARM* proc) {
-
+  printf("Non-zero memory:\n");
+  for (int i=0; i<MAX_MEMORY_SIZE; i++) {
+    if (proc->memory[i] != 0) {
+      printf("0x%08x: 0x%08x\n", i, proc->memory[i]);
+    }
+  }
 }
