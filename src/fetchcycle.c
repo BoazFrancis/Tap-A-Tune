@@ -9,8 +9,8 @@ void fetch_decode_execute(struct ARM* proc) {
   do {
 
     // Get the next instruction and increment PC
-    proc->ir = proc->memory[proc->pc];
-    proc->pc++;
+    proc->ir = proc->memory[memaddr_to_index(proc->pc)];
+    proc->pc += WORD_SIZE;
 
     if (check_condition_bits(proc) == 1) {
 
@@ -89,4 +89,12 @@ enum instruction_type get_instruction_type(int* ir) {
 
   return DATA_PROCESSING;
 
+}
+
+int memaddr_to_index(int memaddr) {
+  return memaddr / WORD_SIZE;
+}
+
+int index_to_memaddr(int index) {
+  return index * WORD_SIZE;
 }
