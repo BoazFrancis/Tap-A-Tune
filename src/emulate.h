@@ -31,6 +31,28 @@ enum instruction_type {
   BRANCH
 };
 
+// Type of shift
+enum shift_type {
+  LOGICAL_LEFT,
+  LOGICAL_RIGHT,
+  ARITHMETIC_RIGHT,
+  ROTATE_RIGHT
+};
+
+// Opcodes for data_processing
+enum opcode {
+  AND = 0,
+  EOR = 1,
+  SUB = 2,
+  RSB = 3,
+  ADD = 4,
+  TST = 8,
+  TEQ = 9,
+  CMP = 10,
+  ORR = 12,
+  MOV = 13
+};
+
 // Fetch-execute cycle
 void fetch_decode_execute(struct ARM* proc);
 int check_condition_bits(struct ARM* proc);
@@ -44,7 +66,10 @@ void print_nonzeromemory(struct ARM* proc);
 
 // Data processing instructions
 void data_processing(struct ARM* proc);
-void move(struct ARM* proc, int register_d, int operand);
+unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy);
+int logicalShiftRight(const int val, unsigned int shiftBy);
+int arithmeticShiftRight(const int val, unsigned int shiftBy);
+unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy);
 
 // Mutliply instructions
 void multiply(struct ARM* proc);
