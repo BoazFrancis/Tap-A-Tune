@@ -30,39 +30,38 @@ void data_processing(struct ARM* proc) {
 
   unsigned int opcode = extract_bits(&proc->ir, 21, 4);
 
-/*  switch (opcode) {
-    case 0:
+  switch (opcode) {
+    case AND:
        and();
        break;
-    case 1:
+    case EOR:
        eor();
        break;
-    case 2:
+    case SUB:
        sub();
        break;
-    case 3:
+    case RSB:
        rsb();
        break;
-    case 4:
+    case ADD:
        add();
        break;
-    case 8:
+    case TST:
        tst();
        break;
-    case 9:
+    case TEQ:
        teq();
        break;
-    case 10:
+    case CMP:
        cmp();
        break;
-    case 12:
+    case ORR:
        orr();
        break;
-    case 13:
+    case MOV:
        mov();
        break;
     default:
-       break;
 
-  } */
+  }
 }
