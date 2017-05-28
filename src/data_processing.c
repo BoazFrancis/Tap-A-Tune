@@ -3,8 +3,8 @@
 #include "emulate.h"
 
 /**
- * Executes the data processing instructions
- * @param ir - The pointer to the instruction register
+* Executes the data processing instructions
+* @param ir - The pointer to the instruction register
 */
 void data_processing(struct ARM* proc) {
 
@@ -44,50 +44,131 @@ void data_processing(struct ARM* proc) {
     }
     // shift using the specified shift type and write result to op2
     op2 = shift_by_type(shiftType, rm, shiftBy);
-    }
+  }
 
   unsigned int opcode = extract_bits(&proc->ir, 21, 4);
   unsigned int s = extract_bit(&proc->ir, 20);
 
   switch (opcode) {
     case AND:
-       (*proc).registers[destRegPos] = op2 & rn;
-       if (s == 1) {
-         (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
-         (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
-         (*proc).registers[CPSR_C] = 0;
-         (*proc).registers[CPSR_V] = 0;
-       }
-       break;
-    case EOR:
-       (*proc).registers[destRegPos] = eor(operand);
-       break;
-    case SUB:
-       (*proc).registers[destRegPos] = sub(op2);
-       break;
-    case RSB:
-       (*proc).registers[destRegPos] = rsb(op2);
-       break;
-    case ADD:
-       (*proc).registers[destRegPos] = add(op2);
-       break;
-    case TST:
-       tst(op2);
-       break;
-    case TEQ:
-       teq(op2);
-       break;
-    case CMP:
-       cmp(op2);
-       break;
-    case ORR:
-       (*proc).registers[destRegPos] = orr(op2);
-       break;
-    case MOV:
-       (*proc).registers[destRegPos] = mov(op2);
-       break;
-    default:
+      (*proc).registers[destRegPos] = op2 & rn;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0;
+      }
       break;
-
+    case EOR:
+      (*proc).registers[destRegPos] = op2 ^ rn;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0;
+      }
+      break;
+    case SUB:
+      (*proc).registers[destRegPos] = rn - op2;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = ; //TODO: check for carry
+      }
+      break;
+    case RSB:
+      (*proc).registers[destRegPos] = op2 - rn;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = ;//TODO: check for carry
+      }
+      break;
+    case ADD:
+      (*proc).registers[destRegPos] = rn + op2;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0; //TODO: check for carry
+      }
+      break;
+    case TST:
+      // If S bit is set
+      if (s == 1) {
+        unsigned int andResult = op2 & rn;
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = andResult >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = andResult == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0;
+      }
+      break;
+    case TEQ:
+      // If S bit is set
+      if (s == 1) {
+        unsigned int eorResult = op2 ^ rn;
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = eorResult >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = eorResult == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0;
+      }
+      break;
+    case CMP:
+      // If S bit is set
+      if (s == 1) {
+        unsigned int subResult = rn - op2;
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = subResult >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = subResult == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0; //TODO: check for carry
+      }
+      break;
+    case ORR:
+      (*proc).registers[destRegPos] = rn | op2;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0;
+      }
+      break;
+    case MOV:
+      (*proc).registers[destRegPos] = rn;
+      // If S bit is set
+      if (s == 1) {
+        // Set N flag to 1 if result is negative, 0 otherwise
+        (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+        // Set Z flag to 1 if result is equal to zero, 0 otherwise
+        (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+        // Set C flag to 1 carry is 1, 0 otherwise
+        (*proc).registers[CPSR_C] = 0;
+      }
+      break;    
   }
 }
