@@ -46,6 +46,16 @@ signed int sign_extension(signed int n, int sbits, int ebits) {
 
 }
 
+shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy) {
+  /*switch (shiftType) {
+    case 0:
+
+    case 1:
+    case 2:
+    case 3:
+  } */
+}
+
 /**
  * Sets destination register to (Rn AND operand2)
  * @param Rn
