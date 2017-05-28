@@ -6,6 +6,7 @@ struct ARM {
    int registers[NUM_REGISTERS];
    int pc;
    int ir;
+   int load;
 };
 
 // Reading binary files

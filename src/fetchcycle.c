@@ -4,44 +4,61 @@
 void fetch_decode_execute(struct ARM* proc) {
 
   proc->pc = 0;
+  proc->load = 0;
   proc->ir = 0;
+  
+  int has_loaded = 0;
+  int has_fetched = 0;
 
-  do {
+  while (proc->pc < MAX_MEMORY_SIZE) {
+    
+    if (has_fetched != 0) {
 
-    // Get the next instruction and increment PC
-    proc->ir = proc->memory[memaddr_to_index(proc->pc)];
-    proc->pc += WORD_SIZE;
-
-    if (check_condition_bits(proc) == 1) {
-
-      switch (get_instruction_type(&proc->ir)) {
-
-        case DATA_PROCESSING:
-        data_processing(proc);
+      // Halt on all zero instruction
+      if (proc->ir == 0) {
         break;
+      }
+      else if (check_condition_bits(proc) == 1) {
 
-        case BRANCH:
-        branch(proc);
-        break;
+        switch (get_instruction_type(&proc->ir)) {
 
-        case MULTIPLY:
-        multiply(proc);
-        break;
+          case DATA_PROCESSING:
+          data_processing(proc);
+          break;
 
-        case SINGLE_DATA_TRANSFER:
-        //single_data_transfer(&proc->ir);
-        break;
+          case BRANCH:
+          branch(proc);
+          break;
 
-        default:
-        fprintf(stderr, "Unknown instruction type\n");
-        break;
+          case MULTIPLY:
+          multiply(proc);
+          break;
+
+          case SINGLE_DATA_TRANSFER:
+          //single_data_transfer(&proc->ir);
+          break;
+
+          default:
+          fprintf(stderr, "Unknown instruction type\n");
+          break;
+
+        }
 
       }
 
     }
 
+    if (has_loaded != 0) {
+      proc->ir = proc->load;
+      has_fetched = 1;
+    }
+
+    // Get the next instruction and increment PC
+    proc->load = proc->memory[memaddr_to_index(proc->pc)];
+    has_loaded = 1;
+    proc->pc += WORD_SIZE;
+
   }
-  while (proc->ir != 0);
 
 }
 

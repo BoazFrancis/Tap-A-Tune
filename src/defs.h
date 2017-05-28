@@ -1,5 +1,5 @@
 // ARM processor specifications
-#define MAX_MEMORY_SIZE (1 << 4)
+#define MAX_MEMORY_SIZE (1 << 5)
 #define NUM_REGISTERS 17
 #define WORD_SIZE 4
 
