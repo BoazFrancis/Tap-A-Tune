@@ -57,10 +57,21 @@ int check_condition_bits(struct ARM proc);
 enum instruction_type get_instruction_type(int* ir);
 
 // Data processing instructions
-void data_processing(int* ir);
+void data_processing(struct ARM* proc);
 unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy);
 int logicalShiftRight(const int val, unsigned int shiftBy);
 int arithmeticShiftRight(const int val, unsigned int shiftBy);
+unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy);
+void logical_and();
+void eor();
+void sub();
+void rsb();
+void add();
+void tst();
+void teq();
+void cmp();
+void orr();
+void mov();
 
 // Mutliply instructions
 void multiply(int* ir);

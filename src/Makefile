@@ -9,7 +9,7 @@ all: assemble emulate
 
 assemble: assemble.o
 
-emulate: emulate.o fetchcycle.c bitutils.c binaryread.c data_processing.c -lm
+emulate: emulate.o fetchcycle.c bitutils.c binaryread.c data_processing.c data_processing_utils.c -lm
 
 clean:
 	rm -f $(wildcard *.o)
