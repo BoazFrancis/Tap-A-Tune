@@ -83,7 +83,7 @@ void data_processing(struct ARM* proc) {
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
         (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
         // Set C flag to 1 carry is 1, 0 otherwise
-        (*proc).registers[CPSR_C] = ; //TODO: check for carry
+        (*proc).registers[CPSR_C] = 0; //TODO: check for carry
       }
       break;
     case RSB:
@@ -95,7 +95,7 @@ void data_processing(struct ARM* proc) {
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
         (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
         // Set C flag to 1 carry is 1, 0 otherwise
-        (*proc).registers[CPSR_C] = ;//TODO: check for carry
+        (*proc).registers[CPSR_C] = 0;//TODO: check for carry
       }
       break;
     case ADD:
@@ -169,6 +169,6 @@ void data_processing(struct ARM* proc) {
         // Set C flag to 1 carry is 1, 0 otherwise
         (*proc).registers[CPSR_C] = 0;
       }
-      break;    
+      break;
   }
 }

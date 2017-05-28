@@ -20,6 +20,10 @@ unsigned int base_to_base(int from, int to, unsigned int n);
 unsigned int rotate_left(const unsigned int val, int shiftBy);
 unsigned int rotate_right(const unsigned int val, int shiftBy);
 
+// Declaration of sign extension for testing purposes
+// Delete when merging with master
+signed int sign_extension(signed int n, int sbits, int ebits);
+
 
 // Type of instruction
 enum instruction_type {
