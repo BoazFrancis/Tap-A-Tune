@@ -39,42 +39,42 @@ void data_processing(struct ARM* proc) {
       unsigned int rsNumber = extract_bits(&proc->ir, 8, 11);
       shiftBy = (*proc).registers[rsNumber];
     }
-    // shift using the specified shift type
-    shift_by_type(shiftType, rm, shiftBy);
+    // shift using the specified shift type and write result to op2
+    uint32_t op2 = shift_by_type(shiftType, rm, shiftBy);
     }
 
   unsigned int opcode = extract_bits(&proc->ir, 21, 4);
 
   switch (opcode) {
     case AND:
-       logical_and();
+       logical_and(op2);
        break;
     case EOR:
-       eor();
+       eor(op2);
        break;
     case SUB:
-       sub();
+       sub(op2);
        break;
     case RSB:
-       rsb();
+       rsb(op2);
        break;
     case ADD:
-       add();
+       add(op2);
        break;
     case TST:
-       tst();
+       tst(op2);
        break;
     case TEQ:
-       teq();
+       teq(op2);
        break;
     case CMP:
-       cmp();
+       cmp(op2);
        break;
     case ORR:
-       orr();
+       orr(op2);
        break;
     case MOV:
-       mov();
+       mov(op2);
        break;
     default:
       break;

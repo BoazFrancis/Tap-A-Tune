@@ -56,26 +56,25 @@ unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned in
  * @returns the extracted bits
 */
 
-/*
-logical_and() {
-
+void logical_and(uint32_t op2) {
+  
 }
+/*
+void eor();
 
-eor();
+void sub();
 
-sub();
+void rsb();
 
-rsb();
+void add();
 
-add();
+void tst();
 
-tst();
+void teq();
 
-teq();
+void cmp();
 
-cmp();
+void orr();
 
-orr();
-
-mov();
+void mov();
 */
