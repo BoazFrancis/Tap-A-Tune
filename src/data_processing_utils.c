@@ -47,34 +47,3 @@ unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned in
       return rotate_right(val, shiftBy);
   }
 }
-
-/**
- * Sets destination register to (Rn AND operand2)
- * @param Rn
- * @param
- * @param length - Number of bits to extract
- * @returns the extracted bits
-*/
-
-void logical_and(uint32_t op2) {
-  
-}
-/*
-void eor();
-
-void sub();
-
-void rsb();
-
-void add();
-
-void tst();
-
-void teq();
-
-void cmp();
-
-void orr();
-
-void mov();
-*/
