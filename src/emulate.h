@@ -62,16 +62,16 @@ unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy);
 int logicalShiftRight(const int val, unsigned int shiftBy);
 int arithmeticShiftRight(const int val, unsigned int shiftBy);
 unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy);
-void logical_and();
-void eor();
-void sub();
-void rsb();
-void add();
-void tst();
-void teq();
-void cmp();
-void orr();
-void mov();
+unsigned int logical_and();
+unsigned int eor();
+unsigned int sub();
+unsigned int rsb();
+unsigned int add();
+unsigned int tst();
+unsigned int teq();
+unsigned int cmp();
+unsigned int orr();
+unsigned int mov();
 
 // Mutliply instructions
 void multiply(int* ir);
