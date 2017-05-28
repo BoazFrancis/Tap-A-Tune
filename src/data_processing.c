@@ -47,13 +47,20 @@ void data_processing(struct ARM* proc) {
     }
 
   unsigned int opcode = extract_bits(&proc->ir, 21, 4);
+  unsigned int s = extract_bit(&proc->ir, 20);
 
   switch (opcode) {
     case AND:
-       (*proc).registers[destRegPos] = logical_and(op2, rn);
+       (*proc).registers[destRegPos] = op2 & rn;
+       if (s == 1) {
+         (*proc).registers[CPSR_N] = (*proc).registers[destRegPos] >= 0 ? 0 : 1;
+         (*proc).registers[CPSR_Z] = (*proc).registers[destRegPos] == 0 ? 1 : 0;
+         (*proc).registers[CPSR_C] = 0;
+         (*proc).registers[CPSR_V] = 0;
+       }
        break;
     case EOR:
-       (*proc).registers[destRegPos] = eor(op2);
+       (*proc).registers[destRegPos] = eor(operand);
        break;
     case SUB:
        (*proc).registers[destRegPos] = sub(op2);
