@@ -46,14 +46,21 @@ signed int sign_extension(signed int n, int sbits, int ebits) {
 
 }
 
-shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy) {
-  /*switch (shiftType) {
-    case 0:
-
-    case 1:
-    case 2:
-    case 3:
-  } */
+unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy) {
+  switch (shiftType) {
+    // logical shift left
+    case LOGICAL_LEFT:
+      return shiftLeft(val, shiftBy);
+    // logical shift right
+    case LOGICAL_RIGHT:
+      return logicalShiftRight(val , shiftBy);
+    // arithmetic shift right
+    case ARITHMETIC_RIGHT:
+      return arithmeticShiftRight(val, shiftBy);
+    // rotate right
+    case ROTATE_RIGHT:
+      return rotate_right(val, shiftBy);
+  }
 }
 
 /**
