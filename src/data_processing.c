@@ -22,7 +22,7 @@ void data_processing(struct ARM* proc) {
   uint32_t op2;
 
   // if the operand2 is an immediate value
-  if (extract_bit(&proc->ir, 25) == 1) {
+  if (extract_bit(&proc->ir, DATA_PROC_IMM_IDENTIFIER) == 1) {
     op2 = extract_bits(&proc->ir, 0, 8);
     op2 = rotate_right(op2, 2*extract_bits(&proc->ir, 8, 4));
   }
@@ -30,18 +30,18 @@ void data_processing(struct ARM* proc) {
     // operand2 is a register
     unsigned int fourth_bit = extract_bit(&proc->ir, 4);
     unsigned int shiftType = extract_bits(&proc->ir, 5, 2);
-    unsigned int rm = extract_bits(&proc->ir, 0, 3);
+    unsigned int rm = extract_bits(&proc->ir, 0, 4);
     unsigned int shiftBy;
     if (fourth_bit == 0) {
       shiftBy = extract_bits(&proc->ir, 7, 5);
     }
     else {
       // fourth_bit == 1
-      unsigned int rsNumber = extract_bits(&proc->ir, 8, 11);
+      unsigned int rsNumber = extract_bits(&proc->ir, 8, 4);
       shiftBy = proc->registers[rsNumber];
     }
     // shift using the specified shift type and write result to op2
-    op2 = shift_by_type(shiftType, rm, shiftBy);
+    op2 = shift_by_type(shiftType, proc->registers[rm], shiftBy);
   }
 
   unsigned int opcode = extract_bits(&proc->ir, 21, 4);
