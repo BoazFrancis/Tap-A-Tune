@@ -99,12 +99,18 @@ enum instruction_type get_instruction_type(int* ir) {
   if (is_bit_set(ir, SINGLE_DATA_IDENTIFIER)) {
     return SINGLE_DATA_TRANSFER;
   }
-
-  if (is_bit_set(ir, MULT_ID_1) && is_bit_set(ir, MULT_ID_2)) {
-    return MULTIPLY;
+   
+  // Either data processing or multiply
+  if (is_bit_set(ir, DATA_PROC_IMM_IDENTIFIER)) {
+    // Immediate operand set, therefore data processing
+    return DATA_PROCESSING;
   }
-
-  return DATA_PROCESSING;
+  else {
+    if (is_bit_set(ir, MULT_ID_1) && is_bit_set(ir, MULT_ID_2)) {
+      return MULTIPLY;
+    }
+    return DATA_PROCESSING;
+  }
 
 }
 

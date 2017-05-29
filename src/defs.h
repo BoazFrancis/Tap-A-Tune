@@ -10,6 +10,7 @@
 // Identifying bits for instructions (bits 26, 27)
 #define BRANCH_IDENTIFIER 27
 #define SINGLE_DATA_IDENTIFIER 26
+#define DATA_PROC_IMM_IDENTIFIER 25
 #define MULT_ID_1 4
 #define MULT_ID_2 7
 
