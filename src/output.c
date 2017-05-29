@@ -7,11 +7,13 @@ void print_registers(struct ARM* proc) {
   printf("Registers:\n");
   for (int i=0; i<=PRINT_REGISTERS; i++) {
     char register_num[100];
+    char register_val[100];
     sprintf(register_num, "$%d", i);
-    printf("%-4s:          %d (0x%08x)\n", register_num, proc->registers[i], proc->registers[i]);
+    sprintf(register_val, "%d", proc->registers[i]);
+    printf("%-4s: %10s (0x%08x)\n", register_num, register_val, proc->registers[i]);
   }
-  printf("PC  :         %d (0x%08x)\n", proc->pc, proc->pc);
-  printf("CPSR:          %d (0x%08x)\n", proc->registers[CPSR_REGISTER], proc->registers[CPSR_REGISTER]);
+  printf("PC  : %10d (0x%08x)\n", proc->pc, proc->pc);
+  printf("CPSR: %10d (0x%08x)\n", proc->registers[CPSR_REGISTER], proc->registers[CPSR_REGISTER]);
 }
 
 void print_nonzeromemory(struct ARM* proc) {
