@@ -5,8 +5,10 @@
 
 void print_registers(struct ARM* proc) {
   printf("Registers:\n");
-  for (int i=0; i<PRINT_REGISTERS; i++) {
-    printf("$%d  :          %d (0x%08x)\n", i, proc->registers[i], proc->registers[i]);
+  for (int i=0; i<=PRINT_REGISTERS; i++) {
+    char register_num[100];
+    sprintf(register_num, "$%d", i);
+    printf("%-4s:          %d (0x%08x)\n", register_num, proc->registers[i], proc->registers[i]);
   }
   printf("PC  :         %d (0x%08x)\n", proc->pc, proc->pc);
   printf("CPSR:          %d (0x%08x)\n", proc->registers[CPSR_REGISTER], proc->registers[CPSR_REGISTER]);
