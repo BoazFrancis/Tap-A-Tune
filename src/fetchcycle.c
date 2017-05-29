@@ -7,12 +7,12 @@ void fetch_decode_execute(struct ARM* proc) {
   proc->load = 0;
   proc->ir = 0;
   
-  int has_loaded = 0;
-  int has_fetched = 0;
+  proc->has_loaded = 0;
+  proc->has_fetched = 0;
 
   while (proc->pc < MAX_MEMORY_SIZE) {
     
-    if (has_fetched != 0) {
+    if (proc->has_fetched != 0) {
 
       // Halt on all zero instruction
       if (proc->ir == 0) {
@@ -48,14 +48,14 @@ void fetch_decode_execute(struct ARM* proc) {
 
     }
 
-    if (has_loaded != 0) {
+    if (proc->has_loaded != 0) {
       proc->ir = proc->load;
-      has_fetched = 1;
+      proc->has_fetched = 1;
     }
 
     // Get the next instruction and increment PC
     proc->load = proc->memory[memaddr_to_index(proc->pc)];
-    has_loaded = 1;
+    proc->has_loaded = 1;
     proc->pc += WORD_SIZE;
 
   }

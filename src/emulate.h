@@ -7,6 +7,8 @@ struct ARM {
    int pc;
    int ir;
    int load;
+   int has_loaded;
+   int has_fetched;
 };
 
 // Reading binary files

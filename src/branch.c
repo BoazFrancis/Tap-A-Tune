@@ -8,10 +8,20 @@ void branch(struct ARM* proc) {
 
   // Shift left by 2 bits
   // and sign extend the offset from 24 to 32 bits
-  signed shifted = (offset << 2);
-  signed signextend = sign_extension(shifted, 24, 32);
+  offset <<= 2;
+  int sign_bit = extract_bit(&proc->ir, 23);
+
+  if (sign_bit) {
+    offset |= 0xff000000;
+  }
 
   // Add to PC
-  proc->pc += signextend;
+  proc->pc += offset;
 
+  proc->load = 0;
+  proc->ir = 0;
+  
+  proc->has_loaded = 0;
+  proc->has_fetched = 0;
+  
 }
