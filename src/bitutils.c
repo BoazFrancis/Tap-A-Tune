@@ -48,6 +48,43 @@ int is_bit_set(int* n, int bit) {
 }
 
 /**
+ * Sets the given bit to a 1
+ * @param n - The pointer to the number
+ * @param bit - The bit to set
+ * @returns void
+*/
+void set_bit(int* n, int bit) {
+  *n |= (1 << bit);
+}
+
+/**
+ * Sets the given bit to a 0
+ * @param n - The pointer to the number
+ * @param bit - The bit to clear
+ * @returns void
+*/
+void clear_bit(int* n, int bit) {
+  *n &= ~(1 << bit);
+}
+
+/**
+ * Sets the given bit to 'value'
+ * @param n - The pointer to the number
+ * @param bit - The bit to set
+ * @param value - Either 0 or 1
+ * @returns void
+*/
+void set_bit_to(int* n, int bit, int value) {
+  /*if (value) {
+    set_bit(n, bit);
+  }
+  else {
+    clear_bit(n, bit);
+  }*/
+  *n = (-value ^ *n) & (1 << bit);
+}
+
+/**
  * Converts a binary number to decimal
  * @param bin - The binary number
  * @returns the unsigned decimal value

@@ -53,11 +53,10 @@ void data_processing(struct ARM* proc) {
       // If S bit is set
       if (s == 1) {
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
-        // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
     case EOR:
@@ -65,23 +64,23 @@ void data_processing(struct ARM* proc) {
       // If S bit is set
       if (s == 1) {
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
-        // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
     case SUB:
       proc->registers[destRegPos] = rn - op2;
       // If S bit is set
       if (s == 1) {
-        // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        signed int subResult = rn - op2;
+        // Set N flag to bit 31
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, subResult<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, subResult==0);
         // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0; //TODO: check for carry
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, subResult>=0);
       }
       break;
     case RSB:
@@ -89,11 +88,11 @@ void data_processing(struct ARM* proc) {
       // If S bit is set
       if (s == 1) {
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos] == 0);
         // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;//TODO: check for carry
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);//TODO: check for carry
       }
       break;
     case ADD:
@@ -101,11 +100,11 @@ void data_processing(struct ARM* proc) {
       // If S bit is set
       if (s == 1) {
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
         // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0; //TODO: check for carry
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0); //TODO: check for carry
       }
       break;
     case TST:
@@ -113,11 +112,10 @@ void data_processing(struct ARM* proc) {
       if (s == 1) {
         unsigned int andResult = op2 & rn;
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = andResult >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, andResult<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = andResult == 0 ? 1 : 0;
-        // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, andResult==0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
     case TEQ:
@@ -125,23 +123,22 @@ void data_processing(struct ARM* proc) {
       if (s == 1) {
         unsigned int eorResult = op2 ^ rn;
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = eorResult >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, eorResult < 0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = eorResult == 0 ? 1 : 0;
-        // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, eorResult == 0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
     case CMP:
       // If S bit is set
       if (s == 1) {
-        unsigned int subResult = rn - op2;
-        // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = subResult >= 0 ? 0 : 1;
+        signed int subResult = rn - op2;
+        // Set N flag to bit 31
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, subResult<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = subResult == 0 ? 1 : 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, subResult==0);
         // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0; //TODO: check for carry
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, subResult>=0);
       }
       break;
     case ORR:
@@ -149,11 +146,10 @@ void data_processing(struct ARM* proc) {
       // If S bit is set
       if (s == 1) {
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
-        // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
     case MOV:
@@ -161,11 +157,10 @@ void data_processing(struct ARM* proc) {
       // If S bit is set
       if (s == 1) {
         // Set N flag to 1 if result is negative, 0 otherwise
-        proc->registers[CPSR_N] = proc->registers[destRegPos] >= 0 ? 0 : 1;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        proc->registers[CPSR_Z] = proc->registers[destRegPos] == 0 ? 1 : 0;
-        // Set C flag to 1 carry is 1, 0 otherwise
-        proc->registers[CPSR_C] = 0;
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
   }

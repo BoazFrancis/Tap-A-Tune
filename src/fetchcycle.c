@@ -2,7 +2,8 @@
 #include "emulate.h"
 
 void fetch_decode_execute(struct ARM* proc) {
-
+   
+  // Initialise processor properties
   proc->pc = 0;
   proc->load = 0;
   proc->ir = 0;
@@ -67,10 +68,10 @@ int check_condition_bits(struct ARM* proc) {
   // Get the 4 most significant bits which is the "Cond"
   int cond = extract_bits(&proc->ir, COND_START, COND_NUM_BITS);
 
-  unsigned int v = extract_bit(proc->registers, CPSR_V);
-  unsigned int c = extract_bit(proc->registers, CPSR_C);
-  unsigned int z = extract_bit(proc->registers, CPSR_Z);
-  unsigned int n = extract_bit(proc->registers, CPSR_N);
+  unsigned int v = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_V);
+  unsigned int c = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_C);
+  unsigned int z = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_Z);
+  unsigned int n = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_N);
 
   switch (cond) {
 
@@ -91,7 +92,7 @@ int check_condition_bits(struct ARM* proc) {
 }
 
 enum instruction_type get_instruction_type(int* ir) {
-
+  
   if (is_bit_set(ir, BRANCH_IDENTIFIER)) {
     return BRANCH;
   }

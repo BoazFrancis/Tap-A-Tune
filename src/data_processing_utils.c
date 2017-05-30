@@ -55,3 +55,4 @@ unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned in
       return rotate_right(val, shiftBy);
   }
 }
+
