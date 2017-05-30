@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <byteswap.h>
 #include "emulate.h"
 
 /**
@@ -163,4 +164,19 @@ unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr) {
   unsigned int extracted_second = extract_bits(&proc->memory[start_addr+1], 0, start_bit);
   unsigned int new_second = extracted_second << bits_remaining;
   return extracted_first | new_second;
+}
+
+void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr) {
+  unsigned int mod = addr % WORD_SIZE;
+  unsigned int start_addr = addr / WORD_SIZE;
+  unsigned int end_bit = mod * BITS_IN_BYTE;
+  unsigned int lsb_data = extract_bits(&data, 0, WORD_SIZE * BITS_IN_BYTE - end_bit);
+  unsigned int lower_memory = extract_bits(&proc->memory[start_addr], 0, end_bit);
+  unsigned int new_lower_mem = lower_memory | (lsb_data << end_bit);
+  unsigned int higher_memory = extract_bits(&proc->memory[start_addr+1], end_bit, WORD_SIZE * BITS_IN_BYTE - end_bit);
+  unsigned int msb_data = extract_bits(&data, end_bit, WORD_SIZE * BITS_IN_BYTE - end_bit);
+  unsigned int new_higher_mem = msb_data | (higher_memory << end_bit);
+  // Write to memory
+  proc->memory[start_addr] = new_lower_mem;
+  proc->memory[start_addr+1] = new_higher_mem;
 }

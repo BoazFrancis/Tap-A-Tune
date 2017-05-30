@@ -37,7 +37,12 @@ void single_data_transfer(struct ARM* proc) {
   }
 
   int sign = up_bit == 1 ? 1 : -1;
-  int memory_address = proc->registers[rn] + offset * sign;
+  int memory_address = proc->registers[rn];
+
+  if (pre_post_indexing == 1) {
+    // Pre-indexing
+    memory_address += offset * sign;
+  }
 
   if (load_store_bit == 1) {
     // To load
@@ -45,7 +50,7 @@ void single_data_transfer(struct ARM* proc) {
   }
   else {
     // To store
-    proc->memory[memaddr_to_index(memory_address)] = proc->registers[rd];
+    write_memory_bytes(proc, proc->registers[rd], memory_address);
   }
 
   if (pre_post_indexing == 0) {

@@ -25,6 +25,7 @@ unsigned int binary_to_decimal(unsigned int bin);
 unsigned int base_to_base(int from, int to, unsigned int n);
 signed int sign_extension(signed int n, int sbits, int ebits);
 unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr);
+void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr);
 
 unsigned int rotate_left(const unsigned int val, int shiftBy);
 unsigned int rotate_right(const unsigned int val, int shiftBy);
