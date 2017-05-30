@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <byteswap.h>
 #include "emulate.h"
 
 void print_registers(struct ARM* proc) {
@@ -20,7 +19,7 @@ void print_nonzeromemory(struct ARM* proc) {
   printf("Non-zero memory:\n");
   for (int i=0; i<MAX_MEMORY_SIZE; i++) {
     if (proc->memory[i] != 0) {
-      printf("0x%08x: 0x%08x\n", index_to_memaddr(i), __bswap_32(proc->memory[i]));
+      printf("0x%08x: 0x%08x\n", index_to_memaddr(i), reverse_int(proc->memory[i]));
     }
   }
 }

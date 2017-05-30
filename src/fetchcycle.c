@@ -19,7 +19,7 @@ void fetch_decode_execute(struct ARM* proc) {
       if (proc->ir == 0) {
         break;
       }
-      else if (check_condition_bits(proc) == 1) {
+      else if (check_condition_bits(proc)) {
 
         switch (get_instruction_type(&proc->ir)) {
 

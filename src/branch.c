@@ -20,8 +20,8 @@ void branch(struct ARM* proc) {
 
   proc->load = 0;
   proc->ir = 0;
-  
+
   proc->has_loaded = 0;
   proc->has_fetched = 0;
-  
+
 }

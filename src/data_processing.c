@@ -13,7 +13,7 @@ void data_processing(struct ARM* proc) {
   unsigned int destRegPos = extract_bits(&proc->ir, 12, 4);
 
   // Get value of source register Rn
-  unsigned int rn = proc->registers[srcRegPos];
+  int rn = proc->registers[srcRegPos];
 
   // Declare a variable for operand 2
   uint32_t op2;
@@ -73,11 +73,11 @@ void data_processing(struct ARM* proc) {
       if (s == 1) {
         signed int subResult = rn - op2;
         // Set N flag to bit 31
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, subResult<0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&subResult, CPSR_N));
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
         set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, subResult==0);
         // Set C flag to 1 carry is 1, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, subResult>=0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, rn>=op2);
       }
       break;
     case RSB:
@@ -131,11 +131,11 @@ void data_processing(struct ARM* proc) {
       if (s == 1) {
         signed int subResult = rn - op2;
         // Set N flag to bit 31
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, subResult<0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&subResult, CPSR_N));
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
         set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, subResult==0);
         // Set C flag to 1 carry is 1, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, subResult>=0);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, rn>=op2);
       }
       break;
     case ORR:
@@ -157,7 +157,6 @@ void data_processing(struct ARM* proc) {
         set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
         // Set Z flag to 1 if result is equal to zero, 0 otherwise
         set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, 0);
       }
       break;
   }

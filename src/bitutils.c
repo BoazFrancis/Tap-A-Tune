@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <math.h>
-#include <byteswap.h>
 #include "emulate.h"
 
 /**
@@ -179,4 +178,12 @@ void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr) 
   // Write to memory
   proc->memory[start_addr] = new_lower_mem;
   proc->memory[start_addr+1] = new_higher_mem;
+}
+
+int reverse_int(int n) {
+  int result = 0;
+  for (int i = 0; i < WORD_SIZE; i++) {
+    result |= extract_bits(&n, i * BITS_IN_BYTE, BITS_IN_BYTE) << (3 - i) * BITS_IN_BYTE;
+  }
+  return result;
 }
