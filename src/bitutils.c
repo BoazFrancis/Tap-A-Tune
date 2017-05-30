@@ -153,3 +153,14 @@ unsigned int rotate_left(const unsigned int val, int shiftBy) {
 unsigned int rotate_right(const unsigned int val, int shiftBy) {
   return (val >> shiftBy) | (val << (sizeof(val)*8 - shiftBy));
 }
+
+unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr) {
+  unsigned int mod = addr % WORD_SIZE;
+  unsigned int start_addr = addr / WORD_SIZE;
+  unsigned int start_bit = mod * BITS_IN_BYTE;
+  unsigned int bits_remaining = WORD_SIZE * BITS_IN_BYTE - start_bit;
+  unsigned int extracted_first = extract_bits(&proc->memory[start_addr], start_bit, bits_remaining);
+  unsigned int extracted_second = extract_bits(&proc->memory[start_addr+1], 0, start_bit);
+  unsigned int new_second = extracted_second << bits_remaining;
+  return extracted_first | new_second;
+}

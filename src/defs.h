@@ -2,6 +2,7 @@
 #define MAX_MEMORY_SIZE (1 << 5)
 #define NUM_REGISTERS 17
 #define WORD_SIZE 4
+#define BITS_IN_BYTE 8
 
 // Useful registers
 #define CPSR_REGISTER 16

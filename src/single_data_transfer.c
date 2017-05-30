@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "emulate.h"
+#include <byteswap.h>
 
 /**
 * Executes the data processing instructions
@@ -35,29 +36,30 @@ void single_data_transfer(struct ARM* proc) {
     offset = shift_by_type(shiftType, proc->registers[rm], shiftBy);
   }
 
-  if (pre_post_indexing == 1) {
-    // Pre-indexing
-  }
-
-  signed int memory_address;
-  if (up_bit == 1) {
-    memory_address = proc->registers[rn] + offset;
-  }
-  else {
-    memory_address = proc->registers[rn] - offset;
-  }
-
-  if (pre_post_indexing == 0) {
-    // Post-indexing
-  }
+  int memory_address = proc->registers[rn];
+  int sign = up_bit == 1 ? 1 : -1;
 
   if (load_store_bit == 1) {
     // To load
-    proc->registers[rd] = proc->memory[memaddr_to_index(memory_address)];
+    proc->registers[rd] = read_memory_bytes(proc, memory_address);
   }
   else {
     // To store
     proc->memory[memaddr_to_index(memory_address)] = proc->registers[rd];
   }
 
+  if (pre_post_indexing == 0) {
+    // Post-indexing
+    // Increment base register by offset after execution
+    proc->registers[rn] += offset * sign;
+  }
+
+
+/* TODO: create cases to check for the following:
+
+- A post-indexing ldr or str in which Rm is the same register as Rn is not allowed.
+- Remember, if the PC is used as the base register (Rn), then your emulator must ensure it contains the instruction’s address plus 8 bytes due to the effects of
+  the three stage pipeline.
+
+*/
 }
