@@ -2,17 +2,17 @@
 #include "emulate.h"
 
 void fetch_decode_execute(struct ARM* proc) {
-   
+
   // Initialise processor properties
   proc->pc = 0;
   proc->load = 0;
   proc->ir = 0;
-  
+
   proc->has_loaded = 0;
   proc->has_fetched = 0;
 
   while (proc->pc < MAX_MEMORY_SIZE) {
-    
+
     if (proc->has_fetched != 0) {
 
       // Halt on all zero instruction
@@ -36,7 +36,7 @@ void fetch_decode_execute(struct ARM* proc) {
           break;
 
           case SINGLE_DATA_TRANSFER:
-          //single_data_transfer(&proc->ir);
+          single_data_transfer(proc);
           break;
 
           default:
@@ -92,7 +92,7 @@ int check_condition_bits(struct ARM* proc) {
 }
 
 enum instruction_type get_instruction_type(int* ir) {
-  
+
   if (is_bit_set(ir, BRANCH_IDENTIFIER)) {
     return BRANCH;
   }
@@ -100,7 +100,7 @@ enum instruction_type get_instruction_type(int* ir) {
   if (is_bit_set(ir, SINGLE_DATA_IDENTIFIER)) {
     return SINGLE_DATA_TRANSFER;
   }
-   
+
   // Either data processing or multiply
   if (is_bit_set(ir, DATA_PROC_IMM_IDENTIFIER)) {
     // Immediate operand set, therefore data processing
