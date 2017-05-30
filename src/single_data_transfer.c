@@ -36,8 +36,8 @@ void single_data_transfer(struct ARM* proc) {
     offset = shift_by_type(shiftType, proc->registers[rm], shiftBy);
   }
 
-  int memory_address = proc->registers[rn];
   int sign = up_bit == 1 ? 1 : -1;
+  int memory_address = proc->registers[rn] + offset * sign;
 
   if (load_store_bit == 1) {
     // To load
