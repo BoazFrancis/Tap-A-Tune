@@ -15,9 +15,6 @@ void data_processing(struct ARM* proc) {
   // Get value of source register Rn
   unsigned int rn = proc->registers[srcRegPos];
 
-  // Extract the positions of the Rm
-  unsigned int rmPos = extract_bits(&proc->ir, 0, 4);
-
   // Declare a variable for operand 2
   uint32_t op2;
 

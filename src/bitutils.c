@@ -75,13 +75,12 @@ void clear_bit(int* n, int bit) {
  * @returns void
 */
 void set_bit_to(int* n, int bit, int value) {
-  /*if (value) {
+  if (value == 1) {
     set_bit(n, bit);
   }
   else {
     clear_bit(n, bit);
-  }*/
-  *n = (-value ^ *n) & (1 << bit);
+  }
 }
 
 /**
