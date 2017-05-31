@@ -17,7 +17,7 @@ void single_data_transfer(struct ARM* proc) {
   unsigned int rn = extract_bits(&proc->ir, 16, 4);
   unsigned int rd = extract_bits(&proc->ir, 12, 4);
   unsigned int offset = extract_bits(&proc->ir, 0, 12);
-
+  
   if (immediate == 1) {
     // offset is a register
     unsigned int fourth_bit = extract_bit(&proc->ir, 4);
