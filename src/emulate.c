@@ -13,22 +13,23 @@ int main(int argc, char** argv) {
   struct ARM proc;
 
   // Initialise size of memory
-  for (int i = 0; i < max_memory_size; i++) {
+  for (int i = 0; i < MAX_MEMORY_SIZE; i++) {
     proc.memory[i] = 0;
   }
 
-  for (int i = 0; i < number_of_registers; i++) {
+  for (int i = 0; i < NUM_REGISTERS; i++) {
     proc.registers[i] = 0;
   }
 
-  read_binary_file(proc.memory, argv[1]);
+  read_binary_file(&proc, argv[1]);
 
-  // Print out memory (for testing only)
-  for (int i=0; i<sizeof(proc.memory)/sizeof(int); i++) {
-    printf("%x\n", proc.memory[i]);
-  }
+  fetch_decode_execute(&proc);
 
-  fetch_decode_execute(proc);
+  // Print the registers
+  print_registers(&proc);
+
+  // Print the non-zero memory
+  print_nonzeromemory(&proc);
 
   return 0;
 
