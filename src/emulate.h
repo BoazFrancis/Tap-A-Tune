@@ -81,20 +81,11 @@ unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned in
 
 // Mutliply instructions
 void multiply(struct ARM* proc);
-<<<<<<< HEAD
-void multiply_with_accumulate(int* ir, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
-void multiply_regular(int* ir, unsigned int d, unsigned int m, unsigned int s);
-
-// Single data transfer instructions
-void single_data_transfer(struct ARM* proc);
-void ldr(struct ARM* proc, unsigned int d, )
-=======
 void multiply_with_accumulate(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
 void multiply_regular(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s);
 
 // Single data transfer instructions
 void single_data_transfer(struct ARM* proc);
->>>>>>> 04d9bf3816072e58f2aac8d41a7aa04d1755e68d
 
 // Branch instructions
 void branch(struct ARM* proc);
