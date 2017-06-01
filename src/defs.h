@@ -24,6 +24,7 @@
 #define Z_CLEAR_N_EQUALS_V 12
 #define Z_SET_N_NOT_V 13
 #define AL_FLAG 14
+#define PC_REG 15
 
 #define BRANCH_OFFSET_START 0
 #define BRANCH_OFFSET_LEN 24

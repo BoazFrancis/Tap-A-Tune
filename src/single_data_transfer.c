@@ -47,13 +47,15 @@ void single_data_transfer(struct ARM* proc) {
   if (memory_address >= MAX_MEMORY_SIZE) {
     printf("Error: Out of bounds memory access at address 0x%08x\n", memory_address);
   } else {
-
+      if (rn == PC_REG) {
+        memory_address += BITS_IN_BYTE;
+      }
       if (load_store_bit == 1) {
         // To load
+        //printf("off: %x, pc: %x, memaddr: %x, rn: %x\n", offset, proc->pc, memory_address, rn);
         proc->registers[rd] = read_memory_bytes(proc, memory_address);
       }
       else {
-        //fprintf(stderr, "mem addr: %x, %x\n", memory_address, proc->registers[rd]);
         // To store
         write_memory_bytes(proc, proc->registers[rd], memory_address);
       }
