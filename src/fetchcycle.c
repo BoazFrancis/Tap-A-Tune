@@ -4,7 +4,6 @@
 void fetch_decode_execute(struct ARM* proc) {
 
   // Initialise processor properties
-  proc->pc = 0;
   proc->load = 0;
   proc->ir = 0;
 

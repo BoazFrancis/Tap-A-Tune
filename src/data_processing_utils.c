@@ -1,58 +1,72 @@
 #include <stdio.h>
 #include "emulate.h"
 
-/**
- * Performs shift to the left (logical = arithmetic) on 'val'
- * @param val - The value being shifted
- * @param shiftBy - The number of bits shifted by
- * @returns the value shifted left by the specified number of bits
-*/
-unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy) {
-  return val << shiftBy;
-}
+int calculate_op2(struct ARM* proc) {
 
-/**
- * Performs logical shift to the right on 'val'
- * @param val - The value being shifted
- * @param shiftBy - The number of bits shifted by
- * @returns the value shifted (logical) right by the specified number of bits
-*/
-int logicalShiftRight(const int val, unsigned int shiftBy) {
-  return val >> shiftBy;
-}
-
-/**
- * Performs arithmetic shift to the right on 'val'
- * @param val - The value being shifted
- * @param shiftBy - The number of bits shifted by
- * @returns the value shifted (arithmetic) right by the specified number of bits
-*/
-int arithmeticShiftRight(const int val, unsigned int shiftBy) {
-  return sign_extension(val, 32, 32 + shiftBy) >> shiftBy;
-}
-
-/**
- * Performs the shift operation according to the specified shift type on 'val'
- * by the specified number of bits
- * @param shiftType - shift type
- * @param val - The value being shifted
- * @param shiftBy - The number of bits shifted by
- * @returns returns the shifted value
-*/
-unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy) {
-  switch (shiftType) {
-    // logical shift left
-    case LOGICAL_LEFT:
-      return shiftLeft(val, shiftBy);
-    // logical shift right
-    case LOGICAL_RIGHT:
-      return logicalShiftRight(val , shiftBy);
-    // arithmetic shift right
-    case ARITHMETIC_RIGHT:
-      return arithmeticShiftRight(val, shiftBy);
-    // rotate right
-    case ROTATE_RIGHT:
-      return rotate_right(val, shiftBy);
+  // if the operand2 is an immediate value
+  if (extract_bit(&proc->ir, DATA_PROC_IMM_IDENTIFIER) == 1) {
+    int op2 = extract_bits(&proc->ir, 0, 8);
+    return rotate_right(op2, 2*extract_bits(&proc->ir, 8, 4));
   }
+  else {
+
+    // operand2 is a register
+    unsigned int shiftBy;
+
+    if (is_bit_set(&proc->ir, 4)) {
+      unsigned int rsNumber = extract_bits(&proc->ir, 8, 4);
+      shiftBy = proc->registers[rsNumber] & 0xFF;
+    }
+    else {
+      shiftBy = extract_bits(&proc->ir, 7, 5);
+    }
+
+    // Return the result of the barrel shifter
+    return barrel_shifter(proc, shiftBy);
+
+  }
+
 }
 
+int barrel_shifter(struct ARM* proc, int shiftBy) {
+
+  unsigned int shiftType = extract_bits(&proc->ir, 5, 2);
+  unsigned int rm = extract_bits(&proc->ir, 0, 4);
+  unsigned int s = extract_bit(&proc->ir, 20);
+
+  // Setup the result variable
+  int r = 0;
+
+  switch (shiftType) {
+
+    case LOGICAL_LEFT:
+      r = proc->registers[rm] << shiftBy;
+      if (s) {
+				int c = (shiftBy == 0) ? 0 : extract_bit(&proc->registers[rm], WORD_SIZE*BITS_IN_BYTE - shiftBy);
+				set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, c);
+			}
+      return r;
+
+    case LOGICAL_RIGHT:
+      r = proc->registers[rm] >> shiftBy;
+      break;
+
+    case ARITHMETIC_RIGHT:
+      r = proc->registers[rm] >> shiftBy;
+      break;
+
+    case ROTATE_RIGHT:
+      r = rotate_right(proc->registers[rm], shiftBy);
+      break;
+
+  }
+
+  // Set C flag for logical right, arithmetic right and rotate right
+  if (s) {
+    int c = (shiftBy == 0) ? 0 : extract_bit(&proc->registers[rm], shiftBy - 1);
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, c);
+  }
+
+  return r;
+
+}

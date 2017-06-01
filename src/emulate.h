@@ -4,7 +4,6 @@
 struct ARM {
    unsigned int memory[MAX_MEMORY_SIZE];
    unsigned int registers[NUM_REGISTERS];
-   unsigned int pc;
    unsigned int ir;
    unsigned int load;
    unsigned int has_loaded;
@@ -74,10 +73,8 @@ void print_nonzeromemory(struct ARM* proc);
 
 // Data processing instructions
 void data_processing(struct ARM* proc);
-unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy);
-int logicalShiftRight(const int val, unsigned int shiftBy);
-int arithmeticShiftRight(const int val, unsigned int shiftBy);
-unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy);
+int calculate_op2(struct ARM* proc);
+int barrel_shifter(struct ARM* proc, int shiftBy);
 
 // Mutliply instructions
 void multiply(struct ARM* proc);
