@@ -169,11 +169,12 @@ void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr) 
   unsigned int mod = addr % WORD_SIZE;
   unsigned int start_addr = addr / WORD_SIZE;
   unsigned int end_bit = mod * BITS_IN_BYTE;
-  unsigned int lsb_data = extract_bits(&data, 0, WORD_SIZE * BITS_IN_BYTE - end_bit);
+  unsigned int bits_remaining = WORD_SIZE * BITS_IN_BYTE - end_bit;
+  unsigned int lsb_data = extract_bits(&data, 0, bits_remaining);
   unsigned int lower_memory = extract_bits(&proc->memory[start_addr], 0, end_bit);
   unsigned int new_lower_mem = lower_memory | (lsb_data << end_bit);
-  unsigned int higher_memory = extract_bits(&proc->memory[start_addr+1], end_bit, WORD_SIZE * BITS_IN_BYTE - end_bit);
-  unsigned int msb_data = extract_bits(&data, end_bit, WORD_SIZE * BITS_IN_BYTE - end_bit);
+  unsigned int higher_memory = extract_bits(&proc->memory[start_addr+1], end_bit, bits_remaining);
+  unsigned int msb_data = extract_bits(&data, bits_remaining, end_bit);
   unsigned int new_higher_mem = msb_data | (higher_memory << end_bit);
   // Write to memory
   proc->memory[start_addr] = new_lower_mem;
