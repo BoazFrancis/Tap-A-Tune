@@ -2,13 +2,13 @@
 
 // Create the ARM struct
 struct ARM {
-   int memory[MAX_MEMORY_SIZE];
-   int registers[NUM_REGISTERS];
-   int pc;
-   int ir;
-   int load;
-   int has_loaded;
-   int has_fetched;
+   unsigned int memory[MAX_MEMORY_SIZE];
+   unsigned int registers[NUM_REGISTERS];
+   unsigned int pc;
+   unsigned int ir;
+   unsigned int load;
+   unsigned int has_loaded;
+   unsigned int has_fetched;
 };
 
 // Reading binary files

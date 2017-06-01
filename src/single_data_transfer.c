@@ -35,7 +35,7 @@ void single_data_transfer(struct ARM* proc) {
     // shift using the specified shift type and write result to op2
     offset = shift_by_type(shiftType, proc->registers[rm], shiftBy);
   }
-
+  //printf("%x, %x\n", proc->pc, proc->registers[proc->pc]);
   int sign = up_bit == 1 ? 1 : -1;
   int memory_address = proc->registers[rn];
 
@@ -53,6 +53,7 @@ void single_data_transfer(struct ARM* proc) {
         proc->registers[rd] = read_memory_bytes(proc, memory_address);
       }
       else {
+        //fprintf(stderr, "mem addr: %x, %x\n", memory_address, proc->registers[rd]);
         // To store
         write_memory_bytes(proc, proc->registers[rd], memory_address);
       }
