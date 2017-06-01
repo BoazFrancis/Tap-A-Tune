@@ -44,20 +44,26 @@ void single_data_transfer(struct ARM* proc) {
     memory_address += offset * sign;
   }
 
-  if (load_store_bit == 1) {
-    // To load
-    proc->registers[rd] = read_memory_bytes(proc, memory_address);
-  }
-  else {
-    // To store
-    write_memory_bytes(proc, proc->registers[rd], memory_address);
+  if (memory_address >= MAX_MEMORY_SIZE) {
+    printf("Error: Out of bounds memory access at address 0x%08x\n", memory_address);
+  } else {
+
+      if (load_store_bit == 1) {
+        // To load
+        proc->registers[rd] = read_memory_bytes(proc, memory_address);
+      }
+      else {
+        // To store
+        write_memory_bytes(proc, proc->registers[rd], memory_address);
+      }
+
+      if (pre_post_indexing == 0) {
+        // Post-indexing
+        // Increment base register by offset after execution
+        proc->registers[rn] += offset * sign;
+      }
   }
 
-  if (pre_post_indexing == 0) {
-    // Post-indexing
-    // Increment base register by offset after execution
-    proc->registers[rn] += offset * sign;
-  }
 
 
 /* TODO: create cases to check for the following:
