@@ -17,7 +17,7 @@ void single_data_transfer(struct ARM* proc) {
   unsigned int rn = extract_bits(&proc->ir, 16, 4);
   unsigned int rd = extract_bits(&proc->ir, 12, 4);
   unsigned int offset = extract_bits(&proc->ir, 0, 12);
-  
+
   if (immediate == 1) {
     // offset is a register
     unsigned int fourth_bit = extract_bit(&proc->ir, 4);
@@ -35,7 +35,7 @@ void single_data_transfer(struct ARM* proc) {
     // shift using the specified shift type and write result to op2
     offset = shift_by_type(shiftType, proc->registers[rm], shiftBy);
   }
-
+  //printf("%x, %x\n", proc->pc, proc->registers[proc->pc]);
   int sign = up_bit == 1 ? 1 : -1;
   int memory_address = proc->registers[rn];
 
@@ -44,20 +44,29 @@ void single_data_transfer(struct ARM* proc) {
     memory_address += offset * sign;
   }
 
-  if (load_store_bit == 1) {
-    // To load
-    proc->registers[rd] = read_memory_bytes(proc, memory_address);
-  }
-  else {
-    // To store
-    write_memory_bytes(proc, proc->registers[rd], memory_address);
+  if (memory_address >= MAX_MEMORY_SIZE) {
+    printf("Error: Out of bounds memory access at address 0x%08x\n", memory_address);
+  } else {
+      if (rn == PC_REG) {
+        memory_address += BITS_IN_BYTE;
+      }
+      if (load_store_bit == 1) {
+        // To load
+        //printf("off: %x, pc: %x, memaddr: %x, rn: %x\n", offset, proc->pc, memory_address, rn);
+        proc->registers[rd] = read_memory_bytes(proc, memory_address);
+      }
+      else {
+        // To store
+        write_memory_bytes(proc, proc->registers[rd], memory_address);
+      }
+
+      if (pre_post_indexing == 0) {
+        // Post-indexing
+        // Increment base register by offset after execution
+        proc->registers[rn] += offset * sign;
+      }
   }
 
-  if (pre_post_indexing == 0) {
-    // Post-indexing
-    // Increment base register by offset after execution
-    proc->registers[rn] += offset * sign;
-  }
 
 
 /* TODO: create cases to check for the following:
