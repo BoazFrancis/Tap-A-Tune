@@ -7,22 +7,22 @@ void build_symbol_table(char** instructions, SymbolTable* st) {
 
   for (int i=0; i<100; i++) {
 
-    char* tokens;
+    char* token;
     const char space[1] = " ";
 
-    tokens = strtok(instructions[i], space);
+    char *rest = instructions[i];
 
-    while (tokens != NULL) {
+    while (token = strtok_r(rest, space, &rest)) {
 
       // Find the label by splitting at ':'
-      char* pos = strchr(tokens, ':');
+      char* pos = strchr(token, ':');
 
       if (pos != NULL) {
 
-        int index = pos - tokens;
+        int index = pos - token;
         printf("%d\n", index);
         char* label = malloc(index+1);
-        strncpy(label, tokens, index);
+        strncpy(label, token, index);
         label[index] = '\0';
 
         // Found a label, store in symbol table
@@ -31,9 +31,6 @@ void build_symbol_table(char** instructions, SymbolTable* st) {
         add_label(st, label, address);
 
       }
-
-      // Continue to next token
-      tokens = strtok(NULL, space);
 
     }
 
