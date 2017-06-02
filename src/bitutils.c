@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "emulate.h"
+#include "emulator/emulate.h"
 
 /**
  * Extracts bits from 'start' to start+length from the 32 bit int
