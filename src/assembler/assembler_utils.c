@@ -1,13 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "assemble.h"
+#include "../emulator/emulate.h"
 
 void do_mov(char* params) {
-
+  char comma[2] = ",";
+  char* value;
+  char* reg = strtok_r(params, comma, &value);
+  value = trim_whitespace(value);
+  int instruction = MOV << 21;
+  if (value[0] == '#') {
+    // Immediate value
+    set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
+    long int op2 = strtol(value+1, NULL, 0);
+    printf("%ld\n", op2);
+  }
+  else {
+    // Register e.g. mov r2, r1
+  }
 }
 
 void do_add(char* params) {
-  
+
 }
 
 void do_orr(char* params) {

@@ -1,6 +1,11 @@
 void read_file(char* path, char** instructions);
 void build_symbol_table(char** instructions);
 
+char* trim_whitespace(char *str);
+
+void process_instructions(char** instructions);
+void identify_instruction(char* mnem, char* params);
+
 void do_mov(char* params);
 void do_add(char* params);
 void do_orr(char* params);

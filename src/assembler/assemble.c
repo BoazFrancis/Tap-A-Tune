@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
     // Build the symbol table
     build_symbol_table(instructions);
 
+    process_instructions(instructions);
 
     return 0;
 
