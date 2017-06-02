@@ -4,27 +4,34 @@
 
 \begin{document}
 
-\title{ARM Checkpoint... }
-\author{TODO}
+\title{\textbf{ARM Checkpoint 1}}
+\author{Shravan Nageswaran, Alexandr Zakon, Jason Lipowicz, Boaz Francis}
+\date{\today}
 
 \maketitle
 
-\section{Group Organisation}
+\vspace{0.2in}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-culpa qui officia deserunt mollit anim id est laborum.
+\section{Work Distribution}
 
-\section{Implementation Strategies}
+Our task was to design and implement an ARM emulator to simulate execution of an ARM binary file. To start, it was essential to figure out how to allocate memory and read instructions from a file. As a group, we wrote the code for a fetch execute cycle, along with a separate method to read binary files. We proceeded to assign separate tasks to group members. Each member was to code a separate instruction of the emulator: data processing, multiply, single data transfer, and branch. As single data transfer and data processing were notably more involved than the other instructions, the completion of these methods were done through collaboration in group meetings, whereas the other two methods were coded independently. 
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-culpa qui officia deserunt mollit anim id est laborum.
+\vspace{0.6in}
+
+\section{Collaboration}
+
+Overall, the group dynamic was exceptional while completing Part I of the ARM project. While there was no obvious group leader, per se, all members were vocal and quickly able to come to a consensus whenever needed. There were numerous efficient methods of correspondence between group members, with the main platform being Facebook. Through this medium, all group members were able to discuss the project, notify each other of pending git commits, and schedule meetings (which were held at least every other day). Another important platform of communication was Skype, which we used in the event when a group member required quick input from the team. In these circumstances, Skype was more efficient then scheduling a regular meeting.\\[0.2in] Nonetheless, we have discussed ways to improve its dynamic heading forward. Though, at times, some meetings may seem inconvenient for members with a longer commute, we have determined to rotate the location of such rendezvous, ranging from the computing labs at Imperial to the residences of other group members. Attention also needs to be directed at maintaining a standard code format, as, inevitably, this varies between group members. While working on the next parts, we will schedule meetings to standardize all files of code into one specific format.
+
+
+\section{Emulator Structure}
+
+The structure of the emulator was quite straightforward. We created a struct, aptly called \emph{ARM}, which consisted of an array of memory addresses, an array of registers, integers representing the program counter and instruction register, and boolean values (represented by the integers 1 and 0 in C) to represent whether or not each instruction was loaded or fetched. When implementing functions for each instruction, we passed a pointer to the processor along with other necessary inputs. The pointer was called \emph{proc} each time, as it referred to the state of the current processor.\\[0.2in] It was important to refrain from the use of \emph{magic numbers} in our code, so, in a separate header file, we created multiple enumerations to represent important constants, to be used in switch statements. This dramatically improved code readability.\\[0.2in] When building the emulator, we have written a library, stored in the file \emph{bitutils.c},  of all useful bitwise functions. We will try to incorporate these functions in the assembler, extending the library when needed. We will also try to refer to the ARM struct in the next stage of the project. 
+
+\vspace{0.6in}
+
+\section{Conclusion and Future Work}
+
+We are eager to continue working on this project, and are starting Part II with a more comprehensive understanding of C than we had to start Part I. We have already started to map out how we will structure and code our assembler, including the use of some aspects of our emulator. This process, though challenging, should run more smoothly than coding the emulator, mainly due to our increased understanding of C and our modifications to optimize group correspondence. Of course, there are some methods that will undoubtedly pose more challenging than others. Namely, building the symbol table ADT seems quite involved, but we intended to refer to the materials taught in Programming I and II to help us construct such a structure.\\[0.2in] We have additionally initiated discussions about the extension, as well. Before we can even think about its code, it is important to formulate an idea of appropriate feasibility. These discussions will intensify after completion of the assembler.\\[0.2in] All in all, we are happy with our progress in the project, our communications and dynamic as a group, and our current knowledge of C. All of these, of course, are poised to improve quickly. We look forward to the challenges ahead!
+
 
 \end{document}
