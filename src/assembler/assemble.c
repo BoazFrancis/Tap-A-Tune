@@ -16,8 +16,10 @@ int main(int argc, char **argv) {
     read_file(input_file, instructions);
 
     // Build the symbol table
-    build_symbol_table(instructions);
+    SymbolTable st;
+    st.size = 0;
 
+    build_symbol_table(instructions, &st);
 
     return 0;
 

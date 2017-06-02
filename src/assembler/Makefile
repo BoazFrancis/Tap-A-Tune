@@ -1,6 +1,6 @@
 CC      = gcc
 CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
-SOURCES = assemble.c fileread.c symbol_table.c
+SOURCES = assemble.c fileread.c symbol_table.c map.c
 
 all: assemble
 

@@ -1,4 +1,4 @@
-#include "defs.h"
+#include "../defs.h"
 
 // Create the ARM struct
 struct ARM {
