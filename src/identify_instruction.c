@@ -9,15 +9,15 @@ int isDataProcessing(char *mnem) {
 }
 
 int isMultiply(char *mnem) {
-  return !strcmp(*mnem, mul) || !strcmp(*mnem, )
+  return !strcmp(mnem, "mul") || !strcmp(mnem, "mla");
 }
 
 int isSDT(char * mnem) {
-
+  return !strcmp(mnem, "ldr") || !strcmp(mnem, "str");
 }
 
 int isBranch(char *mnem) {
-
+  return !strcmp(mnem, )
 }
 
 int isSpecial(char *mnem) { // if shravan
