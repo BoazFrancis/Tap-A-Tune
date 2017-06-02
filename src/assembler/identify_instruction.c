@@ -2,6 +2,27 @@
 #include <string.h>
 #include "assemble.h"
 
+/*
+ * Finds which instruction type the mnemonic corresponds to
+ * @param mnem - pointer to the mnemonic string
+ * @returns the corresponding instruction type
+*/
+enum instruction_type identifyInstruction(char* mnem) {
+  if (isDataProcessing(mnem)) {
+    return DATA_PROCESSING;
+  } else if (isMultiply(mnem)) {
+    return MULTIPLY;
+  } else if (isSDT(mnem)) {
+    return SINGLE_DATA_TRANSFER;
+  } else if (isBranch(mnem)) {
+    return BRANCH;
+  } else if (isSpecial(mnem)){
+    return SPECIAL;
+  } else {
+    // Instruction is label
+    return LABEL;
+  }
+}
 
 /*
  * Checks whether mnemonic corresponds to a Data Processing instruction

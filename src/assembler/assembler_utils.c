@@ -8,9 +8,17 @@ void tokenize(char* line) {
   const char delim[2] = " ";
 
   char* first_exp = strtok(line, delim);
+  enum instruction_type inst = identifyInstruction(first_exp);
 
-  switch (first_exp) {
-    case isDataProcessing(first)
+  switch (inst) {
+    case DATA_PROCESSING:
+
+    case MULTIPLY:
+    case SINGLE_DATA_TRANSFER:
+    case BRANCH:
+    case SPECIAL:
+    default:
+    return;
   }
 
 

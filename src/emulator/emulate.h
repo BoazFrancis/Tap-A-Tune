@@ -35,7 +35,9 @@ enum instruction_type {
   DATA_PROCESSING,
   MULTIPLY,
   SINGLE_DATA_TRANSFER,
-  BRANCH
+  BRANCH,
+  SPECIAL,
+  LABEL
 };
 
 // Type of shift
