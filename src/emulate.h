@@ -2,13 +2,12 @@
 
 // Create the ARM struct
 struct ARM {
-   int memory[MAX_MEMORY_SIZE];
-   int registers[NUM_REGISTERS];
-   int pc;
-   int ir;
-   int load;
-   int has_loaded;
-   int has_fetched;
+   unsigned int memory[MAX_MEMORY_SIZE];
+   unsigned int registers[NUM_REGISTERS];
+   unsigned int ir;
+   unsigned int load;
+   unsigned int has_loaded;
+   unsigned int has_fetched;
 };
 
 // Reading binary files
@@ -74,27 +73,16 @@ void print_nonzeromemory(struct ARM* proc);
 
 // Data processing instructions
 void data_processing(struct ARM* proc);
-unsigned int shiftLeft(unsigned const int val, unsigned int shiftBy);
-int logicalShiftRight(const int val, unsigned int shiftBy);
-int arithmeticShiftRight(const int val, unsigned int shiftBy);
-unsigned int shift_by_type(unsigned int shiftType, unsigned int val, unsigned int shiftBy);
+int calculate_op2(struct ARM* proc);
+int barrel_shifter(struct ARM* proc, int shiftBy);
 
 // Mutliply instructions
 void multiply(struct ARM* proc);
-<<<<<<< HEAD
-void multiply_with_accumulate(int* ir, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
-void multiply_regular(int* ir, unsigned int d, unsigned int m, unsigned int s);
-
-// Single data transfer instructions
-void single_data_transfer(struct ARM* proc);
-void ldr(struct ARM* proc, unsigned int d, )
-=======
 void multiply_with_accumulate(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
 void multiply_regular(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s);
 
 // Single data transfer instructions
 void single_data_transfer(struct ARM* proc);
->>>>>>> 04d9bf3816072e58f2aac8d41a7aa04d1755e68d
 
 // Branch instructions
 void branch(struct ARM* proc);

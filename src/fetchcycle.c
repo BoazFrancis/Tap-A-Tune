@@ -4,7 +4,6 @@
 void fetch_decode_execute(struct ARM* proc) {
 
   // Initialise processor properties
-  proc->pc = 0;
   proc->load = 0;
   proc->ir = 0;
 
@@ -12,47 +11,44 @@ void fetch_decode_execute(struct ARM* proc) {
   proc->has_fetched = 0;
 
   while (proc->pc < MAX_MEMORY_SIZE) {
+      if (proc->has_fetched != 0) {
 
-    if (proc->has_fetched != 0) {
-
-      // Halt on all zero instruction
-      if (proc->ir == 0) {
-        break;
-      }
-      else if (check_condition_bits(proc)) {
-
-        switch (get_instruction_type(&proc->ir)) {
-
-          case DATA_PROCESSING:
-          data_processing(proc);
+        // Halt on all zero instruction
+        if (proc->ir == 0) {
           break;
-
-          case BRANCH:
-          branch(proc);
-          break;
-
-          case MULTIPLY:
-          multiply(proc);
-          break;
-
-          case SINGLE_DATA_TRANSFER:
-          single_data_transfer(proc);
-          break;
-
-          default:
-          fprintf(stderr, "Unknown instruction type\n");
-          break;
-
         }
+        else if (check_condition_bits(proc)) {
 
+          switch (get_instruction_type(&proc->ir)) {
+
+            case DATA_PROCESSING:
+            data_processing(proc);
+            break;
+
+            case BRANCH:
+            branch(proc);
+            break;
+
+            case MULTIPLY:
+            multiply(proc);
+            break;
+
+            case SINGLE_DATA_TRANSFER:
+            single_data_transfer(proc);
+            break;
+
+            default:
+            fprintf(stderr, "Unknown instruction type\n");
+            break;
+
+          }
+        }
       }
 
-    }
-
-    if (proc->has_loaded != 0) {
-      proc->ir = proc->load;
-      proc->has_fetched = 1;
-    }
+      if (proc->has_loaded != 0) {
+        proc->ir = proc->load;
+        proc->has_fetched = 1;
+      }
 
     // Get the next instruction and increment PC
     proc->load = proc->memory[memaddr_to_index(proc->pc)];
@@ -60,7 +56,6 @@ void fetch_decode_execute(struct ARM* proc) {
     proc->pc += WORD_SIZE;
 
   }
-
 }
 
 int check_condition_bits(struct ARM* proc) {
