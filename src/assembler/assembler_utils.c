@@ -7,6 +7,7 @@
 void do_mov(char* params) {
   char comma[2] = ",";
   char* value;
+  unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, comma, &value);
   value = trim_whitespace(value);
   unsigned int instruction = MOV << 21;
@@ -15,16 +16,14 @@ void do_mov(char* params) {
     // Immediate value
     set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
-    printf("%ld\n", op2);
   }
   else {
     // Register e.g. mov r2, r1
     clear_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
-    printf("%lu\n", op2);
-    printf("%x\n", instruction);
-
   }
+  instruction |= cond | op2;
+  printf("%08x\n", reverse_int(instruction));
 }
 
 void do_add(char* params) {
