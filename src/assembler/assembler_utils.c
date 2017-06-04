@@ -429,6 +429,12 @@ int do_mla(char* params) {
 }
 
 int do_ldr(char* params) {
+  unsigned int instruction = 0;
+  unsigned int cond = 14 << 28;
+  set_bit(&instruction, 26);
+
+  char* rd_str;
+  char* addr_str;
 
 }
 
