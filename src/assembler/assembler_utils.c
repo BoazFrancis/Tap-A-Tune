@@ -5,13 +5,16 @@
 #include "../emulator/emulate.h"
 
 void do_mov(char* params, FILE* output) {
+
   char comma[2] = ",";
   char* value;
   unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, comma, &value);
   value = trim_whitespace(value);
-  unsigned int instruction = MOV << 21;
+  unsigned int instruction = 0;
+  instruction |= MOV << 21;
   long unsigned int op2;
+
   if (value[0] == '#') {
     // Immediate value
     set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
@@ -22,7 +25,12 @@ void do_mov(char* params, FILE* output) {
     clear_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
   }
-  instruction |= cond | op2;
+
+  // Store Rd register, removing the "r"
+  long unsigned reg_binary = strtol(reg+1, NULL, 0);
+  reg_binary <<= 12;
+
+  instruction |= cond | op2 | reg_binary;
   write_to_file(instruction, output);
 }
 
