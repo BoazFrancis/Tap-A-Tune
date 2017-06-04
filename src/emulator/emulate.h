@@ -1,4 +1,5 @@
-#include "defs.h"
+#include "../lib/bitutils.h"
+#include "../lib/defs.h"
 
 // Create the ARM struct
 struct ARM {
@@ -12,23 +13,6 @@ struct ARM {
 
 // Reading binary files
 void read_binary_file(struct ARM* proc, char* path);
-
-// Bit-utils
-int extract_bits(int* n, int start, int length);
-int extract_bit(int* n, int start);
-int is_bit_set(int* n, int bit);
-void set_bit(int* n, int bit);
-void clear_bit(int* n, int bit);
-void set_bit_to(int* n, int bit, int value);
-unsigned int binary_to_decimal(unsigned int bin);
-unsigned int base_to_base(int from, int to, unsigned int n);
-signed int sign_extension(signed int n, int sbits, int ebits);
-unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr);
-void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr);
-int reverse_int(int n);
-
-unsigned int rotate_left(const unsigned int val, int shiftBy);
-unsigned int rotate_right(const unsigned int val, int shiftBy);
 
 // Type of instruction
 enum instruction_type {
@@ -69,9 +53,11 @@ enum instruction_type get_instruction_type(int* ir);
 int memaddr_to_index(int memaddr);
 int index_to_memaddr(int index);
 
-// Output for testing
+// Output
 void print_registers(struct ARM* proc);
 void print_nonzeromemory(struct ARM* proc);
+unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr);
+void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr);
 
 // Data processing instructions
 void data_processing(struct ARM* proc);

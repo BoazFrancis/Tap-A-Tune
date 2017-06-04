@@ -1,11 +1,13 @@
 CC      = gcc
 CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
-SOURCES = emulate.c fetchcycle.c ../bitutils.c binaryread.c data_processing.c data_processing_utils.c multiply.c branch.c output.c single_data_transfer.c
+
+H = emulate.h ../lib/defs.h ../lib/bitutils.h
+SOURCES = emulate.c binaryread.c branch.c data_processing.c data_processing_utils.c fetchcycle.c multiply.c output.c single_data_transfer.c ../lib/bitutils.c
 
 all: emulate
 
-emulate: $(SOURCES)
-	$(CC) $(CFLAG) $(SOURCES) -lm -o ../emulate
+emulate: $(H) $(SOURCES)
+	$(CC) $(CFLAG) $(SOURCES) -lm -o ../../bin/emulate
 
 clean:
 	rm -f $(wildcard *.o)

@@ -1,11 +1,13 @@
 CC      = gcc
 CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
-SOURCES = assemble.c fileread.c symbol_table.c translation.c assembler_utils.c output.c ../bitutils.c
+
+H = assemble.h ../lib/defs.h ../lib/bitutils.h
+SOURCES = assemble.c fileread.c symbol_table.c translation.c assembler_utils.c output.c ../lib/bitutils.c
 
 all: assemble
 
-assemble: $(SOURCES)
-	$(CC) $(CFLAG) $(SOURCES) -lm -o ../assemble
+assemble: $(H) $(SOURCES)
+	$(CC) $(CFLAG) $(SOURCES) -lm -o ../../bin/assemble
 
 clean:
 	rm -f $(wildcard *.o)
