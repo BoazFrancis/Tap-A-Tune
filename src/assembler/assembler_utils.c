@@ -19,6 +19,7 @@ int get_rotated_op(unsigned int* operand) {
 }
 
 int do_mov(char* params) {
+
   char* value;
   unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, ",", &value);
@@ -35,9 +36,50 @@ int do_mov(char* params) {
     op2 = (rotation << 8) | op2;
   }
   else {
+
     // Register e.g. mov r2, r1
     clear_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
+
+    char* shift;
+    char* str = strtok_r(value, ",", &shift);
+
+    if (strcmp(trim_whitespace(shift), "")) {
+
+      shift = trim_whitespace(shift);
+      char* shift_type = malloc(sizeof(char)*3);
+      strncpy(shift_type, shift, 3);
+
+      if (!strcmp(shift_type,"lsr")) {
+        set_bit(&instruction,  5);
+        clear_bit(&instruction, 6);
+      }
+      else if (!strcmp(shift_type,"lsl")) {
+        clear_bit(&instruction, 5);
+        clear_bit(&instruction, 6);
+      }
+      else if (!strcmp(shift_type,"asr")) {
+        clear_bit(&instruction, 5);
+        set_bit(&instruction, 6);
+      }
+      else if (!strcmp(shift_type,"ror")) {
+        set_bit(&instruction, 5);
+        set_bit(&instruction, 6);
+      }
+
+      int shift_reg = strtol(shift + 5, NULL, 0);
+
+      if (shift[4] == '#') {
+        instruction |= shift_reg << 7;
+        clear_bit(&instruction, 4);
+      }
+      else {
+        instruction |= shift_reg << 8;
+        set_bit(&instruction, 4);
+      }
+
+    }
+
   }
 
   // Store Rd register, removing the "r"
@@ -94,49 +136,49 @@ int do_add(char* params) {
 
 int do_orr(char* params) {
 
-    // Declare binary instruction, set it to 0
-    unsigned int instruction = 0;
+  // Declare binary instruction, set it to 0
+  unsigned int instruction = 0;
 
-    char* value;
+  char* value;
 
-    // Set the condition field to 1110 (i.e. 14)
-    unsigned int cond = 14 << COND_START;
+  // Set the condition field to 1110 (i.e. 14)
+  unsigned int cond = 14 << COND_START;
 
-    char* rn_string = strtok_r(params, ",", &value);
-    value = trim_whitespace(value);
-    // Set Rn to value of base register
-    unsigned int rn = strtol(rn_string+1, NULL, 0) << 12;
+  char* rn_string = strtok_r(params, ",", &value);
+  value = trim_whitespace(value);
+  // Set Rn to value of base register
+  unsigned int rn = strtol(rn_string+1, NULL, 0) << 12;
 
-    char* rd_string = strtok_r(value, ",", &value);
-    // set Rd to value of destination register
-    value = trim_whitespace(value);
-    unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
+  char* rd_string = strtok_r(value, ",", &value);
+  // set Rd to value of destination register
+  value = trim_whitespace(value);
+  unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
 
-    unsigned int opcode = ORR << 21;
-    unsigned int op2;
-    clear_bit(&instruction, 20);
+  unsigned int opcode = ORR << 21;
+  unsigned int op2;
+  clear_bit(&instruction, 20);
 
-    if (value[0] == '#') {
-      // Immediate value
-      set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
-      op2 = strtol(value+1, NULL, 0);
-      int rotation = get_rotated_op(&op2);
-      // The full operand is the first 8 bits of op2 | the 4 bits of rotation
-      op2 = (rotation << 8) | op2;
-    }
-    else {
-      // Register e.g. mov r2, r1
-      clear_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
-      op2 = strtol(value+1, NULL, 0);
-    }
+  if (value[0] == '#') {
+    // Immediate value
+    set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
+    op2 = strtol(value+1, NULL, 0);
+    int rotation = get_rotated_op(&op2);
+    // The full operand is the first 8 bits of op2 | the 4 bits of rotation
+    op2 = (rotation << 8) | op2;
+  }
+  else {
+    // Register e.g. mov r2, r1
+    clear_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
+    op2 = strtol(value+1, NULL, 0);
+  }
 
-    instruction |= cond | op2 | rd | rn | opcode;
-    return instruction;
-
+  instruction |= cond | op2 | rd | rn | opcode;
+  return instruction;
 
 }
 
 int do_sub(char* params) {
+
   // Declare binary instruction, set it to 0
   unsigned int instruction = 0;
 
@@ -617,8 +659,17 @@ int do_b(char* params, SymbolTable* st, int count) {
 
 int do_lsl(char* params) {
 
+  char* rest;
+  char* rn_string = strtok_r(params, ",", &rest);
+  char* lsl = malloc(sizeof(char)*12);
+  strcpy(lsl, "lsl ");
+  lsl = strcat(lsl, trim_whitespace(rest));
+
+  char* rn_comma = strcat(rn_string, ", ");
+  return do_mov(strcat(strcat(rn_comma, rn_comma), lsl));
+
 }
 
 int do_andeq(char* params) {
-
+  return 0;
 }
