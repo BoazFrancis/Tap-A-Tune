@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     st.size = 0;
 
     build_symbol_table(count, instructions, &st);
-    process_instructions(instructions, output);
+    process_instructions(instructions, output, &st);
 
     fclose(output);
 

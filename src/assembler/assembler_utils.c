@@ -18,7 +18,7 @@ int get_rotated_op(unsigned int* operand) {
   return i;
 }
 
-void do_mov(char* params, FILE* output) {
+int do_mov(char* params) {
   char* value;
   unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, ",", &value);
@@ -45,7 +45,8 @@ void do_mov(char* params, FILE* output) {
   reg_binary <<= 12;
 
   instruction |= cond | op2 | reg_binary;
-  write_to_file(instruction, output);
+  return instruction;
+
 }
 
 
@@ -56,7 +57,7 @@ void do_mov(char* params, FILE* output) {
 
 
 
-void do_add(char* params, FILE* output) {
+int do_add(char* params) {
   // Declare binary instruction, set it to 0
   unsigned int instruction = 0;
 
@@ -96,55 +97,57 @@ void do_add(char* params, FILE* output) {
   }
 
   instruction |= cond | op2 | rd | rn | opcode;
-  write_to_file(instruction, output);
-}
-
-
-
-
-
-
-
-
-
-
-
-void do_orr(char* params, FILE* output) {
-
-}
-
-void do_sub(char* params, FILE* output) {
-
-}
-
-void do_cmp(char* params, FILE* output) {
-
-}
-
-void do_eor(char* params, FILE* output) {
-
-}
-
-void do_tst(char* params, FILE* output) {
-
-}
-
-void do_mul(char* params, FILE* output) {
-
-}
-
-void do_teq(char* params, FILE* output) {
-
-}
-
-void do_rsb(char* params, FILE* output) {
+  return instruction;
 
 }
 
 
 
 
-void do_and(char* params, FILE* output) {
+
+
+
+
+
+
+
+int do_orr(char* params) {
+
+}
+
+int do_sub(char* params) {
+
+}
+
+int do_cmp(char* params) {
+
+}
+
+int do_eor(char* params) {
+
+}
+
+int do_tst(char* params) {
+
+}
+
+int do_mul(char* params) {
+
+}
+
+int do_teq(char* params) {
+
+}
+
+int do_rsb(char* params) {
+
+}
+
+
+
+
+int do_and(char* params) {
+
   char* value;
   unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, ",", &value);
@@ -171,57 +174,68 @@ void do_and(char* params, FILE* output) {
   reg_binary <<= 12;
 
   instruction |= cond | op2 | reg_binary;
-  write_to_file(instruction, output);
-}
-
-
-
-
-
-void do_mla(char* params, FILE* output) {
+  return instruction;
 
 }
 
-void do_ldr(char* params, FILE* output) {
+
+
+
+
+int do_mla(char* params) {
 
 }
 
-void do_str(char* params, FILE* output) {
+int do_ldr(char* params) {
 
 }
 
-void do_beq(char* params, FILE* output) {
+int do_str(char* params) {
 
 }
 
-void do_bne(char* params, FILE* output) {
+int do_beq(char* params) {
 
 }
 
-void do_bge(char* params, FILE* output) {
+int do_bne(char* params) {
 
 }
 
-void do_blt(char* params, FILE* output) {
+int do_bge(char* params) {
 
 }
 
-void do_bgt(char* params, FILE* output) {
+int do_blt(char* params) {
 
 }
 
-void do_ble(char* params, FILE* output) {
+int do_bgt(char* params) {
 
 }
 
-void do_b(char* params, FILE* output) {
+int do_ble(char* params) {
 
 }
 
-void do_lsl(char* params, FILE* output) {
+int do_b(char* params, SymbolTable* st) {
+
+  unsigned int cond = 14 << COND_START;
+  int jump_addr = get_address(st, params);
+
+  // Set bits 27 and 25
+  unsigned int instruction = jump_addr;
+  set_bit(&instruction, 25);
+  set_bit(&instruction, 27);
+
+
 
 }
 
-void do_andeq(char* params, FILE* output) {
+int do_lsl(char* params) {
+
+}
+
+int do_andeq(char* params) {
 
 }

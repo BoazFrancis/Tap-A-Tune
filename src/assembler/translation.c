@@ -9,7 +9,7 @@
  * @param instructions - array of assembler instructions
  * @returns void
 */
-void process_instructions(char** instructions, FILE* output) {
+void process_instructions(char** instructions, FILE* output, SymbolTable* st) {
 
   const char space[2] = " ";
 
@@ -19,36 +19,38 @@ void process_instructions(char** instructions, FILE* output) {
       break;
     }
     char* mnem = strtok_r(rest, space, &rest);
-    identify_instruction(mnem, rest, output);
+    int data = identify_instruction(mnem, rest, st);
+    write_to_file(data, output);
   }
 
 }
 
-void identify_instruction(char* mnem, char* params, FILE* output) {
-       if (!strcmp(mnem, "mov"))   { do_mov(params, output); }
-  else if (!strcmp(mnem, "add"))   { do_add(params, output); }
-  else if (!strcmp(mnem, "orr"))   { do_orr(params, output); }
-  else if (!strcmp(mnem, "sub"))   { do_sub(params, output); }
-  else if (!strcmp(mnem, "cmp"))   { do_cmp(params, output); }
-  else if (!strcmp(mnem, "eor"))   { do_eor(params, output); }
-  else if (!strcmp(mnem, "mul"))   { do_mul(params, output); }
-  else if (!strcmp(mnem, "tst"))   { do_tst(params, output); }
-  else if (!strcmp(mnem, "teq"))   { do_teq(params, output); }
-  else if (!strcmp(mnem, "rsb"))   { do_rsb(params, output); }
-  else if (!strcmp(mnem, "and"))   { do_and(params, output); }
-  else if (!strcmp(mnem, "mla"))   { do_mla(params, output); }
-  else if (!strcmp(mnem, "ldr"))   { do_ldr(params, output); }
-  else if (!strcmp(mnem, "str"))   { do_str(params, output); }
-  else if (!strcmp(mnem, "beq"))   { do_beq(params, output); }
-  else if (!strcmp(mnem, "bne"))   { do_bne(params, output); }
-  else if (!strcmp(mnem, "bge"))   { do_bge(params, output); }
-  else if (!strcmp(mnem, "blt"))   { do_blt(params, output); }
-  else if (!strcmp(mnem, "bgt"))   { do_bgt(params, output); }
-  else if (!strcmp(mnem, "ble"))   { do_ble(params, output); }
-  else if (!strcmp(mnem, "b"))     { do_b(params, output); }
-  else if (!strcmp(mnem, "lsl"))   { do_lsl(params, output); }
-  else if (!strcmp(mnem, "andeq")) { do_andeq(params, output); }
+int identify_instruction(char* mnem, char* params, SymbolTable* st) {
+       if (!strcmp(mnem, "mov"))   { return do_mov(params); }
+  else if (!strcmp(mnem, "add"))   { return do_add(params); }
+  else if (!strcmp(mnem, "orr"))   { return do_orr(params); }
+  else if (!strcmp(mnem, "sub"))   { return do_sub(params); }
+  else if (!strcmp(mnem, "cmp"))   { return do_cmp(params); }
+  else if (!strcmp(mnem, "eor"))   { return do_eor(params); }
+  else if (!strcmp(mnem, "mul"))   { return do_mul(params); }
+  else if (!strcmp(mnem, "tst"))   { return do_tst(params); }
+  else if (!strcmp(mnem, "teq"))   { return do_teq(params); }
+  else if (!strcmp(mnem, "rsb"))   { return do_rsb(params); }
+  else if (!strcmp(mnem, "and"))   { return do_and(params); }
+  else if (!strcmp(mnem, "mla"))   { return do_mla(params); }
+  else if (!strcmp(mnem, "ldr"))   { return do_ldr(params); }
+  else if (!strcmp(mnem, "str"))   { return do_str(params); }
+  else if (!strcmp(mnem, "beq"))   { return do_beq(params); }
+  else if (!strcmp(mnem, "bne"))   { return do_bne(params); }
+  else if (!strcmp(mnem, "bge"))   { return do_bge(params); }
+  else if (!strcmp(mnem, "blt"))   { return do_blt(params); }
+  else if (!strcmp(mnem, "bgt"))   { return do_bgt(params); }
+  else if (!strcmp(mnem, "ble"))   { return do_ble(params); }
+  else if (!strcmp(mnem, "b"))     { return do_b(params, st); }
+  else if (!strcmp(mnem, "lsl"))   { return do_lsl(params); }
+  else if (!strcmp(mnem, "andeq")) { return do_andeq(params); }
   else { fprintf(stderr, "Unknown mnemonic"); }
+  return 0;
 }
 
 char* trim_whitespace(char *str) {
