@@ -23,7 +23,7 @@ int do_mov(char* params) {
   unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, ",", &value);
   value = trim_whitespace(value);
-  unsigned int instruction = MOV << 21;;
+  unsigned int instruction = MOV << 21;
   unsigned int op2;
 
   if (value[0] == '#') {
@@ -49,15 +49,8 @@ int do_mov(char* params) {
 
 }
 
-
-
-
-
-
-
-
-
 int do_add(char* params) {
+
   // Declare binary instruction, set it to 0
   unsigned int instruction = 0;
 
@@ -70,13 +63,11 @@ int do_add(char* params) {
   value = trim_whitespace(value);
   // Set Rn to value of base register
   unsigned int rn = strtol(rn_string+1, NULL, 0) << 12;
-  printf("%x\n", rn);
 
   char* rd_string = strtok_r(value, ",", &value);
   // set Rd to value of destination register
   value = trim_whitespace(value);
   unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
-  printf("%x\n", rd);
 
   unsigned int opcode = ADD << 21;
   unsigned int op2;
@@ -101,16 +92,6 @@ int do_add(char* params) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
 int do_orr(char* params) {
 
 }
@@ -129,32 +110,14 @@ int do_eor(char* params) {
 
 int do_tst(char* params) {
 
-}
-
-int do_mul(char* params) {
-
-}
-
-int do_teq(char* params) {
-
-}
-
-int do_rsb(char* params) {
-
-}
-
-
-
-
-int do_and(char* params) {
-
   char* value;
   unsigned int cond = 14 << COND_START;
   char* reg = strtok_r(params, ",", &value);
   value = trim_whitespace(value);
-  unsigned int instruction = MOV << 21;;
+  unsigned int instruction = 0;
+  unsigned int opcode = TST << 21;
   unsigned int op2;
-
+  set_bit(&instruction, 20);
   if (value[0] == '#') {
     // Immediate value
     set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
@@ -171,15 +134,67 @@ int do_and(char* params) {
 
   // Store Rd register, removing the "r"
   long unsigned reg_binary = strtol(reg+1, NULL, 0);
-  reg_binary <<= 12;
+  reg_binary <<= 16;
 
-  instruction |= cond | op2 | reg_binary;
+  instruction |= cond | op2 | reg_binary | opcode;
   return instruction;
 
 }
 
+int do_mul(char* params) {
 
+}
 
+int do_teq(char* params) {
+
+}
+
+int do_rsb(char* params) {
+
+}
+
+int do_and(char* params) {
+
+  // Declare binary instruction, set it to 0
+  unsigned int instruction = 0;
+
+  char* value;
+
+  // Set the condition field to 1110 (i.e. 14)
+  unsigned int cond = 14 << COND_START;
+
+  char* rn_string = strtok_r(params, ",", &value);
+  value = trim_whitespace(value);
+  // Set Rn to value of base register
+  unsigned int rn = strtol(rn_string+1, NULL, 0) << 12;
+
+  char* rd_string = strtok_r(value, ",", &value);
+  // set Rd to value of destination register
+  value = trim_whitespace(value);
+  unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
+
+  unsigned int opcode = AND << 21;
+  unsigned int op2;
+  clear_bit(&instruction, 20);
+
+  if (value[0] == '#') {
+    // Immediate value
+    set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
+    op2 = strtol(value+1, NULL, 0);
+    int rotation = get_rotated_op(&op2);
+    // The full operand is the first 8 bits of op2 | the 4 bits of rotation
+    op2 = (rotation << 8) | op2;
+  }
+  else {
+    // Register e.g. mov r2, r1
+    clear_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
+    op2 = strtol(value+1, NULL, 0);
+  }
+
+  instruction |= cond | op2 | rd | rn | opcode;
+  return instruction;
+
+}
 
 
 int do_mla(char* params) {
