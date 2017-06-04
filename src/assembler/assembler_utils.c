@@ -4,7 +4,7 @@
 #include "assemble.h"
 #include "../emulator/emulate.h"
 
-void do_mov(char* params) {
+void do_mov(char* params, FILE* output) {
   char comma[2] = ",";
   char* value;
   unsigned int cond = 14 << COND_START;
@@ -23,93 +23,93 @@ void do_mov(char* params) {
     op2 = strtol(value+1, NULL, 0);
   }
   instruction |= cond | op2;
-  printf("%08x\n", reverse_int(instruction));
+  write_to_file(instruction, output);
 }
 
-void do_add(char* params) {
-
-}
-
-void do_orr(char* params) {
+void do_add(char* params, FILE* output) {
 
 }
 
-void do_sub(char* params) {
+void do_orr(char* params, FILE* output) {
 
 }
 
-void do_cmp(char* params) {
+void do_sub(char* params, FILE* output) {
 
 }
 
-void do_eor(char* params) {
+void do_cmp(char* params, FILE* output) {
 
 }
 
-void do_tst(char* params) {
+void do_eor(char* params, FILE* output) {
 
 }
 
-void do_mul(char* params) {
+void do_tst(char* params, FILE* output) {
 
 }
 
-void do_teq(char* params) {
+void do_mul(char* params, FILE* output) {
 
 }
 
-void do_rsb(char* params) {
+void do_teq(char* params, FILE* output) {
 
 }
 
-void do_and(char* params) {
+void do_rsb(char* params, FILE* output) {
 
 }
 
-void do_mla(char* params) {
+void do_and(char* params, FILE* output) {
 
 }
 
-void do_ldr(char* params) {
+void do_mla(char* params, FILE* output) {
 
 }
 
-void do_str(char* params) {
+void do_ldr(char* params, FILE* output) {
 
 }
 
-void do_beq(char* params) {
+void do_str(char* params, FILE* output) {
 
 }
 
-void do_bne(char* params) {
+void do_beq(char* params, FILE* output) {
 
 }
 
-void do_bge(char* params) {
+void do_bne(char* params, FILE* output) {
 
 }
 
-void do_blt(char* params) {
+void do_bge(char* params, FILE* output) {
 
 }
 
-void do_bgt(char* params) {
+void do_blt(char* params, FILE* output) {
 
 }
 
-void do_ble(char* params) {
+void do_bgt(char* params, FILE* output) {
 
 }
 
-void do_b(char* params) {
+void do_ble(char* params, FILE* output) {
 
 }
 
-void do_lsl(char* params) {
+void do_b(char* params, FILE* output) {
 
 }
 
-void do_andeq(char* params) {
+void do_lsl(char* params, FILE* output) {
+
+}
+
+void do_andeq(char* params, FILE* output) {
 
 }
