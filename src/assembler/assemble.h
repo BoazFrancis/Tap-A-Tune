@@ -6,8 +6,8 @@ void build_symbol_table(int count, char** instructions, SymbolTable* st);
 
 char* trim_whitespace(char *str);
 
-void process_instructions(char** instructions, FILE* output, SymbolTable* st);
-int identify_instruction(char* mnem, char* params, SymbolTable* st, int count);
+void process_instructions(int count, char** instructions, FILE* output, SymbolTable* st);
+int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr);
 
 void write_to_file(unsigned int line, FILE* output);
 
@@ -30,11 +30,11 @@ int do_str(char* params);
 int do_lsl(char* params);
 int do_andeq(char* params);
 
-int do_branch(char* params, SymbolTable* st, int count, unsigned int cond);
-int do_b(char* params, SymbolTable* st, int count);
-int do_beq(char* params, SymbolTable* st, int count);
-int do_bne(char* params, SymbolTable* st, int count);
-int do_bge(char* params, SymbolTable* st, int count);
-int do_blt(char* params, SymbolTable* st, int count);
-int do_bgt(char* params, SymbolTable* st, int count);
-int do_ble(char* params, SymbolTable* st, int count);
+int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond);
+int do_b(char* params, SymbolTable* st, int addr);
+int do_beq(char* params, SymbolTable* st, int addr);
+int do_bne(char* params, SymbolTable* st, int addr);
+int do_bge(char* params, SymbolTable* st, int addr);
+int do_blt(char* params, SymbolTable* st, int addr);
+int do_bgt(char* params, SymbolTable* st, int addr);
+int do_ble(char* params, SymbolTable* st, int addr);

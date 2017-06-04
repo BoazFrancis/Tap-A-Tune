@@ -5,6 +5,8 @@
 
 void build_symbol_table(int count, char** instructions, SymbolTable* st) {
 
+  int instruction_count = 0;
+
   for (int i=0; i<count; i++) {
 
     // Find the label by splitting at ':'
@@ -18,9 +20,12 @@ void build_symbol_table(int count, char** instructions, SymbolTable* st) {
       label[index] = '\0';
 
       // Found a label, store in symbol table
-      int address = i * WORD_SIZE;
+      int address = instruction_count * WORD_SIZE;
       add_label(st, label, address);
 
+    }
+    else {
+      instruction_count++;
     }
 
   }

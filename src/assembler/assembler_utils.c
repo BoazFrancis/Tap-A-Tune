@@ -616,12 +616,14 @@ int do_str(char* params) {
 
 }
 
-int do_branch(char* params, SymbolTable* st, int count, unsigned int cond) {
+int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
 
-  int jump_addr = get_address(st, trim_whitespace(params)) - count * WORD_SIZE - 8;
+  int jump_addr = get_address(st, trim_whitespace(params)) - addr - 8;
+  printf("%d\n", get_address(st, trim_whitespace(params)));
+  jump_addr >>= 2;
 
   // Set bits 27 and 25
-  unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN) >> 2;
+  unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);
   set_bit(&instruction, 25);
   set_bit(&instruction, 27);
 
@@ -629,32 +631,32 @@ int do_branch(char* params, SymbolTable* st, int count, unsigned int cond) {
 
 }
 
-int do_beq(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 0 << COND_START);
+int do_beq(char* params, SymbolTable* st, int addr) {
+  return do_branch(params, st, addr, 0 << COND_START);
 }
 
-int do_bne(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 1 << COND_START);
+int do_bne(char* params, SymbolTable* st, int addr) {
+  return do_branch(params, st, addr, 1 << COND_START);
 }
 
 int do_bge(char* params, SymbolTable* st, int count) {
   return do_branch(params, st, count, 10 << COND_START);
 }
 
-int do_blt(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 11 << COND_START);
+int do_blt(char* params, SymbolTable* st, int addr) {
+  return do_branch(params, st, addr, 11 << COND_START);
 }
 
-int do_bgt(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 12 << COND_START);
+int do_bgt(char* params, SymbolTable* st, int addr) {
+  return do_branch(params, st, addr, 12 << COND_START);
 }
 
-int do_ble(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 13 << COND_START);
+int do_ble(char* params, SymbolTable* st, int addr) {
+  return do_branch(params, st, addr, 13 << COND_START);
 }
 
-int do_b(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 14 << COND_START);
+int do_b(char* params, SymbolTable* st, int addr) {
+  return do_branch(params, st, addr, 14 << COND_START);
 }
 
 int do_lsl(char* params) {
