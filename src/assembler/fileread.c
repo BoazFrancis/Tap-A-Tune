@@ -3,7 +3,7 @@
 #include <string.h>
 #include "assemble.h"
 
-void read_file(char* path, char** instructions) {
+int read_file(char* path, char** instructions) {
 
   // Open the input file
   FILE* input = fopen(path, "r");
@@ -19,5 +19,7 @@ void read_file(char* path, char** instructions) {
 
   // Close the file
   fclose(input);
+
+  return j;
 
 }
