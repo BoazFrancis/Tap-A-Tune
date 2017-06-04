@@ -331,6 +331,7 @@ int do_teq(char* params) {
 
 
 int do_rsb(char* params) {
+  
   // Declare binary instruction, set it to 0
   unsigned int instruction = 0;
 
