@@ -331,6 +331,7 @@ int do_teq(char* params) {
 
 
 int do_rsb(char* params) {
+
   // Declare binary instruction, set it to 0
   unsigned int instruction = 0;
 
@@ -442,42 +443,45 @@ int do_str(char* params) {
 
 }
 
-int do_beq(char* params) {
+int do_branch(char* params, SymbolTable* st, int count, unsigned int cond) {
 
-}
-
-int do_bne(char* params) {
-
-}
-
-int do_bge(char* params) {
-
-}
-
-int do_blt(char* params) {
-
-}
-
-int do_bgt(char* params) {
-
-}
-
-int do_ble(char* params) {
-
-}
-
-int do_b(char* params, SymbolTable* st) {
-
-  unsigned int cond = 14 << COND_START;
-  int jump_addr = get_address(st, params);
+  int jump_addr = get_address(st, trim_whitespace(params)) - count * WORD_SIZE - 8;
 
   // Set bits 27 and 25
-  unsigned int instruction = jump_addr;
+  unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN) >> 2;
   set_bit(&instruction, 25);
   set_bit(&instruction, 27);
 
+  return instruction | cond;
 
+}
 
+int do_beq(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 0 << COND_START);
+}
+
+int do_bne(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 1 << COND_START);
+}
+
+int do_bge(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 10 << COND_START);
+}
+
+int do_blt(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 11 << COND_START);
+}
+
+int do_bgt(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 12 << COND_START);
+}
+
+int do_ble(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 13 << COND_START);
+}
+
+int do_b(char* params, SymbolTable* st, int count) {
+  return do_branch(params, st, count, 14 << COND_START);
 }
 
 int do_lsl(char* params) {
