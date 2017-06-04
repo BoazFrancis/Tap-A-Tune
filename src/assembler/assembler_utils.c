@@ -431,12 +431,93 @@ int do_mla(char* params) {
 
 int do_ldr(char* params) {
   unsigned int instruction = 0;
-  unsigned int cond = 14 << 28;
-  set_bit(&instruction, 26);
-
+  char* rn_string;
   char* rd_str;
   char* addr_str;
+  char* offset_str;
+  // TODO: long or int??
+  unsigned int addr;
+  unsigned int rn = 0;
+  unsigned int rd = 0;
+  unsigned int offset = 0;
 
+  unsigned int cond = 14 << 28;
+
+  // 26th bit is always set to 1 for sdt
+  set_bit(&instruction, 26);
+
+  //get the Rd string (e.g. r3) by splitting by the comma
+  rd_str = strtok_r(params, ",", &addr_str);
+
+  // get the Rd register number
+  rd = strtol(rd_str+1, NULL, 0) << 12;
+
+  //trim the whitespace after the comma if there is one
+  addr_str = trim_whitespace(addr_str);
+
+  if (addr_str[0] == '=') {
+    // Direct address
+    if (addr_str[1] == '-') {
+      // Negative
+      clear_bit(&instruction, 23);
+      addr = strtol(addr_str+2, NULL, 0);
+    } else {
+      set_bit(&instruction, 23);
+      addr = strtol(addr_str+1, NULL, 0);
+    }
+
+
+
+    // Base register is PC
+    rn = 15 << 16;
+
+    // Pre indexed (set P)
+    set_bit(&instruction, 24);
+
+
+
+/* TODO:
+    if (addr <= 0xff) {
+      do_mov(params);
+    }
+*/
+
+
+  } else {
+    // Register
+    if (addr_str[strlen(addr_str)-1] == ']') {
+      // Pre indexed
+      clear_bit(&instruction, 23);
+      // Strip end bracket
+      addr_str[strlen(addr_str)-1] = '\0';
+      char* is_comma = strpbrk(addr_str, ",");
+      if (is_comma == NULL) {
+        // there is no comma in addr_str, i.e. if there is an offset
+        // get Rn (note that addr_str is "[r10", for example
+        // since the end bracket is stripped and we just need the 10)
+        rn = strtol(addr_str+2, NULL, 0) << 16;
+      } else {
+        // There is a comma in addr_str
+        // TODO: deal with offset
+        rn_string = strtok_r(addr_str, ",", &offset_str);
+        // rn_string starts with "r.."" and we just need what follows "r"
+        rn = strtol(rn_string+2, NULL, 0) << 16;
+
+        //trim whitespace after the comma if there is one
+        offset_str = trim_whitespace(offset_str);
+
+        if (offset_str[0] == '#') {
+          //offset is an immediate value
+          offset = strtol(offset_str, NULL, 0);
+        }
+      }
+    } else {
+      // Post indexed
+
+    }
+  }
+
+  instruction |= addr | rn | rd | offset;
 }
 
 int do_str(char* params) {
