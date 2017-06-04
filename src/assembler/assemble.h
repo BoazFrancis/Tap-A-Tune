@@ -7,7 +7,7 @@ void build_symbol_table(int count, char** instructions, SymbolTable* st);
 char* trim_whitespace(char *str);
 
 void process_instructions(char** instructions, FILE* output, SymbolTable* st);
-int identify_instruction(char* mnem, char* params, SymbolTable* st);
+int identify_instruction(char* mnem, char* params, SymbolTable* st, int count);
 
 void write_to_file(unsigned int line, FILE* output);
 
@@ -33,6 +33,6 @@ int do_bge(char* params);
 int do_blt(char* params);
 int do_bgt(char* params);
 int do_ble(char* params);
-int do_b(char* params, SymbolTable* st);
+int do_b(char* params, SymbolTable* st, int count);
 int do_lsl(char* params);
 int do_andeq(char* params);

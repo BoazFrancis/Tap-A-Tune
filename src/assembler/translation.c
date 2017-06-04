@@ -19,13 +19,17 @@ void process_instructions(char** instructions, FILE* output, SymbolTable* st) {
       break;
     }
     char* mnem = strtok_r(rest, space, &rest);
-    int data = identify_instruction(mnem, rest, st);
-    write_to_file(data, output);
+    char* pos = strchr(mnem, ':');
+    if (pos == NULL) {
+      int data = identify_instruction(mnem, rest, st, i);
+      write_to_file(data, output);
+    }
   }
 
 }
 
-int identify_instruction(char* mnem, char* params, SymbolTable* st) {
+int identify_instruction(char* mnem, char* params, SymbolTable* st, int count) {
+
        if (!strcmp(mnem, "mov"))   { return do_mov(params); }
   else if (!strcmp(mnem, "add"))   { return do_add(params); }
   else if (!strcmp(mnem, "orr"))   { return do_orr(params); }
@@ -46,7 +50,7 @@ int identify_instruction(char* mnem, char* params, SymbolTable* st) {
   else if (!strcmp(mnem, "blt"))   { return do_blt(params); }
   else if (!strcmp(mnem, "bgt"))   { return do_bgt(params); }
   else if (!strcmp(mnem, "ble"))   { return do_ble(params); }
-  else if (!strcmp(mnem, "b"))     { return do_b(params, st); }
+  else if (!strcmp(mnem, "b"))     { return do_b(params, st, count); }
   else if (!strcmp(mnem, "lsl"))   { return do_lsl(params); }
   else if (!strcmp(mnem, "andeq")) { return do_andeq(params); }
   else { fprintf(stderr, "Unknown mnemonic"); }

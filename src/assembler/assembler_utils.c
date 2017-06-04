@@ -272,17 +272,17 @@ int do_ble(char* params) {
 
 }
 
-int do_b(char* params, SymbolTable* st) {
+int do_b(char* params, SymbolTable* st, int count) {
 
   unsigned int cond = 14 << COND_START;
-  int jump_addr = get_address(st, params);
+  int jump_addr = get_address(st, trim_whitespace(params)) - count * WORD_SIZE - 8;
 
   // Set bits 27 and 25
-  unsigned int instruction = jump_addr;
+  unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN) >> 2;
   set_bit(&instruction, 25);
   set_bit(&instruction, 27);
 
-
+  return instruction | cond;
 
 }
 
