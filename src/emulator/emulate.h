@@ -1,5 +1,4 @@
 #include "../lib/bitutils.h"
-#include "../lib/defs.h"
 
 // Create the ARM struct
 struct ARM {
@@ -30,20 +29,6 @@ enum shift_type {
   LOGICAL_RIGHT,
   ARITHMETIC_RIGHT,
   ROTATE_RIGHT
-};
-
-// Opcodes for data_processing
-enum opcode {
-  AND = 0,
-  EOR = 1,
-  SUB = 2,
-  RSB = 3,
-  ADD = 4,
-  TST = 8,
-  TEQ = 9,
-  CMP = 10,
-  ORR = 12,
-  MOV = 13
 };
 
 // Fetch-execute cycle

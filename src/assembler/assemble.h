@@ -1,4 +1,4 @@
-#include "../lib/defs.h"
+#include "../lib/bitutils.h"
 
 void read_file(char* path, char** instructions);
 void build_symbol_table(char** instructions);
@@ -9,6 +9,8 @@ void process_instructions(char** instructions, FILE* output);
 void identify_instruction(char* mnem, char* params, FILE* output);
 
 void write_to_file(unsigned int line, FILE* output);
+
+int get_rotated_op(unsigned int* operand);
 
 void do_mov(char* params, FILE* output);
 void do_add(char* params, FILE* output);

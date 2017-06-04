@@ -2,23 +2,38 @@
 #include <stdlib.h>
 #include <string.h>
 #include "assemble.h"
-#include "../emulator/emulate.h"
+
+int get_rotated_op(unsigned int* operand) {
+  // Keep rotating until size is 8 bits
+  int i = 0;
+  unsigned int rotation;
+  while (i < 16) {
+    rotation = rotate_left(*operand, 2*i);
+    if (rotation < (1 << 8)) {
+      break;
+    }
+    i++;
+  }
+  *operand = rotation;
+  return i;
+}
 
 void do_mov(char* params, FILE* output) {
 
-  char comma[2] = ",";
   char* value;
   unsigned int cond = 14 << COND_START;
-  char* reg = strtok_r(params, comma, &value);
+  char* reg = strtok_r(params, ",", &value);
   value = trim_whitespace(value);
-  unsigned int instruction = 0;
-  instruction |= MOV << 21;
-  long unsigned int op2;
+  unsigned int instruction = MOV << 21;;
+  unsigned int op2;
 
   if (value[0] == '#') {
     // Immediate value
     set_bit(&instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
+    int rotation = get_rotated_op(&op2);
+    // The full operand is the first 8 bits of op2 | the 4 bits of rotation
+    op2 = (rotation << 8) | op2;
   }
   else {
     // Register e.g. mov r2, r1

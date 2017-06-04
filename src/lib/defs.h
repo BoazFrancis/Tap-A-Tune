@@ -35,3 +35,17 @@
 #define CPSR_Z 30
 #define CPSR_C 29
 #define CPSR_V 28
+
+// Opcodes for data_processing
+enum opcode {
+  AND = 0,
+  EOR = 1,
+  SUB = 2,
+  RSB = 3,
+  ADD = 4,
+  TST = 8,
+  TEQ = 9,
+  CMP = 10,
+  ORR = 12,
+  MOV = 13
+};
