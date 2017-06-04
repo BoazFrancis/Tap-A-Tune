@@ -446,6 +446,9 @@ int do_ldr(char* params) {
   // 26th bit is always set to 1 for sdt
   set_bit(&instruction, 26);
 
+  // L bit is set for ldr (bit 20)
+  set_bit(&instruction, 20);
+
   //get the Rd string (e.g. r3) by splitting by the comma
   rd_str = strtok_r(params, ",", &addr_str);
 
@@ -455,7 +458,11 @@ int do_ldr(char* params) {
   //trim the whitespace after the comma if there is one
   addr_str = trim_whitespace(addr_str);
 
+
+
+
   if (addr_str[0] == '=') {
+    /* NOT SURE HOW THIS WORKS */
     // Direct address
     if (addr_str[1] == '-') {
       // Negative
@@ -466,15 +473,11 @@ int do_ldr(char* params) {
       addr = strtol(addr_str+1, NULL, 0);
     }
 
-
-
     // Base register is PC
     rn = 15 << 16;
 
     // Pre indexed (set P)
     set_bit(&instruction, 24);
-
-
 
 /* TODO:
     if (addr <= 0xff) {
@@ -483,22 +486,26 @@ int do_ldr(char* params) {
 */
 
 
+
   } else {
     // Register
     if (addr_str[strlen(addr_str)-1] == ']') {
       // Pre indexed
-      clear_bit(&instruction, 23);
+      // Hence the P bit (24) is set
+      set_bit(&instruction, 24);
       // Strip end bracket
-      addr_str[strlen(addr_str)-1] = '\0';
+      addr_str[strlen(addr_str)-1] = 0;
       char* is_comma = strpbrk(addr_str, ",");
       if (is_comma == NULL) {
-        // there is no comma in addr_str, i.e. if there is an offset
+        // there is no comma in addr_str, i.e. there is NO offset
         // get Rn (note that addr_str is "[r10", for example
         // since the end bracket is stripped and we just need the 10)
         rn = strtol(addr_str+2, NULL, 0) << 16;
+
+        // since there is no offset we leave the U (23) and I (25) bits
+
       } else {
         // There is a comma in addr_str
-        // TODO: deal with offset
         rn_string = strtok_r(addr_str, ",", &offset_str);
         // rn_string starts with "r.."" and we just need what follows "r"
         rn = strtol(rn_string+2, NULL, 0) << 16;
@@ -508,16 +515,49 @@ int do_ldr(char* params) {
 
         if (offset_str[0] == '#') {
           //offset is an immediate value
+          // Leave the I (25th) bit
           offset = strtol(offset_str, NULL, 0);
+        } else {
+          // offset is a shifted register
+          // - THIS CASE IS OPTIONAL
+          // Set the I (25th) bit
+          set_bit(&instruction, 25);
         }
       }
     } else {
       // Post indexed
+      // Hence the P bit (24th) is not set;
+      // get the Rn string in the form of e.g. "[r10]"
+      rn_string = strtok_r(addr_str, ",", &offset_str);
 
+      //get rid of the closing bracket
+      rn_string[strlen(rn_string)-1] = 0;
+
+      //get rid of the opening bracket and 'r'
+      rn = strtol(rn_string+2, NULL, 0);
+
+      if (offset_str[0] == '#') {
+        // offset is an immediate value
+        // the I bit is NOT set
+
+        if (offset_str[1] != '-') {
+          // offset is positive so set the U (23rd) bit
+          set_bit(&instruction, 23);
+          offset = strtol(offset_str+1, NULL, 0);
+        } else {
+          // offset is negative so leave the U bit
+          offset = strtol(offset_str+2, NULL, 0);
+        }
+      } else {
+        // offset is a shifted register
+        // - THIS CASE IS OPTIONAL
+        // Set the I (25th) bit
+        set_bit(&instruction, 25);
+      }
     }
   }
 
-  instruction |= addr | rn | rd | offset;
+  instruction |= cond | addr | rn | rd | offset;
 }
 
 int do_str(char* params) {
