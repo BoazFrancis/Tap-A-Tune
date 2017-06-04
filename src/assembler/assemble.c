@@ -17,11 +17,13 @@ int main(int argc, char **argv) {
     output = freopen(output_file, "ab", output);
 
     char** instructions = malloc(sizeof(char*)*100);
-    read_file(input_file, instructions);
+    int count = read_file(input_file, instructions);
 
     // Build the symbol table
-    build_symbol_table(instructions);
+    SymbolTable st;
+    st.size = 0;
 
+    build_symbol_table(count, instructions, &st);
     process_instructions(instructions, output);
 
     fclose(output);

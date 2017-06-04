@@ -1,7 +1,8 @@
+#include "map.h"
 #include "../lib/bitutils.h"
 
-void read_file(char* path, char** instructions);
-void build_symbol_table(char** instructions);
+int read_file(char* path, char** instructions);
+void build_symbol_table(int count, char** instructions, SymbolTable* st);
 
 char* trim_whitespace(char *str);
 
