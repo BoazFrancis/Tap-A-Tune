@@ -51,16 +51,16 @@ void data_processing(ARM* proc);
 int calculate_op2(ARM* proc);
 int barrel_shifter(ARM* proc, int shiftBy);
 
-void do_and(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_eor(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_sub(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_rsb(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_add(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_tst(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_teq(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_cmp(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_orr(ARM* proc, int rn, unsigned int op2, int reg, int s);
-void do_mov(ARM* proc, int rn, unsigned int op2, int reg, int s);
+void do_and(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_eor(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_sub(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_rsb(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_add(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_tst(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_teq(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_cmp(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_orr(ARM* proc, int rn, unsigned int op2, int dest, int s);
+void do_mov(ARM* proc, int rn, unsigned int op2, int dest, int s);
 
 void store_result(ARM* proc, int result, int* dest, int s);
 void set_cpsr_nz(ARM* proc, int s, int result);
