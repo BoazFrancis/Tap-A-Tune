@@ -541,6 +541,9 @@ int do_ldr(char* params) {
   // L bit is set for ldr (bit 20)
   set_bit(&instruction, 20);
 
+  // Set U (23rd) bit by default - clear it if necessary 
+  set_bit(&instruction, 23);
+
   //get the Rd string (e.g. r3) by splitting by the comma
   rd_str = strtok_r(params, ",", &addr_str);
 
@@ -595,6 +598,7 @@ int do_ldr(char* params) {
         rn = strtol(addr_str+2, NULL, 0) << 16;
 
         // since there is no offset we leave the U (23) and I (25) bits
+
 
       } else {
         // There is a comma in addr_str
