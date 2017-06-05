@@ -33,18 +33,11 @@ void single_data_transfer(ARM* proc) {
     memory_address += offset * sign;
   }
 
-  if (memory_address == GPIO_20_29 || memory_address == GPIO_10_19 || memory_address == GPIO_0_9) {
-    switch (memory_address) {
-      case GPIO_0_9:    proc->gpio_initial_pin = 0; break;
-      case GPIO_10_19:  proc->gpio_initial_pin = 10; break;
-      default:          proc->gpio_initial_pin = 20;
-    }
-    gpio(proc, memory_address);
+  if (getGPIO(proc, &memory_address)) {
+    return;
   }
-  else if (memory_address == PIN_OFF || memory_address == PIN_ON) {
-    gpio(proc, memory_address);
-  }
-  else if (memory_address >= MAX_MEMORY_SIZE) {
+
+  if (memory_address >= MAX_MEMORY_SIZE*WORD_SIZE) {
     printf("Error: Out of bounds memory access at address 0x%08x\n", memory_address);
   }
   else {

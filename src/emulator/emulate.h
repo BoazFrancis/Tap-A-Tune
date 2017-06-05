@@ -10,7 +10,6 @@ typedef struct ARM {
    unsigned int load;
    unsigned int has_loaded;
    unsigned int has_fetched;
-   unsigned int gpio_initial_pin;
 } ARM;
 
 // Reading binary files
@@ -80,4 +79,6 @@ void single_data_transfer(ARM* proc);
 void branch(ARM* proc);
 
 //GPIO instuctions
-void gpio(struct ARM* proc, int memory_address);
+void setGPIO(ARM* proc);
+void clearGPIO(ARM* proc);
+int getGPIO(ARM* proc, int* memory_address);

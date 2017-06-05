@@ -15,6 +15,8 @@ void fetch_decode_execute(ARM* proc) {
   proc->has_loaded = 0;
   proc->has_fetched = 0;
 
+  setGPIO(proc);
+
   // Keep looping until there's no more memory
   while (proc->pc < MAX_MEMORY_SIZE) {
 
@@ -45,6 +47,8 @@ void fetch_decode_execute(ARM* proc) {
     proc->pc += WORD_SIZE;
 
   }
+
+  clearGPIO(proc);
 
 }
 
