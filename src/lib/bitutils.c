@@ -154,6 +154,12 @@ unsigned int rotate_right(const unsigned int val, int shiftBy) {
   return (val >> shiftBy) | (val << (sizeof(val)*8 - shiftBy));
 }
 
+/**
+ * For printing in test cases, reverse each byte.
+ * This is due to endianess.
+ * @param n - The input number as a 32-bit number
+ * @returns the new formatted number
+ */
 int reverse_int(int n) {
   int result = 0;
   for (int i = 0; i < WORD_SIZE; i++) {

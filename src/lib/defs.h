@@ -23,6 +23,15 @@
 #define DP_SRC_REG 16
 #define DP_DEST_REG 12
 #define DP_OPCODE_START 21
+#define OP2_START 0
+#define OP2_SIZE 8
+#define OP2_IMMEDIATE_START 8
+#define OP2_IMMEDIATE_SIZE 4
+#define OP2_RS_START 8
+#define OP2_RS_SIZE 4
+#define OP2_SHIFT_START 7
+#define OP2_SHIFT_SIZE 5
+#define OP2_SHIFYBY_IDENTIFIER 4
 
 // Multiply
 #define MUL_BLOCK_SIZE 4
