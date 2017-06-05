@@ -85,3 +85,11 @@ enum opcodes {
   ORR = 12,
   MOV = 13
 };
+
+// Identifying physical addresses for GPIO
+#define GPIO_0_9 0x20200000
+#define GPIO_10_19 0x20200004
+#define GPIO_20_29 0x20200008
+#define PINS_IN_MEMORY 9
+#define PIN_OFF 0x20200028
+#define PIN_ON 0x2020001c
