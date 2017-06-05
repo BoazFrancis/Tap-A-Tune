@@ -561,8 +561,9 @@ int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int
     int mem_val = strtol(addr_str+1, NULL, 0);
 
     if (mem_val < 0xFF) {
-      // remove = and put #
-      return do_mov(params);
+      char* without_eq = addr_str + 1;
+      char* mov_param = cat(rd_str, ",#", without_eq);
+      return do_mov(mov_param);
     }
     else {
 
@@ -578,9 +579,8 @@ int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int
       *excess_size += 1;
       *excess_mem = realloc(*excess_mem, *excess_size * sizeof(int));
 
-      excess_mem[*excess_size - 1] = malloc(sizeof(int));
+      excess_mem[*excess_size - 1] = malloc(8);
       *excess_mem[*excess_size - 1] = mem_val;
-
 
       return instruction | cond | rd | rn | offset;
 

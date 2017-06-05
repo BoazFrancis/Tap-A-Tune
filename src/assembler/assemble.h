@@ -38,3 +38,5 @@ int do_bge(char* params, SymbolTable* st, int addr);
 int do_blt(char* params, SymbolTable* st, int addr);
 int do_bgt(char* params, SymbolTable* st, int addr);
 int do_ble(char* params, SymbolTable* st, int addr);
+
+char* cat(char* m, char* r, const char* e);
