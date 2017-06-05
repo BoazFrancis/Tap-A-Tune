@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "emulate.h"
 
-void print_registers(struct ARM* proc) {
+void print_registers(ARM* proc) {
   printf("Registers:\n");
   for (int i=0; i<=PRINT_REGISTERS; i++) {
     char register_num[100];
@@ -15,7 +13,7 @@ void print_registers(struct ARM* proc) {
   printf("CPSR: %10d (0x%08x)\n", proc->registers[CPSR_REGISTER], proc->registers[CPSR_REGISTER]);
 }
 
-void print_nonzeromemory(struct ARM* proc) {
+void print_nonzeromemory(ARM* proc) {
   printf("Non-zero memory:\n");
   for (int i=0; i<MAX_MEMORY_SIZE; i++) {
     if (proc->memory[i] != 0) {
@@ -24,7 +22,7 @@ void print_nonzeromemory(struct ARM* proc) {
   }
 }
 
-unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr) {
+unsigned int read_memory_bytes(ARM* proc, unsigned int addr) {
   unsigned int mod = addr % WORD_SIZE;
   unsigned int start_addr = addr / WORD_SIZE;
   unsigned int start_bit = mod * BITS_IN_BYTE;
@@ -35,7 +33,7 @@ unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr) {
   return extracted_first | new_second;
 }
 
-void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr) {
+void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr) {
   unsigned int mod = addr % WORD_SIZE;
   unsigned int start_addr = addr / WORD_SIZE;
   unsigned int end_bit = mod * BITS_IN_BYTE;

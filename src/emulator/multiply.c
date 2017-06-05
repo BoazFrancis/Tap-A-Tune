@@ -1,11 +1,10 @@
-#include <stdio.h>
 #include "emulate.h"
 
 /**
  * Executes the multiply instructions
  * @param proc - The pointer to the ARM processor
 */
-void multiply(struct ARM* proc) {
+void multiply(ARM* proc) {
 
   unsigned int dest_register = extract_bits(&proc->ir, 16, 4);
   unsigned int src_register_s = extract_bits(&proc->ir, 8, 4);

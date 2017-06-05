@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include "emulate.h"
 
-void branch(struct ARM* proc) {
+void branch(ARM* proc) {
 
   // Get bits 0-24 for 2s complement offset
   signed int offset = extract_bits(&proc->ir, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);

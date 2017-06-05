@@ -1,17 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "../lib/bitutils.h"
 
 // Create the ARM struct
-struct ARM {
+typedef struct ARM {
    unsigned int memory[MAX_MEMORY_SIZE];
    unsigned int registers[NUM_REGISTERS];
    unsigned int ir;
    unsigned int load;
    unsigned int has_loaded;
    unsigned int has_fetched;
-};
+} ARM;
 
 // Reading binary files
-void read_binary_file(struct ARM* proc, char* path);
+void read_binary_file(ARM* proc, char* path);
 
 // Type of instruction
 enum instruction_type {
@@ -32,30 +34,37 @@ enum shift_type {
 };
 
 // Fetch-execute cycle
-void fetch_decode_execute(struct ARM* proc);
-int check_condition_bits(struct ARM* proc);
+void fetch_decode_execute(ARM* proc);
+int check_condition_bits(ARM* proc);
 enum instruction_type get_instruction_type(int* ir);
 int memaddr_to_index(int memaddr);
 int index_to_memaddr(int index);
 
 // Output
-void print_registers(struct ARM* proc);
-void print_nonzeromemory(struct ARM* proc);
-unsigned int read_memory_bytes(struct ARM* proc, unsigned int addr);
-void write_memory_bytes(struct ARM* proc, unsigned int data, unsigned int addr);
+void print_registers(ARM* proc);
+void print_nonzeromemory(ARM* proc);
+unsigned int read_memory_bytes(ARM* proc, unsigned int addr);
+void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr);
 
 // Data processing instructions
-void data_processing(struct ARM* proc);
-int calculate_op2(struct ARM* proc);
-int barrel_shifter(struct ARM* proc, int shiftBy);
+void data_processing(ARM* proc);
+int calculate_op2(ARM* proc);
+int barrel_shifter(ARM* proc, int shiftBy);
+
+void do_and(ARM* proc, int rn, unsigned int op2, int reg, int s);
+void do_eor(ARM* proc, int rn, unsigned int op2, int reg, int s);
+void do_sub(ARM* proc, int rn, unsigned int op2, int reg, int s);
+void store_result(ARM* proc, int result, int* dest, int s);
+void set_cpsr_nz(ARM* proc, int s, int result);
+void set_cpsr_c(ARM* proc, int s, int c);
 
 // Mutliply instructions
-void multiply(struct ARM* proc);
-void multiply_with_accumulate(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
-void multiply_regular(struct ARM* proc, unsigned int d, unsigned int m, unsigned int s);
+void multiply(ARM* proc);
+void multiply_with_accumulate(ARM* proc, unsigned int d, unsigned int m, unsigned int s, unsigned int n);
+void multiply_regular(ARM* proc, unsigned int d, unsigned int m, unsigned int s);
 
 // Single data transfer instructions
-void single_data_transfer(struct ARM* proc);
+void single_data_transfer(ARM* proc);
 
 // Branch instructions
-void branch(struct ARM* proc);
+void branch(ARM* proc);

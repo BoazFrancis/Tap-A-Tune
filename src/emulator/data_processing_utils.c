@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include "emulate.h"
 
-int calculate_op2(struct ARM* proc) {
+int calculate_op2(ARM* proc) {
 
   // if the operand2 is an immediate value
   if (extract_bit(&proc->ir, DATA_PROC_IMM_IDENTIFIER) == 1) {
@@ -28,7 +27,7 @@ int calculate_op2(struct ARM* proc) {
 
 }
 
-int barrel_shifter(struct ARM* proc, int shiftBy) {
+int barrel_shifter(ARM* proc, int shiftBy) {
 
   unsigned int shiftType = extract_bits(&proc->ir, 5, 2);
   unsigned int rm = extract_bits(&proc->ir, 0, 4);

@@ -1,12 +1,10 @@
-#include <stdio.h>
 #include "emulate.h"
-#include <byteswap.h>
 
 /**
 * Executes the data processing instructions
 * @param proc - The pointer to the processor
 */
-void single_data_transfer(struct ARM* proc) {
+void single_data_transfer(ARM* proc) {
 
   // Extract the relavant parts of the instruction
   unsigned int immediate = extract_bit(&proc->ir, 25);
