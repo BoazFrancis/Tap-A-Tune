@@ -12,13 +12,11 @@ void fetch_decode_execute(ARM* proc) {
   while (proc->pc < MAX_MEMORY_SIZE) {
 
     if (proc->has_fetched != 0) {
-
       // Halt on all zero instruction
       if (proc->ir == 0) {
         break;
       }
       else if (check_condition_bits(proc)) {
-
         switch (get_instruction_type(&proc->ir)) {
           case DATA_PROCESSING:       data_processing(proc); break;
           case BRANCH:                branch(proc); break;
@@ -26,9 +24,7 @@ void fetch_decode_execute(ARM* proc) {
           case SINGLE_DATA_TRANSFER:  single_data_transfer(proc); break;
           default:                    fprintf(stderr, "Unknown type\n"); break;
         }
-
       }
-
     }
 
     if (proc->has_loaded != 0) {
@@ -56,7 +52,6 @@ int check_condition_bits(ARM* proc) {
   unsigned int n = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_N);
 
   switch (cond) {
-
     case Z_SET:                 return z == 1;
     case Z_CLEAR:               return z == 0;
     case N_EQUALS_V:            return n == v;
@@ -64,11 +59,9 @@ int check_condition_bits(ARM* proc) {
     case Z_CLEAR_N_EQUALS_V:    return z == 0 && n == v;
     case Z_SET_N_NOT_V:         return z == 1 || n != v;
     case AL_FLAG:               return 1;
-
     default:
     fprintf(stderr, "Unknown condition");
     return 0;
-
   }
 
 }

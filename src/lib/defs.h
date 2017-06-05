@@ -12,9 +12,17 @@
 // Identifying bits for instructions (bits 26, 27)
 #define BRANCH_IDENTIFIER 27
 #define SINGLE_DATA_IDENTIFIER 26
-#define DATA_PROC_IMM_IDENTIFIER 25
 #define MULT_ID_1 4
 #define MULT_ID_2 7
+
+// Data processing
+#define DATA_PROC_IMM_IDENTIFIER 25
+#define NUM_DP_INSTRUCTIONS 14
+#define S_BIT 20
+#define DP_BLOCK_SIZE 4
+#define DP_SRC_REG 16
+#define DP_DEST_REG 12
+#define DP_OPCODE_START 21
 
 #define COND_START 28
 #define COND_NUM_BITS 4
@@ -36,8 +44,7 @@
 #define CPSR_C 29
 #define CPSR_V 28
 
-// Opcodes for data_processing
-enum opcode {
+enum opcodes {
   AND = 0,
   EOR = 1,
   SUB = 2,
