@@ -522,7 +522,8 @@ int do_mla(char* params) {
 
 }
 
-int do_ldr(char* params) {
+int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int* excess_size) {
+
   unsigned int instruction = 0;
   char* rn_string;
   char* rd_str;
@@ -554,36 +555,30 @@ int do_ldr(char* params) {
   //trim the whitespace after the comma if there is one
   addr_str = trim_whitespace(addr_str);
 
-
-
-
   if (addr_str[0] == '=') {
-    // Direct address
-    if (addr_str[1] == '-') {
-      // Negative therefore clear U (23rd) bit
-      clear_bit(&instruction, 23);
-      // Get
-      addr = strtol(addr_str+2, NULL, 0);
-    } else {
-      // Positive, U bit set by default
-      addr = strtol(addr_str+1, NULL, 0);
-    }
 
-    // Base register is PC
-    rn = 15 << 16;
-
-    // Pre indexed (set P)
+    // Set the offset
+    int mem_val = strtol(addr_str+1, NULL, 0);
+    int store_addr = *count * WORD_SIZE;
+    *count++;
+    int offset = store_addr - instruction_addr - 8;
     set_bit(&instruction, 24);
 
-/* TODO:
-    if (addr <= 0xff) {
-      do_mov(params);
-    }
-*/
+    // Set Rn to the PC
+    rn = PC_REG << 16;
+
+    // Save mem_val
+    *excess_size += 1;
+    *excess_mem = realloc(*excess_mem, *excess_size * sizeof(int));
+
+    excess_mem[*excess_size - 1] = malloc(sizeof(int));
+    *excess_mem[*excess_size - 1] = mem_val;
 
 
+    return instruction | cond | rd | rn | offset;
 
-  } else {
+  }
+  else {
     // Register
 
     if (addr_str[strlen(addr_str)-1] == ']') {
@@ -602,7 +597,8 @@ int do_ldr(char* params) {
         // since there is no offset we leave the U (23) and I (25) bits
 
 
-      } else {
+      }
+      else {
         // There is a comma in addr_str
         rn_string = strtok_r(addr_str, ",", &offset_str);
         // rn_string starts with "r.."" and we just need what follows "r"
@@ -710,6 +706,7 @@ int do_ldr(char* params) {
   }
 
   instruction |= cond | addr | rn | rd | offset;
+
 }
 
 int do_str(char* params) {
@@ -719,7 +716,6 @@ int do_str(char* params) {
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
 
   int jump_addr = get_address(st, trim_whitespace(params)) - addr - 8;
-  printf("%d\n", get_address(st, trim_whitespace(params)));
   jump_addr >>= 2;
 
   // Set bits 27 and 25

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "assemble.h"
 
 
@@ -13,8 +14,11 @@ void process_instructions(int count, char** instructions, FILE* output, SymbolTa
 
   const char space[2] = " ";
   int instruction_addr = 0;
+  int original_count = count;
+  int* excess_mem = malloc(sizeof(int));
+  int excess_size = 0;
 
-  for (int i=0; i<count; i++) {
+  for (int i=0; i<original_count; i++) {
     char *rest = instructions[i];
     if (!strcmp(rest, "")) {
       break;
@@ -22,15 +26,19 @@ void process_instructions(int count, char** instructions, FILE* output, SymbolTa
     char* mnem = strtok_r(rest, space, &rest);
     char* pos = strchr(mnem, ':');
     if (pos == NULL && strcmp(trim_whitespace(mnem), "") != 0) {
-      int data = identify_instruction(mnem, rest, st, instruction_addr);
+      int data = identify_instruction(mnem, rest, st, instruction_addr, &count, &excess_mem, &excess_size);
       write_to_file(data, output);
       instruction_addr += WORD_SIZE;
     }
   }
 
+  for (int i=0; i<excess_size; i++) {
+    write_to_file(excess_mem[i], output);
+  }
+
 }
 
-int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr) {
+int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* count, int** excess_mem, int* excess_size) {
 
        if (!strcmp(mnem, "mov"))   { return do_mov(params); }
   else if (!strcmp(mnem, "add"))   { return do_add(params); }
@@ -44,7 +52,7 @@ int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr) {
   else if (!strcmp(mnem, "rsb"))   { return do_rsb(params); }
   else if (!strcmp(mnem, "and"))   { return do_and(params); }
   else if (!strcmp(mnem, "mla"))   { return do_mla(params); }
-  else if (!strcmp(mnem, "ldr"))   { return do_ldr(params); }
+  else if (!strcmp(mnem, "ldr"))   { return do_ldr(params, addr, count, excess_mem, excess_size); }
   else if (!strcmp(mnem, "str"))   { return do_str(params); }
   else if (!strcmp(mnem, "beq"))   { return do_beq(params, st, addr); }
   else if (!strcmp(mnem, "bne"))   { return do_bne(params, st, addr); }
