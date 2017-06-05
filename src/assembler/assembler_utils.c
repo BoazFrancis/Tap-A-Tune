@@ -3,6 +3,7 @@
 #include <string.h>
 #include "assemble.h"
 
+
 int get_rotated_op(unsigned int* operand) {
   // Keep rotating until size is 8 bits
   int i = 0;
@@ -557,14 +558,14 @@ int do_ldr(char* params) {
 
 
   if (addr_str[0] == '=') {
-    /* NOT SURE HOW THIS WORKS */
     // Direct address
     if (addr_str[1] == '-') {
-      // Negative
+      // Negative therefore clear U (23rd) bit
       clear_bit(&instruction, 23);
+      // Get
       addr = strtol(addr_str+2, NULL, 0);
     } else {
-      set_bit(&instruction, 23);
+      // Positive, U bit set by default
       addr = strtol(addr_str+1, NULL, 0);
     }
 
@@ -613,14 +614,64 @@ int do_ldr(char* params) {
         if (offset_str[0] == '#') {
           //offset is an immediate value
           // Leave the I (25th) bit
-          offset = strtol(offset_str+1, NULL, 0);
+          if (offset_str[1] == '-') {
+            // Negative therefore clear U (23rd) bit
+            clear_bit(&instruction, 23);
+            // Get
+            offset = strtol(offset_str+2, NULL, 0);
+          } else {
+            // Positive, U bit set by default
+            offset = strtol(offset_str+1, NULL, 0);
+          }
         } else {
           // offset is a shifted register
           // - THIS CASE IS OPTIONAL
           // Set the I (25th) bit
           set_bit(&instruction, 25);
+
+          // offset string is in the form of "r2, lsr <shift>"
+          // where shift is either an immediate or a register
+          // therefore we need to split by the comma
+          char* shift_reg_str;
+          shift_reg_str = strtok_r(offset_str, ",", &offset_str);
+
+          //Get the shift register Rm (Bits 0 - 3)
+          unsigned int shift_reg = strtol(shift_reg_str+1, NULL, 0);
+
+          char* shift_type_str;
+          //now split by the space to get the shift type
+          shift_type_str = strtok_r(offset_str, " ", &offset_str);
+
+          // shift type is lsl by default
+          unsigned int shift_type = 0;
+          if (!strcmp(shift_type_str, "lsl")) {shift_type << 5;}
+          if (!strcmp(shift_type_str, "lsr")) {shift_type = 1 << 5;}
+          if (!strcmp(shift_type_str, "asr")) {shift_type = 2 << 5;}
+          if (!strcmp(shift_type_str, "ror")) {shift_type = 3 << 5;}
+
+          offset |= shift_reg | shift_type;
+          // now offset_str = shift (either register or a constant amount)
+          if (offset_str[0] == '#') {
+            // shift = constant amount
+            // leave 4th bit
+
+            // or offset with the constant (bits 7 - 11)
+            offset |= strtol(offset_str+1, NULL, 0) << 7;
+          } else {
+            // shift = register
+            // set 4th bit
+            set_bit(&offset, 4);
+
+            // bit 7 is zero
+            // or offset with the shift register (Rs) number
+            offset |= strtol(offset_str+1, NULL, 0) << 8;
+          }
+
+
         }
       }
+
+
     } else {
       // Post indexed
       // Hence the P bit (24th) is not set;
@@ -650,6 +701,10 @@ int do_ldr(char* params) {
         // - THIS CASE IS OPTIONAL
         // Set the I (25th) bit
         set_bit(&instruction, 25);
+
+        // offset string is in the form of "r2, lsr #2"
+        // therefore we need to split by the comma
+
       }
     }
   }
