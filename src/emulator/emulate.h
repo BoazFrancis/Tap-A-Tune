@@ -59,3 +59,6 @@ void single_data_transfer(struct ARM* proc);
 
 // Branch instructions
 void branch(struct ARM* proc);
+
+//GPIO instuctions
+void gpio_emulator(struct ARM* proc, int memory_address, int increment);

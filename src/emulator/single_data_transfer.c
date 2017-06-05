@@ -18,6 +18,8 @@ void single_data_transfer(struct ARM* proc) {
   unsigned int rd = extract_bits(&proc->ir, 12, 4);
   unsigned int offset = extract_bits(&proc->ir, 0, 12);
 
+  int* increment;
+
   if (immediate == 1) {
     // To avoid setting shifter flags with data processing set S to 0
     clear_bit(&proc->ir, 20);
@@ -34,7 +36,23 @@ void single_data_transfer(struct ARM* proc) {
     memory_address += offset * sign;
   }
 
-  if (memory_address >= MAX_MEMORY_SIZE) {
+  if (memory_address == GPIO_20_29 || memory_address == GPIO_10_19 || memory_address == GPIO_0_9) {
+    switch (memory_address) {
+      case GPIO_0_9:
+      *increment = 0;
+      break;
+      case GPIO_10_19:
+      *increment = 10;
+      break;
+      default:
+      *increment = 20;
+    }
+    gpio_emulator(proc, memory_address, *increment);
+  }
+  else if (memory_address == PIN_OFF || memory_address == PIN_ON) {
+    gpio_emulator(proc, memory_address, *increment);
+  }
+  else if (memory_address >= MAX_MEMORY_SIZE) {
     printf("Error: Out of bounds memory access at address 0x%08x\n", memory_address);
   }
   else {

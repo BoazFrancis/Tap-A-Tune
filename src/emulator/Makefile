@@ -2,7 +2,7 @@ CC      = gcc
 CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
 
 H = emulate.h ../lib/defs.h ../lib/bitutils.h
-SOURCES = emulate.c binaryread.c branch.c data_processing.c data_processing_utils.c fetchcycle.c multiply.c output.c single_data_transfer.c ../lib/bitutils.c
+SOURCES = emulate.c binaryread.c branch.c data_processing.c data_processing_utils.c fetchcycle.c gpio_emulator.c multiply.c output.c single_data_transfer.c ../lib/bitutils.c
 
 all: emulate
 
