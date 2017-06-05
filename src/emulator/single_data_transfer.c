@@ -45,10 +45,10 @@ void single_data_transfer(struct ARM* proc) {
       default:
       proc->gpio_initial_pin = 20;
     }
-    gpio_emulator(proc, memory_address, proc->gpio_initial_pin);
+    gpio_emulator(proc, memory_address);
   }
   else if (memory_address == PIN_OFF || memory_address == PIN_ON) {
-    gpio_emulator(proc, memory_address, proc->gpio_initial_pin);
+    gpio_emulator(proc, memory_address);
   }
   else if (memory_address >= MAX_MEMORY_SIZE) {
     printf("Error: Out of bounds memory access at address 0x%08x\n", memory_address);

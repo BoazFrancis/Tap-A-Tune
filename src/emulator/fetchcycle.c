@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include "emulate.h"
 
 void fetch_decode_execute(struct ARM* proc) {
