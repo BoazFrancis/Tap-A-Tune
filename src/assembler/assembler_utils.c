@@ -361,7 +361,7 @@ int do_mul(char* params) {
 int do_teq(char* params) {
   char* value;
   unsigned int cond = 14 << COND_START;
-  char* reg = strtok_r(params, ",", &value);
+  char* reg = strtok_r(trim_whitespace(params), ",", &value);
   value = trim_whitespace(value);
   unsigned int instruction = 0;
   unsigned int opcode = TEQ << 21;
