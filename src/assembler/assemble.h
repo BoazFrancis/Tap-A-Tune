@@ -2,12 +2,12 @@
 #include "../lib/bitutils.h"
 
 int read_file(char* path, char** instructions);
-void build_symbol_table(int count, char** instructions, SymbolTable* st);
+int build_symbol_table(int total_size, char** instructions, SymbolTable* st);
 
 char* trim_whitespace(char *str);
 
-void process_instructions(int count, char** instructions, FILE* output, SymbolTable* st);
-int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* count, int** excess_mem, int* excess_size);
+void process_instructions(int total_size, int* num_no_labels, char** instructions, FILE* output, SymbolTable* st);
+int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* num_no_labels, int** memory);
 
 void write_to_file(unsigned int line, FILE* output);
 
@@ -25,7 +25,7 @@ int do_teq(char* params);
 int do_rsb(char* params);
 int do_and(char* params);
 int do_mla(char* params);
-int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int* excess_size);
+int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory);
 int do_str(char* params);
 int do_lsl(char* params);
 int do_andeq(char* params);

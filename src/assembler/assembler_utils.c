@@ -522,7 +522,7 @@ int do_mla(char* params) {
 
 }
 
-int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int* excess_size) {
+int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory) {
 
   unsigned int instruction = 0;
   char* rn_string;
@@ -567,8 +567,7 @@ int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int
     }
     else {
 
-      int store_addr = *count * WORD_SIZE;
-      *count++;
+      int store_addr = *num_no_labels * WORD_SIZE;
       int offset = store_addr - instruction_addr - 8;
       set_bit(&instruction, 24);
 
@@ -576,11 +575,8 @@ int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int
       rn = PC_REG << 16;
 
       // Save mem_val
-      *excess_size += 1;
-      *excess_mem = realloc(*excess_mem, *excess_size * sizeof(int));
-
-      excess_mem[*excess_size - 1] = malloc(8);
-      *excess_mem[*excess_size - 1] = mem_val;
+      (*memory)[*num_no_labels] = mem_val;
+      (*num_no_labels)++;
 
       return instruction | cond | rd | rn | offset;
 

@@ -10,15 +10,13 @@
  * @param instructions - array of assembler instructions
  * @returns void
 */
-void process_instructions(int count, char** instructions, FILE* output, SymbolTable* st) {
+void process_instructions(int total_size, int* num_no_labels, char** instructions, FILE* output, SymbolTable* st) {
 
   const char space[2] = " ";
   int instruction_addr = 0;
-  int original_count = count;
-  int* excess_mem = malloc(sizeof(int));
-  int excess_size = 0;
+  int* memory = malloc(sizeof(int)*total_size);
 
-  for (int i=0; i<original_count; i++) {
+  for (int i=0; i<total_size; i++) {
     char *rest = instructions[i];
     if (!strcmp(rest, "")) {
       break;
@@ -26,19 +24,19 @@ void process_instructions(int count, char** instructions, FILE* output, SymbolTa
     char* mnem = strtok_r(rest, space, &rest);
     char* pos = strchr(mnem, ':');
     if (pos == NULL && strcmp(trim_whitespace(mnem), "") != 0) {
-      int data = identify_instruction(mnem, rest, st, instruction_addr, &count, &excess_mem, &excess_size);
-      write_to_file(data, output);
+      int data = identify_instruction(mnem, rest, st, instruction_addr, num_no_labels, &memory);
+      memory[instruction_addr/WORD_SIZE] = data;
       instruction_addr += WORD_SIZE;
     }
   }
 
-  for (int i=0; i<excess_size; i++) {
-    write_to_file(excess_mem[i], output);
+  for (int i=0; i<*num_no_labels; i++) {
+    write_to_file(memory[i], output);
   }
 
 }
 
-int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* count, int** excess_mem, int* excess_size) {
+int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* num_no_labels, int** memory) {
 
        if (!strcmp(mnem, "mov"))   { return do_mov(params); }
   else if (!strcmp(mnem, "add"))   { return do_add(params); }
@@ -52,7 +50,7 @@ int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, in
   else if (!strcmp(mnem, "rsb"))   { return do_rsb(params); }
   else if (!strcmp(mnem, "and"))   { return do_and(params); }
   else if (!strcmp(mnem, "mla"))   { return do_mla(params); }
-  else if (!strcmp(mnem, "ldr"))   { return do_ldr(params, addr, count, excess_mem, excess_size); }
+  else if (!strcmp(mnem, "ldr"))   { return do_ldr(params, addr, num_no_labels, memory); }
   else if (!strcmp(mnem, "str"))   { return do_str(params); }
   else if (!strcmp(mnem, "beq"))   { return do_beq(params, st, addr); }
   else if (!strcmp(mnem, "bne"))   { return do_bne(params, st, addr); }

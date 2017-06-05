@@ -3,11 +3,11 @@
 #include <string.h>
 #include "assemble.h"
 
-void build_symbol_table(int count, char** instructions, SymbolTable* st) {
+int build_symbol_table(int total_size, char** instructions, SymbolTable* st) {
 
   int instruction_count = 0;
 
-  for (int i=0; i<count; i++) {
+  for (int i=0; i<total_size; i++) {
 
     // Find the label by splitting at ':'
     char* pos = strchr(instructions[i], ':');
@@ -24,10 +24,12 @@ void build_symbol_table(int count, char** instructions, SymbolTable* st) {
       add_label(st, label, address);
 
     }
-    else {
+    else if (strcmp(trim_whitespace(instructions[i]), "")) {
       instruction_count++;
     }
 
   }
+
+  return instruction_count;
 
 }
