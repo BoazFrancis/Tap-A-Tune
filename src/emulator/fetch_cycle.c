@@ -1,5 +1,11 @@
 #include "emulate.h"
 
+/**
+ * Run the fetch, decode, execute cycle
+ * Create a pipeline and load each instruction, processing them sequentially
+ * @param proc - A pointer to the processor
+ * @returns void
+ */
 void fetch_decode_execute(ARM* proc) {
 
   // Initialise processor properties
@@ -9,6 +15,7 @@ void fetch_decode_execute(ARM* proc) {
   proc->has_loaded = 0;
   proc->has_fetched = 0;
 
+  // Keep looping until there's no more memory
   while (proc->pc < MAX_MEMORY_SIZE) {
 
     if (proc->has_fetched != 0) {
@@ -41,6 +48,12 @@ void fetch_decode_execute(ARM* proc) {
 
 }
 
+/**
+ * Returns whether or not the condition in this instruction holds
+ * by checking the CPSR register
+ * @param proc - A pointer to the processor
+ * @returns 1 iff the condition passed
+ */
 int check_condition_bits(ARM* proc) {
 
   // Get the 4 most significant bits which is the "Cond"
@@ -66,6 +79,12 @@ int check_condition_bits(ARM* proc) {
 
 }
 
+/**
+ * Returns the type of instruction we are dealing with
+ * based on the identifying bits
+ * @param ir - A pointer to the 32-bit instruction
+ * @returns an enum classifying the instruction
+ */
 enum instruction_type get_instruction_type(int* ir) {
 
   if (is_bit_set(ir, BRANCH_IDENTIFIER)) {
@@ -88,12 +107,4 @@ enum instruction_type get_instruction_type(int* ir) {
     return DATA_PROCESSING;
   }
 
-}
-
-int memaddr_to_index(int memaddr) {
-  return memaddr / WORD_SIZE;
-}
-
-int index_to_memaddr(int index) {
-  return index * WORD_SIZE;
 }

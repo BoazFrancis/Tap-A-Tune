@@ -69,3 +69,38 @@ int barrel_shifter(ARM* proc, int shiftBy) {
   return r;
 
 }
+
+int memaddr_to_index(int memaddr) {
+  return memaddr / WORD_SIZE;
+}
+
+int index_to_memaddr(int index) {
+  return index * WORD_SIZE;
+}
+
+unsigned int read_memory_bytes(ARM* proc, unsigned int addr) {
+  unsigned int mod = addr % WORD_SIZE;
+  unsigned int start_addr = addr / WORD_SIZE;
+  unsigned int start_bit = mod * BITS_IN_BYTE;
+  unsigned int bits_remaining = WORD_SIZE * BITS_IN_BYTE - start_bit;
+  unsigned int extracted_first = extract_bits(&proc->memory[start_addr], start_bit, bits_remaining);
+  unsigned int extracted_second = extract_bits(&proc->memory[start_addr+1], 0, start_bit);
+  unsigned int new_second = extracted_second << bits_remaining;
+  return extracted_first | new_second;
+}
+
+void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr) {
+  unsigned int mod = addr % WORD_SIZE;
+  unsigned int start_addr = addr / WORD_SIZE;
+  unsigned int end_bit = mod * BITS_IN_BYTE;
+  unsigned int bits_remaining = WORD_SIZE * BITS_IN_BYTE - end_bit;
+  unsigned int lsb_data = extract_bits(&data, 0, bits_remaining);
+  unsigned int lower_memory = extract_bits(&proc->memory[start_addr], 0, end_bit);
+  unsigned int new_lower_mem = lower_memory | (lsb_data << end_bit);
+  unsigned int higher_memory = extract_bits(&proc->memory[start_addr+1], end_bit, bits_remaining);
+  unsigned int msb_data = extract_bits(&data, bits_remaining, end_bit);
+  unsigned int new_higher_mem = msb_data | (higher_memory << end_bit);
+  // Write to memory
+  proc->memory[start_addr] = new_lower_mem;
+  proc->memory[start_addr+1] = new_higher_mem;
+}

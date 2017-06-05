@@ -1,9 +1,9 @@
 // ARM processor specifications
-#define pc registers[15]
 #define MAX_MEMORY_SIZE (1 << 14)
 #define NUM_REGISTERS 17
 #define WORD_SIZE 4
 #define BITS_IN_BYTE 8
+#define pc registers[15]
 
 // Useful registers
 #define CPSR_REGISTER 16
@@ -24,6 +24,30 @@
 #define DP_DEST_REG 12
 #define DP_OPCODE_START 21
 
+// Multiply
+#define MUL_BLOCK_SIZE 4
+#define MUL_ACCUMULATE 21
+#define MUL_DEST 16
+#define MUL_RS 8
+#define MUL_RM 0
+#define MUL_RN 12
+
+// Branch
+#define BRANCH_OFFSET_START 0
+#define BRANCH_OFFSET_LEN 24
+
+// Single data transfer
+#define SDT_IMM_IDENTIFIER 25
+#define SDT_PREPOST 24
+#define SDT_UP_BIT 23
+#define LOAD_STORE_BIT 20
+#define SDT_BLOCK_SIZE 4
+#define SDT_OFFSET_SIZE 12
+#define SDT_RN 16
+#define SDT_RD 12
+#define SDT_OFFSET_START 0
+
+// Conditions
 #define COND_START 28
 #define COND_NUM_BITS 4
 #define Z_SET 0
@@ -33,10 +57,6 @@
 #define Z_CLEAR_N_EQUALS_V 12
 #define Z_SET_N_NOT_V 13
 #define AL_FLAG 14
-#define PC_REG 15
-
-#define BRANCH_OFFSET_START 0
-#define BRANCH_OFFSET_LEN 24
 
 // CPSR register
 #define CPSR_N 31

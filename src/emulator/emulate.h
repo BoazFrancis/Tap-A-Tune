@@ -37,20 +37,13 @@ enum shift_type {
 void fetch_decode_execute(ARM* proc);
 int check_condition_bits(ARM* proc);
 enum instruction_type get_instruction_type(int* ir);
-int memaddr_to_index(int memaddr);
-int index_to_memaddr(int index);
 
 // Output
 void print_registers(ARM* proc);
 void print_nonzeromemory(ARM* proc);
-unsigned int read_memory_bytes(ARM* proc, unsigned int addr);
-void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr);
 
 // Data processing instructions
 void data_processing(ARM* proc);
-int calculate_op2(ARM* proc);
-int barrel_shifter(ARM* proc, int shiftBy);
-
 void do_and(ARM* proc, int rn, unsigned int op2, int dest, int s);
 void do_eor(ARM* proc, int rn, unsigned int op2, int dest, int s);
 void do_sub(ARM* proc, int rn, unsigned int op2, int dest, int s);
@@ -65,6 +58,14 @@ void do_mov(ARM* proc, int rn, unsigned int op2, int dest, int s);
 void store_result(ARM* proc, int result, int* dest, int s);
 void set_cpsr_nz(ARM* proc, int s, int result);
 void set_cpsr_c(ARM* proc, int s, int c);
+
+// Utils
+int calculate_op2(ARM* proc);
+int barrel_shifter(ARM* proc, int shiftBy);
+int memaddr_to_index(int memaddr);
+int index_to_memaddr(int index);
+unsigned int read_memory_bytes(ARM* proc, unsigned int addr);
+void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr);
 
 // Mutliply instructions
 void multiply(ARM* proc);
