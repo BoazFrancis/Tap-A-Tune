@@ -8,6 +8,7 @@ struct ARM {
    unsigned int load;
    unsigned int has_loaded;
    unsigned int has_fetched;
+   unsigned int gpio_initial_pin;
 };
 
 // Reading binary files
