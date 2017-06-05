@@ -1,24 +1,6 @@
 #include <stdint.h>
 #include "emulate.h"
 
-void do_and(ARM* proc, int rn, unsigned int op2, int reg, int s) {
-  store_result(proc, op2 & rn, &proc->registers[reg], s);
-}
-
-void do_eor(ARM* proc, int rn, unsigned int op2, int reg, int s) {
-  store_result(proc, op2 ^ rn, &proc->registers[reg], s);
-}
-
-void do_sub(ARM* proc, int rn, unsigned int op2, int reg, int s) {
-  store_result(proc, rn - op2, &proc->registers[reg], s);
-  set_cpsr_c(proc, s, rn >= op2);
-}
-
-void store_result(ARM* proc, int result, int* dest, int s) {
-  *dest = result;
-  set_cpsr_nz(proc, s, result);
-}
-
 void set_cpsr_nz(ARM* proc, int s, int result) {
   if (s == 1) {
     set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&result, WORD_SIZE*BITS_IN_BYTE-1));
@@ -32,6 +14,67 @@ void set_cpsr_c(ARM* proc, int s, int c) {
   }
 }
 
+void do_and(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = op2 & rn;
+  proc->registers[reg] = result;
+  set_cpsr_nz(proc, s, result);
+}
+
+void do_eor(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = op2 ^ rn;
+  proc->registers[reg] = result;
+  set_cpsr_nz(proc, s, result);
+}
+
+void do_sub(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = rn - op2;
+  proc->registers[reg] = result;
+  do_cmp(proc, rn, op2, reg, s);
+}
+
+void do_rsb(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = op2 - rn;
+  proc->registers[reg] = result;
+  set_cpsr_nz(proc, s, result);
+  set_cpsr_c(proc, s, rn <= op2);
+}
+
+void do_add(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = rn + op2;
+  proc->registers[reg] = result;
+  set_cpsr_nz(proc, s, result);
+  if (s == 1) {
+    int a = extract_bit(&rn, WORD_SIZE*BITS_IN_BYTE-1);
+    int b = extract_bit(&op2, WORD_SIZE*BITS_IN_BYTE-1);
+    int c = extract_bit(&proc->registers[reg], WORD_SIZE*BITS_IN_BYTE-1);
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
+  }
+}
+
+void do_tst(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  set_cpsr_nz(proc, s, op2 & rn);
+}
+
+void do_teq(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  set_cpsr_nz(proc, s, op2 ^ rn);
+}
+
+void do_cmp(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  set_cpsr_nz(proc, s, rn - op2);
+  set_cpsr_c(proc, s, rn >= op2);
+}
+
+void do_orr(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = rn | op2;
+  proc->registers[reg] = result;
+  set_cpsr_nz(proc, s, result);
+}
+
+void do_mov(ARM* proc, int rn, unsigned int op2, int reg, int s) {
+  int result = op2;
+  proc->registers[reg] = result;
+  set_cpsr_nz(proc, s, result);
+}
 
 /**
 * Executes the data processing instructions
@@ -57,101 +100,14 @@ void data_processing(ARM* proc) {
   switch (opcode) {
     case AND: do_and(proc, rn, op2, destRegPos, s); break;
     case EOR: do_eor(proc, rn, op2, destRegPos, s); break;
-    case SUB:
-      do_sub(proc, rn, op2, destRegPos, s); break;
-      /*proc->registers[destRegPos] = rn - op2;
-      // If S bit is set
-      if (s == 1) {
-        int subResult = rn - op2;
-        // Set N flag to bit 31
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&subResult, WORD_SIZE*BITS_IN_BYTE-1));
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, subResult==0);
-        // Set C flag to 1 carry is 1, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, rn >= op2);
-      }
-      break;*/
-    case RSB:
-      proc->registers[destRegPos] = op2 - rn;
-      // If S bit is set
-      if (s == 1) {
-        signed int subResult = op2 - rn;
-        // Set N flag to 1 if result is negative, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&subResult, WORD_SIZE*BITS_IN_BYTE-1));
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos] == 0);
-        // Set C flag to 1 carry is 1, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, rn <= op2);
-      }
-      break;
-    case ADD:
-      proc->registers[destRegPos] = rn + op2;
-      // If S bit is set
-      if (s == 1) {
-        // Set N flag to 1 if result is negative, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
-        // Set CFLAG
-    		int a = extract_bit(&rn, WORD_SIZE*BITS_IN_BYTE-1);
-    		int b = extract_bit(&op2, WORD_SIZE*BITS_IN_BYTE-1);
-    		int c = extract_bit(&proc->registers[destRegPos], WORD_SIZE*BITS_IN_BYTE-1);
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
-      }
-      break;
-    case TST:
-      // If S bit is set
-      if (s == 1) {
-        unsigned int andResult = op2 & rn;
-        // Set N flag to 1 if result is negative, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, andResult<0);
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, andResult==0);
-      }
-      break;
-    case TEQ:
-      // If S bit is set
-      if (s == 1) {
-        unsigned int eorResult = op2 ^ rn;
-        // Set N flag to 1 if result is negative, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, eorResult < 0);
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, eorResult == 0);
-      }
-      break;
-    case CMP:
-      // If S bit is set
-      if (s == 1) {
-        signed int subResult = rn - op2;
-        // Set N flag to bit 31
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&subResult, WORD_SIZE*BITS_IN_BYTE-1));
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, subResult==0);
-        // Set C flag to 1 carry is 1, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, rn >= op2);
-      }
-      break;
-    case ORR: {
-      int r = rn | op2;
-      proc->registers[destRegPos] = r;
-      // If S bit is set
-      if (s == 1) {
-        // Set N flag to 1 if result is negative, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&r, WORD_SIZE*BITS_IN_BYTE-1));
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, r==0);
-      }
-      break;
-    }
-    case MOV:
-      proc->registers[destRegPos] = op2;
-      // If S bit is set
-      if (s == 1) {
-        // Set N flag to 1 if result is negative, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, proc->registers[destRegPos]<0);
-        // Set Z flag to 1 if result is equal to zero, 0 otherwise
-        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, proc->registers[destRegPos]==0);
-      }
-      break;
+    case SUB: do_sub(proc, rn, op2, destRegPos, s); break;
+    case RSB: do_rsb(proc, rn, op2, destRegPos, s); break;
+    case ADD: do_add(proc, rn, op2, destRegPos, s); break;
+    case TST: do_tst(proc, rn, op2, destRegPos, s); break;
+    case TEQ: do_teq(proc, rn, op2, destRegPos, s); break;
+    case CMP: do_cmp(proc, rn, op2, destRegPos, s); break;
+    case ORR: do_orr(proc, rn, op2, destRegPos, s); break;
+    case MOV: do_mov(proc, rn, op2, destRegPos, s); break;
   }
+
 }
