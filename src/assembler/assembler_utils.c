@@ -541,7 +541,7 @@ int do_ldr(char* params) {
   // L bit is set for ldr (bit 20)
   set_bit(&instruction, 20);
 
-  // Set U (23rd) bit by default - clear it if necessary 
+  // Set U (23rd) bit by default - clear it if necessary
   set_bit(&instruction, 23);
 
   //get the Rd string (e.g. r3) by splitting by the comma
@@ -584,12 +584,13 @@ int do_ldr(char* params) {
 
   } else {
     // Register
+
     if (addr_str[strlen(addr_str)-1] == ']') {
       // Pre indexed
       // Hence the P bit (24) is set
       set_bit(&instruction, 24);
       // Strip end bracket
-      addr_str[strlen(addr_str)-1] = 0;
+      addr_str[strlen(addr_str)-1] = '\0';
       char* is_comma = strpbrk(addr_str, ",");
       if (is_comma == NULL) {
         // there is no comma in addr_str, i.e. there is NO offset
@@ -612,7 +613,7 @@ int do_ldr(char* params) {
         if (offset_str[0] == '#') {
           //offset is an immediate value
           // Leave the I (25th) bit
-          offset = strtol(offset_str, NULL, 0);
+          offset = strtol(offset_str+1, NULL, 0);
         } else {
           // offset is a shifted register
           // - THIS CASE IS OPTIONAL
