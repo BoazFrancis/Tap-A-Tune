@@ -559,23 +559,32 @@ int do_ldr(char* params, int instruction_addr, int* count, int** excess_mem, int
 
     // Set the offset
     int mem_val = strtol(addr_str+1, NULL, 0);
-    int store_addr = *count * WORD_SIZE;
-    *count++;
-    int offset = store_addr - instruction_addr - 8;
-    set_bit(&instruction, 24);
 
-    // Set Rn to the PC
-    rn = PC_REG << 16;
+    if (mem_val < 0xFF) {
+      // remove = and put #
+      return do_mov(params);
+    }
+    else {
 
-    // Save mem_val
-    *excess_size += 1;
-    *excess_mem = realloc(*excess_mem, *excess_size * sizeof(int));
+      int store_addr = *count * WORD_SIZE;
+      *count++;
+      int offset = store_addr - instruction_addr - 8;
+      set_bit(&instruction, 24);
 
-    excess_mem[*excess_size - 1] = malloc(sizeof(int));
-    *excess_mem[*excess_size - 1] = mem_val;
+      // Set Rn to the PC
+      rn = PC_REG << 16;
+
+      // Save mem_val
+      *excess_size += 1;
+      *excess_mem = realloc(*excess_mem, *excess_size * sizeof(int));
+
+      excess_mem[*excess_size - 1] = malloc(sizeof(int));
+      *excess_mem[*excess_size - 1] = mem_val;
 
 
-    return instruction | cond | rd | rn | offset;
+      return instruction | cond | rd | rn | offset;
+
+    }
 
   }
   else {

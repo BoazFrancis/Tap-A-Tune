@@ -4,6 +4,7 @@
 #define WORD_SIZE 4
 #define BITS_IN_BYTE 8
 #define pc registers[15]
+#define PC_REG 15
 
 // Useful registers
 #define CPSR_REGISTER 16
