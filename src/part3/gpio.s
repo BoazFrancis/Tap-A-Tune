@@ -6,7 +6,6 @@ str r1,[r0]
 mov r2,#0x00010000
 
 ldr r3,=0x2020001C
-
 ldr r4,=0x20200028
 
 while:
