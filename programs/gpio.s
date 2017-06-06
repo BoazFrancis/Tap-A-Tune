@@ -1,11 +1,9 @@
 ldr r0,=0x20200004
 
-mov r1,#1
-lsl r1,#18
+mov r1,#0x00040000
 str r1,[r0]
 
-mov r2,#1
-lsl r2,#16
+mov r2,#0x00010000
 
 ldr r3,=0x2020001C
 ldr r4,=0x20200028
