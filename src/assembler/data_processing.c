@@ -30,32 +30,8 @@ int do_orr(char* params) {
 }
 
 int do_sub(char* params) {
-
-  // Declare binary instruction, set it to 0
-  unsigned int instruction = 0;
-
-  char* value;
-
-  // Set the condition field to 1110 (i.e. 14)
-  unsigned int cond = 14 << COND_START;
-
-  char* rn_string = strtok_r(params, ",", &value);
-  value = trim_whitespace(value);
-  // Set Rn to value of base register
-  unsigned int rn = strtol(rn_string+1, NULL, 0) << 12;
-
-  char* rd_string = strtok_r(value, ",", &value);
-  // set Rd to the destination register number
-  value = trim_whitespace(value);
-  unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
-
   unsigned int opcode = SUB << 21;
-
-  unsigned int op2 = calculate_op2(&instruction, value);
-
-  instruction |= cond | op2 | rd | rn | opcode;
-  return instruction;
-
+  return setup_params(params, 1) | opcode;
 }
 
 int do_cmp(char* params) {
