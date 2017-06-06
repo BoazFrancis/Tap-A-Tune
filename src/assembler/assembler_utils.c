@@ -503,23 +503,3 @@ int do_and(char* params) {
   return instruction;
 
 }
-
-
-
-
-int do_lsl(char* params) {
-
-  char* rest;
-  char* rn_string = strtok_r(params, ",", &rest);
-  char* lsl = malloc(sizeof(char)*12);
-  strcpy(lsl, "lsl ");
-  lsl = strcat(lsl, trim_whitespace(rest));
-
-  char* rn_comma = strcat(rn_string, ", ");
-  return do_mov(strcat(strcat(rn_comma, rn_comma), lsl));
-
-}
-
-int do_andeq(char* params) {
-  return 0;
-}

@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "assemble.h"
 
 int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str) {
