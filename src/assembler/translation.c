@@ -1,14 +1,12 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
 #include "assemble.h"
 
-
 /*
- * Converts assembler instructions to binary on the second pass
- * @param instructions - array of assembler instructions
- * @returns void
+ * Process all the instructions using the symbol table
+ * @param total_size - The total size of the file
+ * @param num_no_labels - A pointer to the number of instructions without labels
+ * @param instructions - A pointer to the array of instructions
+ * @param output - A pointer to the output file
+ * @param st - A pointer to the symbol table
 */
 void process_instructions(int total_size, int* num_no_labels, char** instructions, FILE* output, SymbolTable* st) {
 
@@ -18,24 +16,38 @@ void process_instructions(int total_size, int* num_no_labels, char** instruction
 
   for (int i=0; i<total_size; i++) {
     char *rest = instructions[i];
+    // Edge case: if empty line
     if (!strcmp(rest, "")) {
       break;
     }
     char* mnem = strtok_r(rest, space, &rest);
     char* pos = strchr(mnem, ':');
     if (pos == NULL && strcmp(trim_whitespace(mnem), "") != 0) {
+      // If this is a proper instruction (not a label)
       int data = identify_instruction(mnem, rest, st, instruction_addr, num_no_labels, &memory);
+      // Store the result in the memory
       memory[instruction_addr/WORD_SIZE] = data;
       instruction_addr += WORD_SIZE;
     }
   }
 
+  // Write everything to the output file
   for (int i=0; i<*num_no_labels; i++) {
     write_to_file(memory[i], output);
   }
 
 }
 
+/**
+ * Classify the instruction type based on the mnemonic and call the relavant method
+ * @param mnem - The mnemonic repesenting the instruction
+ * @param params - The string after the space following the mnemonic
+ * @param st - A pointer to the symbol table
+ * @param addr - The address in memory which would represent this instruction
+ * @param num_no_labels - A pointer to the number of instructions without labels
+ * @param memory - A pointer to the array of memory
+ * @returns the completed instruction
+ */
 int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* num_no_labels, int** memory) {
 
        if (!strcmp(mnem, "mov"))   { return do_mov(params); }
@@ -63,28 +75,4 @@ int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, in
   else if (!strcmp(mnem, "andeq")) { return do_andeq(params); }
   else { fprintf(stderr, "Unknown mnemonic"); }
   return 0;
-}
-
-char* trim_whitespace(char *str) {
-
-  char *end;
-
-  // Trim leading space
-  while (isspace((unsigned char)*str)) {
-    str++;
-  }
-
-  if (*str == 0) {
-    return str;
-  }
-
-  // Trim trailing space
-  end = str + strlen(str) - 1;
-  while(end > str && isspace((unsigned char)*end)) end--;
-
-  // Write new null terminator
-  *(end+1) = 0;
-
-  return str;
-
 }
