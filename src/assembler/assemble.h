@@ -44,6 +44,7 @@ int do_andeq(char* params);
 // Single data transfer
 int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory);
 int do_str(char* params);
+int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
 
 // Branch instructions
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond);
