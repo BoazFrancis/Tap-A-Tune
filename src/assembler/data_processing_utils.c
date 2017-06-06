@@ -22,7 +22,9 @@ unsigned int calculate_op2(int* instruction, char* value) {
     // Register e.g. mov r2, r1
     clear_bit(instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
-    check_shift(instruction, value);
+    char* shift;
+    char* str = strtok_r(value, ",", &shift);
+    check_shift(instruction, shift);
   }
 
   return op2;
@@ -73,13 +75,10 @@ int setup_params(char* params, int two_reg) {
 /**
  * If a shift is specified, then consider the different cases
  * @param instruction - A pointer to the instruction
- * @param value - The string value of the operand in the .s file
+ * @param shift - The shift (if it exists)
  * @returns void
  */
-void check_shift(int* instruction, char* value) {
-
-  char* shift;
-  char* str = strtok_r(value, ",", &shift);
+void check_shift(int* instruction, char* shift) {
 
   if (strcmp(trim_whitespace(shift), "")) {
 

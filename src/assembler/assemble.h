@@ -36,7 +36,7 @@ int do_and(char* params);
 // Data processing utils
 unsigned int calculate_op2(int* instruction, char* value);
 int setup_params(char* params, int two_reg);
-void check_shift(int* instruction, char* value);
+void check_shift(int* instruction, char* shift);
 
 // Multiply instructions
 int do_mul(char* params);
@@ -53,6 +53,7 @@ int do_sdt(char* params, int instruction_addr, int* num_no_labels, int** memory,
 int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
 int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
 int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str, unsigned int rd, unsigned int cond);
+void sdt_shifted_register(int* instruction, char* offset_str);
 
 // Branch instructions
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond);
