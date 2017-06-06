@@ -14,6 +14,7 @@ unsigned int calculate_op2(int* instruction, char* value) {
     // Register e.g. mov r2, r1
     clear_bit(instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
+    check_shift(instruction, value);
   }
   return op2;
 }
@@ -49,5 +50,49 @@ int setup_params(char* params, int two_reg) {
 
   instruction |= cond | op2 | rn;
   return instruction;
+
+}
+
+void check_shift(int* instruction, char* value) {
+
+  char* shift;
+  char* str = strtok_r(value, ",", &shift);
+
+  if (strcmp(trim_whitespace(shift), "")) {
+
+    shift = trim_whitespace(shift);
+    char* shift_type = malloc(sizeof(char)*4);
+    strncpy(shift_type, shift, 3);
+    shift_type[3] = '\0';
+
+    if (!strcmp(shift_type,"lsr")) {
+      set_bit(instruction, 5);
+      clear_bit(instruction, 6);
+    }
+    else if (!strcmp(shift_type,"lsl")) {
+      clear_bit(instruction, 5);
+      clear_bit(instruction, 6);
+    }
+    else if (!strcmp(shift_type,"asr")) {
+      clear_bit(instruction, 5);
+      set_bit(instruction, 6);
+    }
+    else if (!strcmp(shift_type,"ror")) {
+      set_bit(instruction, 5);
+      set_bit(instruction, 6);
+    }
+
+    int shift_reg = strtol(shift + 5, NULL, 0);
+
+    if (shift[4] == '#') {
+      *instruction |= shift_reg << 7;
+      clear_bit(instruction, 4);
+    }
+    else {
+      *instruction |= shift_reg << 8;
+      set_bit(instruction, 4);
+    }
+
+  }
 
 }
