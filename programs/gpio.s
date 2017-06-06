@@ -1,11 +1,9 @@
 ldr r0,=0x20200004
 
-mov r1,#1
-lsl r1,#18
+mov r1,#0x00040000
 str r1,[r0]
 
-mov r2,#1
-lsl r2,#16
+mov r2,#0x00010000
 
 ldr r3,=0x2020001C
 ldr r4,=0x20200028
@@ -17,15 +15,15 @@ str r2,[r4]
 mov r5,#0x3F0000
 delay:
 sub r5,r5,#1
-cmp r5,#0
+cmp r5,#0xFF
 bne delay
 
 str r2,[r3]
 
 mov r5,#0x3F0000
-delay2:
+delay_2:
 sub r5,r5,#1
-cmp r5,#0
-bne delay2
+cmp r5,#0xFF
+bne delay_2
 
 b while
