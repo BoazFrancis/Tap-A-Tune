@@ -62,8 +62,8 @@
 #define SDT_RN 16
 #define SDT_RD 12
 #define SDT_OFFSET_START 0
-#define IS_LDR 1
-#define NOT_LDR 0
+#define LDR 1
+#define STR 0
 
 // Conditions
 #define COND_START 28
