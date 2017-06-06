@@ -1,7 +1,7 @@
 ldr r0,=0x20200004
 
 mov r1,#1
-lsl r1,#18
+lsl r1,#1
 str r1,[r0]
 
 mov r2,#1
