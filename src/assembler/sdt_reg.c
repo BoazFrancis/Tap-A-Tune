@@ -1,5 +1,12 @@
 #include "assemble.h"
-
+/**
+* Returns the instruction for the register case in Single Data Transfer
+* @param instruction - Instruction up to this point
+* @param cond - Condition field of the SDT instruction
+* @param rd - Destination register (Rd) field of the SDT instruction
+* @param addr_str - Address specification string
+* @return completed instruction
+*/
 int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str) {
 
   // Declare the pointer that checks for the comma - used later on
@@ -71,6 +78,12 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
   return instruction;
 }
 
+/**
+* Writes the offset to the offset field of the instruction
+* @param instruction - A pointer to the instruction
+* @param offset_str - An offset string (from command line)
+* @param offset - A pointer to the offset field of the instruction
+*/
 void get_offset(int* instruction, char* offset_str, int* offset) {
   if (offset_str[1] == '-') {
     // Negative therefore clear U (23rd) bit
