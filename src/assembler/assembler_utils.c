@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "assemble.h"
 
 
@@ -214,7 +211,7 @@ int do_sub(char* params) {
   }
   else {
     // Operand2 is of the form of a shifted register, Rm{,<shift>}
-    
+
 
     //Declare Rm string and Rm register number
     char* rm_str;
