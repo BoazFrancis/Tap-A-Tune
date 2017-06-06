@@ -34,6 +34,8 @@
 #define OP2_SHIFT_START 7
 #define OP2_SHIFT_SIZE 5
 #define OP2_SHIFYBY_IDENTIFIER 4
+#define SHIFT_TYPE_1 5
+#define SHIFT_TYPE_2 6
 
 // Multiply
 #define MUL_BLOCK_SIZE 4
