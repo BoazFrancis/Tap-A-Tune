@@ -725,7 +725,7 @@ int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory)
       rn_string[strlen(rn_string)-1] = 0;
 
       //get rid of the opening bracket and 'r'
-      rn = strtol(rn_string+2, NULL, 0);
+      rn = strtol(rn_string+2, NULL, 0) << 16;
 
       if (offset_str[0] == '#') {
         // offset is an immediate value
@@ -734,10 +734,10 @@ int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory)
         if (offset_str[1] == '-') {
           // offset is negative so clear the U (23rd) bit
           clear_bit(&instruction, 23);
-          offset = strtol(offset_str+1, NULL, 0);
+          offset = strtol(offset_str+2, NULL, 0);
         } else {
           // offset is positive so the U bit is set by default
-          offset = strtol(offset_str+2, NULL, 0);
+          offset = strtol(offset_str+1, NULL, 0);
         }
       } else {
         // offset is a shifted register
