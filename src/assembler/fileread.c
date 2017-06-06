@@ -1,19 +1,37 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "assemble.h"
 
-int read_file(char* path, char** instructions) {
+/**
+ * Count the number of lines in the input file
+ * @param input - The pointer to the input file
+ * @returns the number of the lines
+ */
+int count_lines(FILE* input) {
+  int ch = 0;
+  int lines = 0;
+  while (!feof(input)) {
+    ch = fgetc(input);
+    if (ch == '\n') {
+      lines++;
+    }
+  }
+  return lines;
+}
 
-  // Open the input file
-  FILE* input = fopen(path, "r");
+/**
+ * Read the assembly file, and get each instruction one line at a time
+ * @param input - The pointer to the input file
+ * @param num_lines - The number of lines
+ * @param instructions - The array of instructions
+ * @returns the number of instructions
+ */
+int read_file(FILE* input, int num_lines, char** instructions) {
 
-  for(int i=0; i<100; i++) {
-    instructions[i] = malloc(sizeof(char)*511);
+  for(int i=0; i<num_lines; i++) {
+    instructions[i] = malloc(sizeof(char)*LENGTH_OF_LINE);
   }
 
   int j = 0;
-  while (fgets(instructions[j], 511, input)) {
+  while (fgets(instructions[j], LENGTH_OF_LINE, input)) {
     j++;
   }
 

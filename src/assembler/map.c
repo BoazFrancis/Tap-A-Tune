@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "assemble.h"
 
 /**
@@ -16,7 +13,6 @@ int get_address(SymbolTable* st, char* label) {
     }
   }
 }
-
 
 /**
  * Adds a label and address to the symbol table

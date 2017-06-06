@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <ctype.h>
 #include "assemble.h"
 
 char* cat(char* m, char* r, const char* e) {
 
-  char* result = calloc(511, sizeof(char));
+  char* result = calloc(LENGTH_OF_LINE, sizeof(char));
   for (int i = 0; m[i] != '\0'; i++) {
     result[i] = m[i];
   }
@@ -17,5 +15,29 @@ char* cat(char* m, char* r, const char* e) {
   }
 
   return result;
+
+}
+
+char* trim_whitespace(char *str) {
+
+  char *end;
+
+  // Trim leading space
+  while (isspace((unsigned char)*str)) {
+    str++;
+  }
+
+  if (*str == 0) {
+    return str;
+  }
+
+  // Trim trailing space
+  end = str + strlen(str) - 1;
+  while(end > str && isspace((unsigned char)*end)) end--;
+
+  // Write new null terminator
+  *(end+1) = 0;
+
+  return str;
 
 }
