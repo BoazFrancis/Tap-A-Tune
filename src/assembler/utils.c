@@ -3,7 +3,7 @@
 
 char* cat(char* m, char* r, const char* e) {
 
-  char* result = calloc(511, sizeof(char));
+  char* result = calloc(LENGTH_OF_LINE, sizeof(char));
   for (int i = 0; m[i] != '\0'; i++) {
     result[i] = m[i];
   }

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "map.h"
 #include "../lib/bitutils.h"
+#include "map.h"
 
 // Loading in the assembly file
 int read_file(FILE* input, int num_lines, char** instructions);

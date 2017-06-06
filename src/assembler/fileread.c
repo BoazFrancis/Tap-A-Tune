@@ -27,11 +27,11 @@ int count_lines(FILE* input) {
 int read_file(FILE* input, int num_lines, char** instructions) {
 
   for(int i=0; i<num_lines; i++) {
-    instructions[i] = malloc(sizeof(char)*511);
+    instructions[i] = malloc(sizeof(char)*LENGTH_OF_LINE);
   }
 
   int j = 0;
-  while (fgets(instructions[j], 511, input)) {
+  while (fgets(instructions[j], LENGTH_OF_LINE, input)) {
     j++;
   }
 

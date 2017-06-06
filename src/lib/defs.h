@@ -5,6 +5,7 @@
 #define BITS_IN_BYTE 8
 #define pc registers[15]
 #define PC_REG 15
+#define LENGTH_OF_LINE 511
 
 // Useful registers
 #define CPSR_REGISTER 16

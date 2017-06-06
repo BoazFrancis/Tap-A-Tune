@@ -6,7 +6,7 @@ typedef struct {
 
 // A symbol table is an array of Maps
 typedef struct {
-   Map table[100];
+   Map table[LENGTH_OF_LINE];
    int size;
 } SymbolTable;
 
