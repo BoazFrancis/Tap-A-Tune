@@ -40,3 +40,4 @@ int do_bgt(char* params, SymbolTable* st, int addr);
 int do_ble(char* params, SymbolTable* st, int addr);
 
 char* cat(char* m, char* r, const char* e);
+int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
