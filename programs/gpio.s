@@ -13,7 +13,7 @@ while:
 
 str r2,[r4]
 
-mov r5,#0x3F0000
+mov r5,#0x3F000
 delay:
 sub r5,r5,#1
 cmp r5,#0xFF
