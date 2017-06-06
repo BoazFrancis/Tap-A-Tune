@@ -371,33 +371,6 @@ int do_tst(char* params) {
 
 }
 
-int do_mul(char* params) {
-
-  // Declare binary instruction, set it to 0
-  unsigned int instruction = 0;
-  char* rest;
-
-  // Set the condition field to 1110 (i.e. 14)
-  unsigned int cond = 14 << COND_START;
-
-  // Set bits 4 and 7
-  // Bits A and S are not set
-  set_bit(&instruction, 4);
-  set_bit(&instruction, 7);
-
-  char* rd_string = strtok_r(params, ",", &rest);
-  char* rm_string = strtok_r(trim_whitespace(rest), ",", &rest);
-  char* rs_string = strtok_r(trim_whitespace(rest), ",", &rest);
-
-  // Set Rn to value of base register
-  unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
-  unsigned int rs = strtol(rs_string+1, NULL, 0) << 8;
-  unsigned int rm = strtol(rm_string+1, NULL, 0);
-
-  instruction |= cond | rd | rs | rm;
-  return instruction;
-
-}
 
 int do_teq(char* params) {
   char* value;
@@ -532,36 +505,6 @@ int do_and(char* params) {
 }
 
 
-int do_mla(char* params) {
-
-  // Declare binary instruction, set it to 0
-  unsigned int instruction = 0;
-  char* rest;
-
-  // Set the condition field to 1110 (i.e. 14)
-  unsigned int cond = 14 << COND_START;
-
-  // Set bits 4 and 7, and 21 (A bit)
-  // Bit S is not set
-  set_bit(&instruction, 4);
-  set_bit(&instruction, 7);
-  set_bit(&instruction, 21);
-
-  char* rd_string = strtok_r(params, ",", &rest);
-  char* rm_string = strtok_r(trim_whitespace(rest), ",", &rest);
-  char* rs_string = strtok_r(trim_whitespace(rest), ",", &rest);
-  char* rn_string = strtok_r(trim_whitespace(rest), ",", &rest);
-
-  // Set Rn to value of base register
-  unsigned int rd = strtol(rd_string+1, NULL, 0) << 16;
-  unsigned int rn = strtol(rn_string+1, NULL, 0) << 12;
-  unsigned int rs = strtol(rs_string+1, NULL, 0) << 8;
-  unsigned int rm = strtol(rm_string+1, NULL, 0);
-
-  instruction |= cond | rd | rn | rs | rm;
-  return instruction;
-
-}
 
 int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory) {
 
