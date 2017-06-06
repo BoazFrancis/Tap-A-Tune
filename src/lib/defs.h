@@ -44,6 +44,9 @@
 #define MUL_RN 12
 
 // Branch
+#define BRANCH_PIPELINE_OFFSET 8
+#define BRANCH_SHIFT 2
+#define BRANCH_IDENTIFIER_2 25
 #define BRANCH_OFFSET_START 0
 #define BRANCH_OFFSET_LEN 24
 

@@ -1,21 +1,6 @@
 #include "assemble.h"
 
 
-int get_rotated_op(unsigned int* operand) {
-  // Keep rotating until size is 8 bits
-  int i = 0;
-  unsigned int rotated_val;
-  while (i < 16) {
-    rotated_val = rotate_left(*operand, 2*i);
-    if (rotated_val < (1 << 8)) {
-      break;
-    }
-    i++;
-  }
-  *operand = rotated_val;
-  return i;
-}
-
 int do_mov(char* params) {
 
   char* value;
@@ -1166,48 +1151,6 @@ int do_str(char* params) {
   }
   instruction |= cond | addr | rn | rd | offset;
 
-}
-
-int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
-
-  int jump_addr = get_address(st, trim_whitespace(params)) - addr - 8;
-  jump_addr >>= 2;
-
-  // Set bits 27 and 25
-  unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);
-  set_bit(&instruction, 25);
-  set_bit(&instruction, 27);
-
-  return instruction | cond;
-
-}
-
-int do_beq(char* params, SymbolTable* st, int addr) {
-  return do_branch(params, st, addr, 0 << COND_START);
-}
-
-int do_bne(char* params, SymbolTable* st, int addr) {
-  return do_branch(params, st, addr, 1 << COND_START);
-}
-
-int do_bge(char* params, SymbolTable* st, int count) {
-  return do_branch(params, st, count, 10 << COND_START);
-}
-
-int do_blt(char* params, SymbolTable* st, int addr) {
-  return do_branch(params, st, addr, 11 << COND_START);
-}
-
-int do_bgt(char* params, SymbolTable* st, int addr) {
-  return do_branch(params, st, addr, 12 << COND_START);
-}
-
-int do_ble(char* params, SymbolTable* st, int addr) {
-  return do_branch(params, st, addr, 13 << COND_START);
-}
-
-int do_b(char* params, SymbolTable* st, int addr) {
-  return do_branch(params, st, addr, 14 << COND_START);
 }
 
 int do_lsl(char* params) {

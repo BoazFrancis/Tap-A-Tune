@@ -53,3 +53,23 @@ char* trim_whitespace(char *str) {
   return str;
 
 }
+
+/**
+ * Keep rotating the operand until we can fit it with 8 bits of data
+ * @param operand - The operand to rotate
+ * @returns the rotated operand
+ */
+int get_rotated_op(unsigned int* operand) {
+  // Keep rotating until size is 8 bits
+  int i = 0;
+  unsigned int rotated_val;
+  while (i < 16) {
+    rotated_val = rotate_left(*operand, 2*i);
+    if (rotated_val < (1 << 8)) {
+      break;
+    }
+    i++;
+  }
+  *operand = rotated_val;
+  return i;
+}
