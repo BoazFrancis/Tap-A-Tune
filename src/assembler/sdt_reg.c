@@ -36,16 +36,7 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
       if (offset_str[0] == '#') {
         //offset is an immediate value
         // Leave the I (25th) bit
-        if (offset_str[1] == '-') {
-          // Negative therefore clear U (23rd) bit
-          clear_bit(&instruction, 23);
-          // Get
-          offset = strtol(offset_str+2, NULL, 0);
-        }
-        else {
-          // Positive, U bit set by default
-          offset = strtol(offset_str+1, NULL, 0);
-        }
+        get_offset(&instruction, offset_str, &offset);
       }
       else {
         // offset is a shifted register
@@ -68,17 +59,7 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
     if (offset_str[0] == '#') {
       // offset is an immediate value
       // the I bit is NOT set
-
-      if (offset_str[1] == '-') {
-        // offset is negative so clear the U (23rd) bit
-        clear_bit(&instruction, 23);
-        offset = strtol(offset_str+2, NULL, 0);
-      }
-      else {
-        // offset is positive so the U bit is set by default
-        offset = strtol(offset_str+1, NULL, 0);
-      }
-
+      get_offset(&instruction, offset_str, &offset);
     }
     else {
       // offset is a shifted register
@@ -88,4 +69,16 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
 
   instruction |= cond | rn | rd | offset;
   return instruction;
+}
+
+void get_offset(int* instruction, char* offset_str, int* offset) {
+  if (offset_str[1] == '-') {
+    // Negative therefore clear U (23rd) bit
+    clear_bit(instruction, 23);
+    *offset = strtol(offset_str+2, NULL, 0);
+  }
+  else {
+    // Positive, U bit set by default
+    *offset = strtol(offset_str+1, NULL, 0);
+  }
 }

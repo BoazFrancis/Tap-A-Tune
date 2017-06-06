@@ -54,6 +54,8 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
 int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
 int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str, unsigned int rd, unsigned int cond);
 void sdt_shifted_register(int* instruction, char* offset_str);
+void get_offset(int* instruction, char* offset_str, int* offset);
+
 
 // Branch instructions
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond);
