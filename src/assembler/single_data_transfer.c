@@ -4,7 +4,7 @@
  * Obtains ldr instruction
  * @param params - The string of parameters for this instruction
  * @param instruction_addr - The address in memory that this instruction will be stored in
- * @param num_no_labels - A point to the number of instructions without labels
+ * @param num_no_labels - A pointer to the number of instructions without labels
  * @param memory - A pointer to the array of memory
  * @returns the instruction
 */
@@ -16,7 +16,7 @@ int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory)
 * Obtains str instruction
 * @param params - The string of parameters for this instruction
 * @param instruction_addr - The address in memory that this instruction will be stored in
-* @param num_no_labels - A point to the number of instructions without labels
+* @param num_no_labels - A pointer to the number of instructions without labels
 * @param memory - A pointer to the array of memory
 * @returns the instruction
 */
@@ -28,7 +28,7 @@ int do_str(char* params, int instruction_addr, int* num_no_labels, int** memory)
  * Obtains Single Data Transfer instruction
  * @param params - The string of parameters for this instruction
  * @param instruction_addr - The address in memory that this instruction will be stored in
- * @param num_no_labels - A point to the number of instructions without labels
+ * @param num_no_labels - A pointer to the number of instructions without labels
  * @param memory - A pointer to the array of memory
  * @param is_ldr - An integer that corresponds to the type of sdt instruction (ldr = 1, str = 0)
  * @returns the instruction

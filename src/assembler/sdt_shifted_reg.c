@@ -1,5 +1,10 @@
 #include "assemble.h"
 
+/**
+* Writes the instruction for the shifted register case in Single Data Transfer
+* @param instruction - An int pointer to the instruction
+* @param offset_str - An offset string
+*/
 void sdt_shifted_register(int* instruction, char* offset_str) {
 
   char* rm_str;
