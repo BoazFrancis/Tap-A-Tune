@@ -1,13 +1,12 @@
-#include <stdio.h>
 #include "emulate.h"
 
 /**
  * Reads the file into memory
- * @param memory - The memory pointer
+ * @param proc - The pointer to the ARM processor
  * @param path - The string of the filename
  * @returns void
 */
-void read_binary_file(int* memory, char* path) {
+void read_binary_file(ARM* proc, char* path) {
 
   // Open the input file
   FILE* input = fopen(path, "rb");
@@ -18,7 +17,7 @@ void read_binary_file(int* memory, char* path) {
 
   // Keep reading bytes into memory until nothing left to read
   while (read_success != 0) {
-    read_success = fread(&memory[pos], sizeof(int), 1, input);
+    read_success = fread(&proc->memory[pos], sizeof(int), 1, input);
     pos++;
   }
 
