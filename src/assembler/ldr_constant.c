@@ -1,5 +1,17 @@
 #include "assemble.h"
 
+/**
+ * Obtains the ldr instruction for the constant case
+ * @param instruction - A pointer to the instruction
+ * @param instruction_addr - The address in memory that this instruction will be stored in
+ * @param num_no_labels - A pointer to the number of instructions without labels
+ * @param memory - A pointer to the array of memory
+ * @param rd_str - Destination register (Rd) string
+ * @param addr_str - Address specification string
+ * @param rd - Destination register (Rd) number
+ * @param cond - Condition field of the ldr instruction
+ * @returns the instruction
+*/
 int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str, unsigned int rd, unsigned int cond) {
   // Set the offset
   int mem_val = strtol(addr_str+1, NULL, 0);
