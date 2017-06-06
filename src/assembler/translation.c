@@ -63,7 +63,7 @@ int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, in
   else if (!strcmp(mnem, "and"))   { return do_and(params); }
   else if (!strcmp(mnem, "mla"))   { return do_mla(params); }
   else if (!strcmp(mnem, "ldr"))   { return do_ldr(params, addr, num_no_labels, memory); }
-  else if (!strcmp(mnem, "str"))   { return do_str(params); }
+  else if (!strcmp(mnem, "str"))   { return do_str(params, addr, num_no_labels, memory); }
   else if (!strcmp(mnem, "beq"))   { return do_beq(params, st, addr); }
   else if (!strcmp(mnem, "bne"))   { return do_bne(params, st, addr); }
   else if (!strcmp(mnem, "bge"))   { return do_bge(params, st, addr); }

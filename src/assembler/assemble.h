@@ -43,8 +43,11 @@ int do_andeq(char* params);
 
 // Single data transfer
 int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory);
-int do_str(char* params);
+int do_str(char* params, int instruction_addr, int* num_no_labels, int** memory);
+int do_sdt(char* params, int instruction_addr, int* num_no_labels, int** memory, int is_ldr);
+int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
 int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
+int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str, unsigned int rd, unsigned int cond);
 
 // Branch instructions
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond);
