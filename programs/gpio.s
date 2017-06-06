@@ -15,7 +15,7 @@ str r2,[r4]
 mov r5,#0x3F0000
 delay:
 sub r5,r5,#1
-cmp r5,#0
+cmp r5,#0xFF
 bne delay
 
 str r2,[r3]
@@ -23,7 +23,7 @@ str r2,[r3]
 mov r5,#0x3F0000
 delay2:
 sub r5,r5,#1
-cmp r5,#0
+cmp r5,#0xFF
 bne delay2
 
 b while
