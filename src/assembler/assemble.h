@@ -33,6 +33,10 @@ int do_teq(char* params);
 int do_rsb(char* params);
 int do_and(char* params);
 
+// Data processing utils
+unsigned int calculate_op2(int* instruction, char* value);
+int setup_params(char* params, int two_reg);
+
 // Multiply instructions
 int do_mul(char* params);
 int do_mla(char* params);
