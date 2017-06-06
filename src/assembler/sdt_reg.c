@@ -1,6 +1,6 @@
 #include "assemble.h"
 
-int do_ldr_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str) {
+int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str) {
   // Register
 
   //Declare the pointer that checks for the comma - used later on
