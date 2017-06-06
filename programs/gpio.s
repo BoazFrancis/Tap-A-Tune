@@ -21,9 +21,9 @@ bne delay
 str r2,[r3]
 
 mov r5,#0x3F0000
-delay2:
+delay_2:
 sub r5,r5,#1
 cmp r5,#0xFF
-bne delay2
+bne delay_2
 
 b while
