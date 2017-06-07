@@ -55,9 +55,9 @@ int barrel_shifter(ARM* proc, int shiftBy) {
     case LOGICAL_LEFT:
       r = proc->registers[rm] << shiftBy;
       if (s) {
-				int c = (shiftBy == 0) ? 0 : extract_bit(&proc->registers[rm], WORD_SIZE*BITS_IN_BYTE - shiftBy);
-				set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, c);
-			}
+        int c = (shiftBy == 0) ? 0 : extract_bit(&proc->registers[rm], WORD_SIZE*BITS_IN_BYTE - shiftBy);
+        set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, c);
+      }
       return r;
 
     case LOGICAL_RIGHT:
