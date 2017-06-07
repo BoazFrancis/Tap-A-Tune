@@ -8,8 +8,3 @@ all: emulate
 
 emulate: $(H) $(SOURCES)
 	$(CC) $(CFLAG) $(SOURCES) -lm -o ../../bin/emulate
-
-clean:
-	rm -f $(wildcard *.o)
-	rm -f assemble
-	rm -f emulate

@@ -7,8 +7,3 @@ all: gui
 
 gui: $(H) $(SOURCES)
 	$(CC) $(CFLAG) $(SOURCES) -o gui `pkg-config --libs --cflags gtk+-2.0`
-
-clean:
-	rm -f $(wildcard *.o)
-	rm -f assemble
-	rm -f emulate
