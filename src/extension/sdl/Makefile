@@ -1,7 +1,7 @@
 CC      = gcc
-SOURCES = SDLTest.c
+SOURCES = sound.c
 
 all: sdl
 
 sdl: $(SOURCES)
-	$(CC) -Iinclude/SDL $(SOURCES) -Llib64 -lSDL -lpthread -lm -ldl -lpthread -o SDLTest
+	$(CC) -Iinclude/SDL $(SOURCES) -Llib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -o sound
