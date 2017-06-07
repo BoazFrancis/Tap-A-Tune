@@ -35,7 +35,7 @@ char* trim_whitespace(char *str) {
   char *end;
 
   // Trim leading space
-  while (isspace((unsigned char)*str)) {
+  while (isspace(*str)) {
     str++;
   }
 
@@ -45,7 +45,9 @@ char* trim_whitespace(char *str) {
 
   // Trim trailing space
   end = str + strlen(str) - 1;
-  while(end > str && isspace((unsigned char)*end)) end--;
+  while (end > str && isspace(*end)) {
+    end--;
+  }
 
   // Write new null terminator
   *(end+1) = 0;
@@ -63,9 +65,9 @@ int get_rotated_op(unsigned int* operand) {
   // Keep rotating until size is 8 bits
   int i = 0;
   unsigned int rotated_val;
-  while (i < 16) {
+  while (i < OP2_IMMEDIATE_SIZE*WORD_SIZE) {
     rotated_val = rotate_left(*operand, 2*i);
-    if (rotated_val < (1 << 8)) {
+    if (rotated_val < (1 << OP2_SIZE)) {
       break;
     }
     i++;
