@@ -18,8 +18,6 @@ void create_button(GtkWidget* container) {
 
 }
 
-
-
 void enter_button(GtkWidget *widget, gpointer data) {
   GdkColor col = {0, 27000, 30000, 35000};
   gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &col);

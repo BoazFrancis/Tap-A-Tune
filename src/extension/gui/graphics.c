@@ -13,7 +13,15 @@ int main(int argc, char *argv[]) {
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 500);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
   gtk_container_set_border_width(GTK_CONTAINER(window), 20);
+  gtk_window_fullscreen(GTK_WINDOW(window));
   set_favicon(window);
+
+  GdkColor color;
+  color.red = 0xffff;
+  color.green = 0xffff;
+  color.blue = 0;
+
+  gtk_widget_modify_bg(window, GTK_STATE_NORMAL, &color);
 
   GtkWidget* container = gtk_fixed_new();
   gtk_container_add(GTK_CONTAINER(window), container);
