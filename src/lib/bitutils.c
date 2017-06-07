@@ -10,21 +10,11 @@
  * @returns the extracted bits
 */
 unsigned int extract_bits(unsigned int* n, int start, int length) {
-
-  // Set up an empty mask
-  unsigned int mask = 0;
-
-  // Fill the mask with 1s from start to length
-  for (int i = 0; i < length; i++) {
-    mask |= (1 << (start + i));
+  if (length == BITS_IN_BYTE*WORD_SIZE) {
+    return *n;
   }
-
-  // Find the common bits in n
-  unsigned int common = *n & mask;
-
-  // Return just those bits i.e. ignore any zeros to the right by shifting
-  return common >> start;
-
+  unsigned int mask = ((1 << length) - 1);
+  return (*n >> start) & mask;
 }
 
 /**
