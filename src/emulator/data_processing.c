@@ -26,7 +26,7 @@ void data_processing(ARM* proc) {
   unsigned int opcode = extract_bits(&proc->ir, DP_OPCODE_START, DP_BLOCK_SIZE);
 
   // Declare an array of function pointers for the methods below
-  void (*dp_methods[NUM_DP_INSTRUCTIONS])(ARM*, int, unsigned int, int, int) = {
+  void (*dp_methods[NUM_DP_INSTRUCTIONS])(ARM*, unsigned int, unsigned int, int, int) = {
   	&do_and, &do_eor, &do_sub, &do_rsb, &do_add, NULL, NULL, NULL,
     &do_tst, &do_teq, &do_cmp, NULL, &do_orr, &do_mov
   };
@@ -43,10 +43,10 @@ void data_processing(ARM* proc) {
  * @param result - The result performed by the data processing instruction
  * @returns void
  */
-void set_cpsr_nz(ARM* proc, int s, int result) {
+void set_cpsr_nz(ARM* proc, int s, unsigned int result) {
   if (s == 1) {
-    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&result, WORD_SIZE*BITS_IN_BYTE-1));
-    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_Z, result == 0);
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&result, WORD_SIZE*BITS_IN_BYTE-1));
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, result == 0);
   }
 }
 
@@ -59,7 +59,7 @@ void set_cpsr_nz(ARM* proc, int s, int result) {
  */
 void set_cpsr_c(ARM* proc, int s, int c) {
   if (s == 1) {
-    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_C, c);
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, c);
   }
 }
 
@@ -72,7 +72,7 @@ void set_cpsr_c(ARM* proc, int s, int c) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_and(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_and(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = op2 & rn;
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);
@@ -87,7 +87,7 @@ void do_and(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_eor(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_eor(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = op2 ^ rn;
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);
@@ -102,7 +102,7 @@ void do_eor(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_sub(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_sub(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = rn - op2;
   proc->registers[dest] = result;
   do_cmp(proc, rn, op2, dest, s);
@@ -117,7 +117,7 @@ void do_sub(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_rsb(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_rsb(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = op2 - rn;
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);
@@ -133,15 +133,15 @@ void do_rsb(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_add(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_add(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = rn + op2;
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);
   if (s == 1) {
     int a = extract_bit(&rn, WORD_SIZE*BITS_IN_BYTE-1);
-    int b = extract_bit((int*)&op2, WORD_SIZE*BITS_IN_BYTE-1);
-    int c = extract_bit((int*)&proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
-    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
+    int b = extract_bit(&op2, WORD_SIZE*BITS_IN_BYTE-1);
+    int c = extract_bit(&proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
   }
 }
 
@@ -154,7 +154,7 @@ void do_add(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_tst(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_tst(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   set_cpsr_nz(proc, s, op2 & rn);
 }
 
@@ -167,7 +167,7 @@ void do_tst(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_teq(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_teq(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   set_cpsr_nz(proc, s, op2 ^ rn);
 }
 
@@ -180,7 +180,7 @@ void do_teq(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_cmp(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_cmp(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   set_cpsr_nz(proc, s, rn - op2);
   set_cpsr_c(proc, s, rn >= op2);
 }
@@ -194,7 +194,7 @@ void do_cmp(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_orr(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_orr(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = rn | op2;
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);
@@ -209,7 +209,7 @@ void do_orr(ARM* proc, int rn, unsigned int op2, int dest, int s) {
  * @param s - Whether or not to set the CPSR register flags
  * @returns void
  */
-void do_mov(ARM* proc, int rn, unsigned int op2, int dest, int s) {
+void do_mov(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   int result = op2;
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);

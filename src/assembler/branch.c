@@ -10,13 +10,13 @@
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
 
   // Get the jump address by looking up the label in the symbol table
-  int jump_addr = get_address(st, trim_whitespace(params)) - addr - BRANCH_PIPELINE_OFFSET;
+  unsigned int jump_addr = get_address(st, trim_whitespace(params)) - addr - BRANCH_PIPELINE_OFFSET;
   jump_addr >>= BRANCH_SHIFT;
 
   // Set bits 27 and 25
   unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);
-  set_bit((int*)&instruction, BRANCH_IDENTIFIER);
-  set_bit((int*)&instruction, BRANCH_IDENTIFIER_2);
+  set_bit(&instruction, BRANCH_IDENTIFIER);
+  set_bit(&instruction, BRANCH_IDENTIFIER_2);
 
   return instruction | cond;
 

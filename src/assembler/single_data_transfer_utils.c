@@ -10,7 +10,7 @@
  * @param addr_str - Address specification string
  * @returns the instruction
 */
-int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str) {
+int do_ldr_constant(unsigned int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str) {
   // Set the offset
   int mem_val = strtol(addr_str+1, NULL, 0);
 
@@ -41,7 +41,7 @@ int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, 
 * @param instruction - An int pointer to the instruction
 * @param offset_str - An offset string
 */
-void sdt_shifted_register(int* instruction, char* offset_str) {
+void sdt_shifted_register(unsigned int* instruction, char* offset_str) {
 
   char* rm_str;
   //Declare the shift register (Rs)
@@ -96,12 +96,12 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
   unsigned int rn;
 
   char* offset_str;
-  unsigned int offset = 0;
+  int offset = 0;
 
   if (addr_str[strlen(addr_str)-1] == ']') {
     // Pre indexed
     // Hence the P bit (24) is set
-    set_bit((int*)&instruction, SDT_PREPOST);
+    set_bit(&instruction, SDT_PREPOST);
     // Strip end bracket
     addr_str[strlen(addr_str)-1] = '\0';
     is_comma = strpbrk(addr_str, ",");
@@ -123,11 +123,11 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
       if (offset_str[0] == '#') {
         //offset is an immediate value
         // Leave the I (25th) bit
-        get_offset((int*)&instruction, offset_str, (int*)&offset);
+        get_offset(&instruction, offset_str, &offset);
       }
       else {
         // offset is a shifted register
-        sdt_shifted_register((int*)&instruction, offset_str);
+        sdt_shifted_register(&instruction, offset_str);
       }
     }
   }
@@ -146,11 +146,11 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
     if (offset_str[0] == '#') {
       // offset is an immediate value
       // the I bit is NOT set
-      get_offset((int*)&instruction, offset_str, (int*)&offset);
+      get_offset(&instruction, offset_str, &offset);
     }
     else {
       // offset is a shifted register
-      sdt_shifted_register((int*)&instruction, offset_str);
+      sdt_shifted_register(&instruction, offset_str);
     }
   }
 
@@ -164,7 +164,7 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
 * @param offset_str - An offset string (from command line)
 * @param offset - A pointer to the offset field of the instruction
 */
-void get_offset(int* instruction, char* offset_str, int* offset) {
+void get_offset(unsigned int* instruction, char* offset_str, int* offset) {
   if (offset_str[1] == '-') {
     // Negative therefore clear U (23rd) bit
     clear_bit(instruction, SDT_UP_BIT);

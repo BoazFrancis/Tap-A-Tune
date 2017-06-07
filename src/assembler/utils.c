@@ -80,7 +80,7 @@ int get_rotated_op(unsigned int* operand) {
  * @param shift - The shift (if it exists)
  * @returns void
  */
-void check_shift(int* instruction, char* shift) {
+void check_shift(unsigned int* instruction, char* shift) {
 
   if (strcmp(trim_whitespace(shift), "")) {
 

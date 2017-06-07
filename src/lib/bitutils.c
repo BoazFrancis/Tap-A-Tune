@@ -9,7 +9,7 @@
  * @param length - Number of bits to extract
  * @returns the extracted bits
 */
-int extract_bits(int* n, int start, int length) {
+unsigned int extract_bits(unsigned int* n, int start, int length) {
 
   // Set up an empty mask
   unsigned int mask = 0;
@@ -33,7 +33,7 @@ int extract_bits(int* n, int start, int length) {
  * @param start - The start bit position (from right to left)
  * @returns the extracted bit
 */
-int extract_bit(int* n, int start) {
+unsigned int extract_bit(unsigned int* n, int start) {
   return extract_bits(n, start, 1);
 }
 
@@ -43,7 +43,7 @@ int extract_bit(int* n, int start) {
  * @param bit - The bit to check (0 indexed)
  * @returns 1 or 0 on success or failure
 */
-int is_bit_set(int* n, int bit) {
+int is_bit_set(unsigned int* n, int bit) {
   return (*n & (1 << bit)) > 0;
 }
 
@@ -53,7 +53,7 @@ int is_bit_set(int* n, int bit) {
  * @param bit - The bit to set
  * @returns void
 */
-void set_bit(int* n, int bit) {
+void set_bit(unsigned int* n, int bit) {
   *n |= (1 << bit);
 }
 
@@ -63,7 +63,7 @@ void set_bit(int* n, int bit) {
  * @param bit - The bit to clear
  * @returns void
 */
-void clear_bit(int* n, int bit) {
+void clear_bit(unsigned int* n, int bit) {
   *n &= ~(1 << bit);
 }
 
@@ -74,7 +74,7 @@ void clear_bit(int* n, int bit) {
  * @param value - Either 0 or 1
  * @returns void
 */
-void set_bit_to(int* n, int bit, int value) {
+void set_bit_to(unsigned int* n, int bit, int value) {
   if (value == 1) {
     set_bit(n, bit);
   }
@@ -160,7 +160,7 @@ unsigned int rotate_right(const unsigned int val, int shiftBy) {
  * @param n - The input number as a 32-bit number
  * @returns the new formatted number
  */
-int reverse_int(int n) {
+unsigned int reverse_int(unsigned int n) {
   int result = 0;
   for (int i = 0; i < WORD_SIZE; i++) {
     result |= extract_bits(&n, i * BITS_IN_BYTE, BITS_IN_BYTE) << (3 - i) * BITS_IN_BYTE;

@@ -13,7 +13,7 @@ int build_symbol_table(int total_size, char** instructions, SymbolTable* st);
 char* cat(char* m, char* r, const char* e);
 char* trim_whitespace(char *str);
 int get_rotated_op(unsigned int* operand);
-void check_shift(int* instruction, char* shift);
+void check_shift(unsigned int* instruction, char* shift);
 
 // Processing instructions
 void process_instructions(int total_size, int* num_no_labels, char** instructions, FILE* output, SymbolTable* st);
@@ -33,7 +33,7 @@ int do_tst(char* params);
 int do_teq(char* params);
 int do_rsb(char* params);
 int do_and(char* params);
-unsigned int calculate_op2(int* instruction, char* value);
+unsigned int calculate_op2(unsigned int* instruction, char* value);
 int setup_params(char* params, int two_reg);
 
 // Multiply instructions
@@ -49,9 +49,9 @@ int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory)
 int do_str(char* params, int instruction_addr, int* num_no_labels, int** memory);
 int do_sdt(char* params, int instruction_addr, int* num_no_labels, int** memory, int is_ldr);
 int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, char* addr_str);
-int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str);
-void sdt_shifted_register(int* instruction, char* offset_str);
-void get_offset(int* instruction, char* offset_str, int* offset);
+int do_ldr_constant(unsigned int* instruction, int instruction_addr, int* num_no_labels, int** memory, char* rd_str, char* addr_str);
+void sdt_shifted_register(unsigned int* instruction, char* offset_str);
+void get_offset(unsigned int* instruction, char* offset_str, int* offset);
 
 // Branch instructions
 int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond);

@@ -6,7 +6,7 @@
  * @param value - The string value of the operand in the .s file
  * @returns the unsigned opera nd
  */
-unsigned int calculate_op2(int* instruction, char* value) {
+unsigned int calculate_op2(unsigned int* instruction, char* value) {
 
   unsigned int op2;
 
@@ -65,7 +65,7 @@ int setup_params(char* params, int two_reg) {
     rn <<= DP_SRC_REG;
   }
 
-  unsigned int op2 = calculate_op2((int*)&instruction, value);
+  unsigned int op2 = calculate_op2(&instruction, value);
 
   instruction |= cond | op2 | rn;
   return instruction;

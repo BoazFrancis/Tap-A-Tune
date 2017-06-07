@@ -63,9 +63,9 @@ int check_condition_bits(ARM* proc) {
   // Get the 4 most significant bits which is the "Cond"
   int cond = extract_bits(&proc->ir, COND_START, COND_NUM_BITS);
 
-  unsigned int v = extract_bit((int*)&proc->registers[CPSR_REGISTER], CPSR_V);
-  unsigned int z = extract_bit((int*)&proc->registers[CPSR_REGISTER], CPSR_Z);
-  unsigned int n = extract_bit((int*)&proc->registers[CPSR_REGISTER], CPSR_N);
+  unsigned int v = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_V);
+  unsigned int z = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_Z);
+  unsigned int n = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_N);
 
   switch (cond) {
     case Z_SET:                 return z == 1;
@@ -88,7 +88,7 @@ int check_condition_bits(ARM* proc) {
  * @param ir - A pointer to the 32-bit instruction
  * @returns an enum classifying the instruction
  */
-enum instruction_type get_instruction_type(int* ir) {
+enum instruction_type get_instruction_type(unsigned int* ir) {
 
   if (is_bit_set(ir, BRANCH_IDENTIFIER)) {
     return BRANCH;
