@@ -36,22 +36,16 @@ int do_str(char* params, int instruction_addr, int* num_no_labels, int** memory)
 int do_sdt(char* params, int instruction_addr, int* num_no_labels, int** memory, int is_ldr) {
 
   unsigned int instruction = 0;
-  char* rn_string;
   char* rd_str;
   char* addr_str;
-  char* offset_str;
-
-  unsigned int rn = 0;
   unsigned int rd = 0;
-  unsigned int offset = 0;
-
   unsigned int cond = AL_FLAG << 28;
 
   // 26th bit is always set to 1 for sdt
-  set_bit(&instruction, SINGLE_DATA_IDENTIFIER);
+  set_bit((int*)&instruction, SINGLE_DATA_IDENTIFIER);
 
   // Set U (23rd) bit by default - clear it if necessary
-  set_bit(&instruction, SDT_UP_BIT);
+  set_bit((int*)&instruction, SDT_UP_BIT);
 
   // get the Rd string (e.g. r3) by splitting by the comma
   rd_str = strtok_r(params, ",", &addr_str);
@@ -65,12 +59,12 @@ int do_sdt(char* params, int instruction_addr, int* num_no_labels, int** memory,
   if (is_ldr == 1) {
     // ldr instruction
     // L bit is set for ldr (bit 20)
-    set_bit(&instruction, LOAD_STORE_BIT);
+    set_bit((int*)&instruction, LOAD_STORE_BIT);
 
     if (addr_str[0] == '=') {
       // if constant
       instruction |= cond | rd;
-      return do_ldr_constant(&instruction, instruction_addr, num_no_labels, memory, rd_str, addr_str);
+      return do_ldr_constant((int*)&instruction, instruction_addr, num_no_labels, memory, rd_str, addr_str);
     }
     else {
       // Register

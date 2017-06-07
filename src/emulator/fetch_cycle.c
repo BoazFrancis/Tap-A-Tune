@@ -63,10 +63,9 @@ int check_condition_bits(ARM* proc) {
   // Get the 4 most significant bits which is the "Cond"
   int cond = extract_bits(&proc->ir, COND_START, COND_NUM_BITS);
 
-  unsigned int v = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_V);
-  unsigned int c = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_C);
-  unsigned int z = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_Z);
-  unsigned int n = extract_bit(&proc->registers[CPSR_REGISTER], CPSR_N);
+  unsigned int v = extract_bit((int*)&proc->registers[CPSR_REGISTER], CPSR_V);
+  unsigned int z = extract_bit((int*)&proc->registers[CPSR_REGISTER], CPSR_Z);
+  unsigned int n = extract_bit((int*)&proc->registers[CPSR_REGISTER], CPSR_N);
 
   switch (cond) {
     case Z_SET:                 return z == 1;

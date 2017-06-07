@@ -23,7 +23,7 @@ unsigned int calculate_op2(int* instruction, char* value) {
     clear_bit(instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
     char* shift;
-    char* str = strtok_r(value, ",", &shift);
+    strtok_r(value, ",", &shift);
     check_shift(instruction, shift);
   }
 
@@ -65,7 +65,7 @@ int setup_params(char* params, int two_reg) {
     rn <<= DP_SRC_REG;
   }
 
-  unsigned int op2 = calculate_op2(&instruction, value);
+  unsigned int op2 = calculate_op2((int*)&instruction, value);
 
   instruction |= cond | op2 | rn;
   return instruction;

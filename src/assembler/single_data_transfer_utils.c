@@ -44,7 +44,6 @@ int do_ldr_constant(int* instruction, int instruction_addr, int* num_no_labels, 
 void sdt_shifted_register(int* instruction, char* offset_str) {
 
   char* rm_str;
-  char* shifter;
   //Declare the shift register (Rs)
   unsigned int rm = 0;
 
@@ -102,7 +101,7 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
   if (addr_str[strlen(addr_str)-1] == ']') {
     // Pre indexed
     // Hence the P bit (24) is set
-    set_bit(&instruction, SDT_PREPOST);
+    set_bit((int*)&instruction, SDT_PREPOST);
     // Strip end bracket
     addr_str[strlen(addr_str)-1] = '\0';
     is_comma = strpbrk(addr_str, ",");
@@ -124,11 +123,11 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
       if (offset_str[0] == '#') {
         //offset is an immediate value
         // Leave the I (25th) bit
-        get_offset(&instruction, offset_str, &offset);
+        get_offset((int*)&instruction, offset_str, (int*)&offset);
       }
       else {
         // offset is a shifted register
-        sdt_shifted_register(&instruction, offset_str);
+        sdt_shifted_register((int*)&instruction, offset_str);
       }
     }
   }
@@ -147,11 +146,11 @@ int do_sdt_reg(unsigned int instruction, unsigned int cond, unsigned int rd, cha
     if (offset_str[0] == '#') {
       // offset is an immediate value
       // the I bit is NOT set
-      get_offset(&instruction, offset_str, &offset);
+      get_offset((int*)&instruction, offset_str, (int*)&offset);
     }
     else {
       // offset is a shifted register
-      sdt_shifted_register(&instruction, offset_str);
+      sdt_shifted_register((int*)&instruction, offset_str);
     }
   }
 

@@ -6,10 +6,10 @@
 typedef struct ARM {
    unsigned int memory[MAX_MEMORY_SIZE];
    unsigned int registers[NUM_REGISTERS];
-   unsigned int ir;
-   unsigned int load;
-   unsigned int has_loaded;
-   unsigned int has_fetched;
+   int ir;
+   int load;
+   int has_loaded;
+   int has_fetched;
 } ARM;
 
 // Reading binary files
@@ -64,7 +64,7 @@ int calculate_op2(ARM* proc);
 int barrel_shifter(ARM* proc, int shiftBy);
 int memaddr_to_index(int memaddr);
 int index_to_memaddr(int index);
-unsigned int read_memory_bytes(ARM* proc, unsigned int addr);
+int read_memory_bytes(ARM* proc, unsigned int addr);
 void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr);
 
 // Mutliply instructions

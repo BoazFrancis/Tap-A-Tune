@@ -12,6 +12,7 @@ int get_address(SymbolTable* st, char* label) {
       return st->table[i].address;
     }
   }
+  return -1;
 }
 
 /**

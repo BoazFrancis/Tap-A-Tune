@@ -13,7 +13,7 @@ int do_mov(char* params) {
   value = trim_whitespace(value);
   unsigned int instruction = MOV << DP_OPCODE_START;
 
-  unsigned int op2 = calculate_op2(&instruction, value);
+  unsigned int op2 = calculate_op2((int*)&instruction, value);
 
   // Store Rd register, removing the "r"
   long unsigned reg_binary = strtol(reg+1, NULL, 0);
@@ -62,7 +62,7 @@ int do_sub(char* params) {
 int do_cmp(char* params) {
   unsigned int instruction = setup_params(params, 0);
   unsigned int opcode = CMP << DP_OPCODE_START;
-  set_bit(&instruction, S_BIT);
+  set_bit((int*)&instruction, S_BIT);
   return instruction | opcode;
 }
 
@@ -84,7 +84,7 @@ int do_eor(char* params) {
 int do_tst(char* params) {
   unsigned int instruction = setup_params(params, 0);
   unsigned int opcode = TST << DP_OPCODE_START;
-  set_bit(&instruction, S_BIT);
+  set_bit((int*)&instruction, S_BIT);
   return instruction | opcode;
 }
 
@@ -96,7 +96,7 @@ int do_tst(char* params) {
 int do_teq(char* params) {
   int instruction = setup_params(params, 0);
   unsigned int opcode = TEQ << DP_OPCODE_START;
-  set_bit(&instruction, S_BIT);
+  set_bit((int*)&instruction, S_BIT);
   return instruction | opcode;
 }
 

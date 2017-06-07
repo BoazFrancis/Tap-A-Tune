@@ -15,8 +15,8 @@ int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
 
   // Set bits 27 and 25
   unsigned int instruction = extract_bits(&jump_addr, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);
-  set_bit(&instruction, BRANCH_IDENTIFIER);
-  set_bit(&instruction, BRANCH_IDENTIFIER_2);
+  set_bit((int*)&instruction, BRANCH_IDENTIFIER);
+  set_bit((int*)&instruction, BRANCH_IDENTIFIER_2);
 
   return instruction | cond;
 

@@ -16,8 +16,8 @@ int do_mul(char* params) {
 
   // Set bits 4 and 7
   // Bits A and S are not set
-  set_bit(&instruction, MULT_ID_1);
-  set_bit(&instruction, MULT_ID_2);
+  set_bit((int*)&instruction, MULT_ID_1);
+  set_bit((int*)&instruction, MULT_ID_2);
 
   char* rd_string = strtok_r(params, ",", &rest);
   char* rm_string = strtok_r(trim_whitespace(rest), ",", &rest);
@@ -47,14 +47,14 @@ int do_mla(char* params) {
 
   // Break up the parameters again to find Rn for accumulate
   char* rest;
-  char* rd_string = strtok_r(original_params, ",", &rest);
-  char* rm_string = strtok_r(trim_whitespace(rest), ",", &rest);
-  char* rs_string = strtok_r(trim_whitespace(rest), ",", &rest);
+  strtok_r(original_params, ",", &rest);
+  strtok_r(trim_whitespace(rest), ",", &rest);
+  strtok_r(trim_whitespace(rest), ",", &rest);
   char* rn_string = strtok_r(trim_whitespace(rest), ",", &rest);
 
   // Set the accumulate bit
-  set_bit(&instruction, MUL_ACCUMULATE);
-  
+  set_bit((int*)&instruction, MUL_ACCUMULATE);
+
   unsigned int rn = strtol(rn_string+1, NULL, 0) << MUL_RN;
   instruction |= rn;
   return instruction;

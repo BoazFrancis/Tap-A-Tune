@@ -45,8 +45,8 @@ void data_processing(ARM* proc) {
  */
 void set_cpsr_nz(ARM* proc, int s, int result) {
   if (s == 1) {
-    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&result, WORD_SIZE*BITS_IN_BYTE-1));
-    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, result == 0);
+    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&result, WORD_SIZE*BITS_IN_BYTE-1));
+    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_Z, result == 0);
   }
 }
 
@@ -59,7 +59,7 @@ void set_cpsr_nz(ARM* proc, int s, int result) {
  */
 void set_cpsr_c(ARM* proc, int s, int c) {
   if (s == 1) {
-    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, c);
+    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_C, c);
   }
 }
 
@@ -139,9 +139,9 @@ void do_add(ARM* proc, int rn, unsigned int op2, int dest, int s) {
   set_cpsr_nz(proc, s, result);
   if (s == 1) {
     int a = extract_bit(&rn, WORD_SIZE*BITS_IN_BYTE-1);
-    int b = extract_bit(&op2, WORD_SIZE*BITS_IN_BYTE-1);
-    int c = extract_bit(&proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
-    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
+    int b = extract_bit((int*)&op2, WORD_SIZE*BITS_IN_BYTE-1);
+    int c = extract_bit((int*)&proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
+    set_bit_to((int*)&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
   }
 }
 
