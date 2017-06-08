@@ -12,7 +12,7 @@ int main(int argc, char** argv)
         Mix_Chunk* effect2;
         Mix_Music* music;
         Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096);
-        music = Mix_LoadMUS("tempmusic.wav");
+        music = Mix_LoadMUS("sound.wav");
         effect1 = Mix_LoadWAV("tempsound1.wav");
         effect2 = Mix_LoadWAV("tempsound2.wav");
         Mix_PlayMusic(music, -1);
