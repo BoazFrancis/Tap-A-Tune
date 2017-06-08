@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "SDL.h"
+#include "../sound.h"
 
 int main(void)
 
@@ -65,9 +63,11 @@ int main(void)
     int j;
     for(j = 1; j < i; j++) {
       SDL_Delay(strtol(words[0], NULL, 0));
+      play_sound("../1.wav");
       if (strcmp(words[j],"\0")) {
           printf("%s\n", words[j]);
       }
+
 
     }
 
