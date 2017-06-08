@@ -1,7 +1,7 @@
 CC      = gcc
 CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
 
-SOURCES = graphics.c favicon.c button.c toolbar.c dialog.c
+SOURCES = graphics.c favicon.c toolbar.c dialog.c text.c
 
 all: gui
 

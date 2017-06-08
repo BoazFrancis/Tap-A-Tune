@@ -7,9 +7,6 @@
 GdkPixbuf *create_pixbuf(const gchar * filename);
 void set_favicon(GtkWidget* window);
 
-void create_button(GtkWidget* container);
-void enter_button(GtkWidget *widget, gpointer data);
-
-void add_toolbar(GtkWidget* container);
-
+void exit_button(GtkWidget* container);
 void show_dialog(GtkWidget *widget, gpointer window);
+void add_text(GtkWidget* container);

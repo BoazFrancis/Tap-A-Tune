@@ -16,18 +16,20 @@ int main(int argc, char *argv[]) {
   gtk_window_fullscreen(GTK_WINDOW(window));
   set_favicon(window);
 
-  GdkColor color;
-  color.red = 0xffff;
-  color.green = 0xffff;
-  color.blue = 0;
+  GdkPixmap* bg;
+  GdkPixbuf* image = create_pixbuf("bg.jpg");
 
-  gtk_widget_modify_bg(window, GTK_STATE_NORMAL, &color);
+  image = gdk_pixbuf_scale_simple(image,gdk_screen_width(),gdk_screen_height(),GDK_INTERP_BILINEAR);
+  gdk_pixbuf_render_pixmap_and_mask(image, &bg, NULL, 0);
+  GtkStyle* style = gtk_style_new();
+  style->bg_pixmap[0] = bg;
+  gtk_widget_set_style(GTK_WIDGET(window), GTK_STYLE(style));
 
   GtkWidget* container = gtk_fixed_new();
   gtk_container_add(GTK_CONTAINER(window), container);
 
-  create_button(container);
-  add_toolbar(container);
+  exit_button(container);
+  add_text(container);
 
   gtk_widget_show_all(window);
 
