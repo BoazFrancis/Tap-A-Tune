@@ -13,16 +13,3 @@ GdkPixbuf *create_pixbuf(const gchar* filename) {
 
    return pixbuf;
 }
-
-void set_favicon(GtkWidget* window) {
-
-  GdkPixbuf* icon;
-  icon = create_pixbuf("icon.png");
-
-  // Set the image as the icon for the window
-  gtk_window_set_icon(GTK_WINDOW(window), icon);
-
-  // No longer need reference to the image anymore
-  g_object_unref(icon);
-
-}

@@ -1,6 +1,6 @@
 #include "gui.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 
   // Initialise Gtk
   gtk_init(&argc, &argv);
@@ -12,11 +12,11 @@ int main(int argc, char *argv[]) {
   gtk_window_set_title(GTK_WINDOW(window), "Tap Tap");
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 500);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-  //gtk_window_fullscreen(GTK_WINDOW(window));
-  set_favicon(window);
+  gtk_window_fullscreen(GTK_WINDOW(window));
+  gtk_window_set_icon_from_file(GTK_WINDOW(window), "img/icon.png", NULL);
 
   GdkPixmap* bg;
-  GdkPixbuf* image = create_pixbuf("bg.jpg");
+  GdkPixbuf* image = create_pixbuf("img/bg.jpg");
 
   image = gdk_pixbuf_scale_simple(image, gdk_screen_width(), gdk_screen_height(), GDK_INTERP_BILINEAR);
   gdk_pixbuf_render_pixmap_and_mask(image, &bg, NULL, 0);
@@ -24,16 +24,23 @@ int main(int argc, char *argv[]) {
   style->bg_pixmap[0] = bg;
   gtk_widget_set_style(GTK_WIDGET(window), GTK_STYLE(style));
 
+  // Every visible object on the screen
   GtkWidget* container = gtk_fixed_new();
   gtk_container_add(GTK_CONTAINER(window), container);
-
   exit_button(container);
-  add_text(container);
+
+  // A container for all the on-screen content
+  GtkWidget* start_content = gtk_fixed_new();
+  gtk_container_add(GTK_CONTAINER(container), start_content);
+  add_text(start_content);
 
   gtk_widget_show_all(window);
 
   // Press <ENTER> to start the game
-  g_signal_connect(window, "key-release-event", G_CALLBACK(key_event), NULL);
+  CallbackParams data;
+  data.field_one = &container;
+  data.field_two = start_content;
+  g_signal_connect(window, "key-release-event", G_CALLBACK(key_event), &data);
 
   // When the user closes the window, exit the program
   g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);

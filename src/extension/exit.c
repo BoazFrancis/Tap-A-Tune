@@ -8,7 +8,7 @@ void exit_button(GtkWidget* container) {
   gdk_color_parse("black", &bg);
   gtk_widget_modify_bg(event_box, GTK_STATE_NORMAL, &bg);
 
-  GdkPixbuf* icon = create_pixbuf("exit.png");
+  GdkPixbuf* icon = create_pixbuf("img/exit.png");
   GtkWidget* exit_image = gtk_image_new_from_pixbuf(icon);
   gtk_container_add(GTK_CONTAINER(event_box), exit_image);
 
