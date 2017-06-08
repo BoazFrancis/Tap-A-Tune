@@ -2,7 +2,7 @@ CC      = gcc
 
 all: sound gui
 
-SOUND_SOURCES = sound2.c
+SOUND_SOURCES = sound2.c play_sound.c
 sound: $(SOUND_SOURCES)
 	$(CC) -Isdl/include/SDL $(SOUND_SOURCES) -Lsdl/lib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -o sound2
 
