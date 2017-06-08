@@ -10,11 +10,11 @@
 void data_processing(ARM* proc) {
 
   // Extract the position of the source and destination register
-  unsigned int srcRegPos = extract_bits(&proc->ir, DP_SRC_REG, DP_BLOCK_SIZE);
-  unsigned int destRegPos = extract_bits(&proc->ir, DP_DEST_REG, DP_BLOCK_SIZE);
+  unsigned int srcRegPos = extract_bits(proc->ir, DP_SRC_REG, DP_BLOCK_SIZE);
+  unsigned int destRegPos = extract_bits(proc->ir, DP_DEST_REG, DP_BLOCK_SIZE);
 
   // Get the s bit
-  unsigned int s = extract_bit(&proc->ir, S_BIT);
+  unsigned int s = extract_bit(proc->ir, S_BIT);
 
   // Get value of source register Rn
   int rn = proc->registers[srcRegPos];
@@ -23,7 +23,7 @@ void data_processing(ARM* proc) {
   uint32_t op2;
   op2 = calculate_op2(proc);
 
-  unsigned int opcode = extract_bits(&proc->ir, DP_OPCODE_START, DP_BLOCK_SIZE);
+  unsigned int opcode = extract_bits(proc->ir, DP_OPCODE_START, DP_BLOCK_SIZE);
 
   // Declare an array of function pointers for the methods below
   void (*dp_methods[NUM_DP_INSTRUCTIONS])(ARM*, unsigned int, unsigned int, int, int) = {
@@ -45,7 +45,7 @@ void data_processing(ARM* proc) {
  */
 void set_cpsr_nz(ARM* proc, int s, unsigned int result) {
   if (s == 1) {
-    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(&result, WORD_SIZE*BITS_IN_BYTE-1));
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_N, extract_bit(result, WORD_SIZE*BITS_IN_BYTE-1));
     set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_Z, result == 0);
   }
 }
@@ -138,9 +138,9 @@ void do_add(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
   proc->registers[dest] = result;
   set_cpsr_nz(proc, s, result);
   if (s == 1) {
-    int a = extract_bit(&rn, WORD_SIZE*BITS_IN_BYTE-1);
-    int b = extract_bit(&op2, WORD_SIZE*BITS_IN_BYTE-1);
-    int c = extract_bit(&proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
+    int a = extract_bit(rn, WORD_SIZE*BITS_IN_BYTE-1);
+    int b = extract_bit(op2, WORD_SIZE*BITS_IN_BYTE-1);
+    int c = extract_bit(proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
     set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
   }
 }

@@ -1,7 +1,7 @@
 #include "defs.h"
 
-unsigned int extract_bits(unsigned int* n, int start, int length);
-unsigned int extract_bit(unsigned int* n, int start);
+unsigned int extract_bits(unsigned int n, int start, int length);
+unsigned int extract_bit(unsigned int n, int start);
 int is_bit_set(unsigned int* n, int bit);
 void set_bit(unsigned int* n, int bit);
 void clear_bit(unsigned int* n, int bit);

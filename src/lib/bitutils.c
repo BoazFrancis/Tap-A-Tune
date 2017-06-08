@@ -9,12 +9,12 @@
  * @param length - Number of bits to extract
  * @returns the extracted bits
 */
-unsigned int extract_bits(unsigned int* n, int start, int length) {
+inline unsigned int extract_bits(unsigned int n, int start, int length) {
   if (length == BITS_IN_BYTE*WORD_SIZE) {
-    return *n;
+    return n;
   }
   unsigned int mask = ((1 << length) - 1);
-  return (*n >> start) & mask;
+  return (n >> start) & mask;
 }
 
 /**
@@ -23,7 +23,7 @@ unsigned int extract_bits(unsigned int* n, int start, int length) {
  * @param start - The start bit position (from right to left)
  * @returns the extracted bit
 */
-unsigned int extract_bit(unsigned int* n, int start) {
+inline unsigned int extract_bit(unsigned int n, int start) {
   return extract_bits(n, start, 1);
 }
 
@@ -33,7 +33,7 @@ unsigned int extract_bit(unsigned int* n, int start) {
  * @param bit - The bit to check (0 indexed)
  * @returns 1 or 0 on success or failure
 */
-int is_bit_set(unsigned int* n, int bit) {
+inline int is_bit_set(unsigned int* n, int bit) {
   return (*n & (1 << bit)) > 0;
 }
 
@@ -43,7 +43,7 @@ int is_bit_set(unsigned int* n, int bit) {
  * @param bit - The bit to set
  * @returns void
 */
-void set_bit(unsigned int* n, int bit) {
+inline void set_bit(unsigned int* n, int bit) {
   *n |= (1 << bit);
 }
 
@@ -53,7 +53,7 @@ void set_bit(unsigned int* n, int bit) {
  * @param bit - The bit to clear
  * @returns void
 */
-void clear_bit(unsigned int* n, int bit) {
+inline void clear_bit(unsigned int* n, int bit) {
   *n &= ~(1 << bit);
 }
 
@@ -64,7 +64,7 @@ void clear_bit(unsigned int* n, int bit) {
  * @param value - Either 0 or 1
  * @returns void
 */
-void set_bit_to(unsigned int* n, int bit, int value) {
+inline void set_bit_to(unsigned int* n, int bit, int value) {
   if (value == 1) {
     set_bit(n, bit);
   }
@@ -153,7 +153,7 @@ unsigned int rotate_right(const unsigned int val, int shiftBy) {
 unsigned int reverse_int(unsigned int n) {
   int result = 0;
   for (int i = 0; i < WORD_SIZE; i++) {
-    result |= extract_bits(&n, i * BITS_IN_BYTE, BITS_IN_BYTE) << (3 - i) * BITS_IN_BYTE;
+    result |= extract_bits(n, i * BITS_IN_BYTE, BITS_IN_BYTE) << (3 - i) * BITS_IN_BYTE;
   }
   return result;
 }

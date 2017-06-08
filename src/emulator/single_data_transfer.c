@@ -8,20 +8,20 @@
 void single_data_transfer(ARM* proc) {
 
   // Extract the relavant parts of the instruction
-  unsigned int immediate = extract_bit(&proc->ir, SDT_IMM_IDENTIFIER);
-  unsigned int pre_post_indexing = extract_bit(&proc->ir, SDT_PREPOST);
-  unsigned int up_bit = extract_bit(&proc->ir, SDT_UP_BIT);
-  unsigned int load_store_bit = extract_bit(&proc->ir, LOAD_STORE_BIT);
+  unsigned int immediate = extract_bit(proc->ir, SDT_IMM_IDENTIFIER);
+  unsigned int pre_post_indexing = extract_bit(proc->ir, SDT_PREPOST);
+  unsigned int up_bit = extract_bit(proc->ir, SDT_UP_BIT);
+  unsigned int load_store_bit = extract_bit(proc->ir, LOAD_STORE_BIT);
 
-  unsigned int rn = extract_bits(&proc->ir, SDT_RN, SDT_BLOCK_SIZE);
-  unsigned int rd = extract_bits(&proc->ir, SDT_RD, SDT_BLOCK_SIZE);
-  unsigned int offset = extract_bits(&proc->ir, SDT_OFFSET_START, SDT_OFFSET_SIZE);
+  unsigned int rn = extract_bits(proc->ir, SDT_RN, SDT_BLOCK_SIZE);
+  unsigned int rd = extract_bits(proc->ir, SDT_RD, SDT_BLOCK_SIZE);
+  unsigned int offset = extract_bits(proc->ir, SDT_OFFSET_START, SDT_OFFSET_SIZE);
 
   if (immediate == 1) {
     // To avoid setting shifter flags with data processing set S to 0
     clear_bit(&proc->ir, LOAD_STORE_BIT);
     // Flip the Immediate bit as it is the opposite in single-data-transfer
-    set_bit_to(&proc->ir, DATA_PROC_IMM_IDENTIFIER, extract_bit(&proc->ir, DATA_PROC_IMM_IDENTIFIER) == 0);
+    set_bit_to(&proc->ir, DATA_PROC_IMM_IDENTIFIER, extract_bit(proc->ir, DATA_PROC_IMM_IDENTIFIER) == 0);
     offset = calculate_op2(proc);
   }
 
