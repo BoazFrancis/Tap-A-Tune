@@ -64,9 +64,9 @@ int main(void)
     for(j = 1; j < i; j++) {
       int note = strtol(words[j], NULL, 0);
       switch (note) {
-        case 1: play_sound("../wavs/c1.wav"); break;
-        case 2: play_sound("../wavs/d1.wav"); break;
-        case 3: play_sound("../wavs/e1.wav"); break;
+        case 1: play_sound("../wavs/piano/c1.wav"); break;
+        case 2: play_sound("../wavs/piano/d1.wav"); break;
+        case 3: play_sound("../wavs/piano/e1.wav"); break;
         default:
                 SDL_Delay(strtol(words[0], NULL, 0));
 ;
