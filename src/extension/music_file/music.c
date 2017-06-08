@@ -65,7 +65,10 @@ int main(void)
     int j;
     for(j = 1; j < i; j++) {
       SDL_Delay(strtol(words[0], NULL, 0));
-      printf("%s\n", words[j]);
+      if (strcmp(words[j],"\0")) {
+          printf("%s\n", words[j]);
+      }
+
     }
 
 
