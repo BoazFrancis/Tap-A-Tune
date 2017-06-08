@@ -35,11 +35,24 @@ int main(int argc, char *argv[])
         }*/
 
 
-        channel = Mix_PlayChannel(-1, sound, 1);
+        /*channel = Mix_PlayChannel(-1, sound, 0);
         if(channel == -1) {
                 printf("Unable to play WAV file: %s\n", Mix_GetError());
+        }*/
+        printf("%s\n", "Press 'a' to play bell sound");
+        char button;
+        scanf("%c", &button);
+        /*if (button == 'a') {
+          while(Mix_Playing(channel) != 0);
+        }*/
+        if (button == 'a') {
+          printf("%s\n", "a" );
+          channel = Mix_PlayChannel(-1, sound, 0);
+          if(channel == -1) {
+                  printf("Unable to play WAV file: %s\n", Mix_GetError());
+          }
+          while(Mix_Playing(channel) != 0);
         }
-        while(Mix_Playing(channel) != 0);
         Mix_FreeChunk(sound);
         Mix_CloseAudio();
         SDL_Quit();
