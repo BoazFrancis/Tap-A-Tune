@@ -11,9 +11,7 @@ typedef struct {
   gpointer field_two;
 } CallbackParams;
 
-GdkPixbuf *create_pixbuf(const gchar * filename);
-void set_favicon(GtkWidget* window);
-
+GdkPixbuf *create_pixbuf(const gchar* filename);
 void exit_button(GtkWidget* container);
 void add_text(GtkWidget* container);
 

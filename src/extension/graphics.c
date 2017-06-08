@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 500);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
   gtk_window_fullscreen(GTK_WINDOW(window));
-  set_favicon(window);
+  gtk_window_set_icon_from_file(GTK_WINDOW(window), "icon.png", NULL);
 
   GdkPixmap* bg;
   GdkPixbuf* image = create_pixbuf("bg.jpg");
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 
   // Press <ENTER> to start the game
   CallbackParams data;
-  data.field_one = container;
+  data.field_one = &container;
   data.field_two = start_content;
   g_signal_connect(window, "key-release-event", G_CALLBACK(key_event), &data);
 
