@@ -62,13 +62,15 @@ int main(void)
 
     int j;
     for(j = 1; j < i; j++) {
-      SDL_Delay(strtol(words[0], NULL, 0));
-      play_sound("../1.wav");
-      if (strcmp(words[j],"\0")) {
-          printf("%s\n", words[j]);
+      int note = strtol(words[j], NULL, 0);
+      switch (note) {
+        case 1: play_sound("../wavs/c1.wav"); break;
+        case 2: play_sound("../wavs/d1.wav"); break;
+        case 3: play_sound("../wavs/e1.wav"); break;
+        default:
+                SDL_Delay(strtol(words[0], NULL, 0));
+;
       }
-
-
     }
 
 
