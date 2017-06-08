@@ -7,23 +7,23 @@ void key_event(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
     gtk_container_remove(GTK_CONTAINER(*container), data->field_two);
 
-    GdkPixbuf* red_image = create_pixbuf("red.png");
+    GdkPixbuf* red_image = create_pixbuf("img/red.png");
     red_image = gdk_pixbuf_scale_simple(red_image, 100, 100, GDK_INTERP_BILINEAR);
     GtkWidget* red_button = gtk_image_new_from_pixbuf(red_image);
 
-    GdkPixbuf* blue_image = create_pixbuf("blue.png");
+    GdkPixbuf* blue_image = create_pixbuf("img/blue.png");
     blue_image = gdk_pixbuf_scale_simple(blue_image, 100, 100, GDK_INTERP_BILINEAR);
     GtkWidget* blue_button = gtk_image_new_from_pixbuf(blue_image);
 
-    GdkPixbuf* green_image = create_pixbuf("green.png");
+    GdkPixbuf* green_image = create_pixbuf("img/green.png");
     green_image = gdk_pixbuf_scale_simple(green_image, 100, 100, GDK_INTERP_BILINEAR);
     GtkWidget* green_button = gtk_image_new_from_pixbuf(green_image);
 
-    GdkPixbuf* yellow_image = create_pixbuf("yellow.png");
+    GdkPixbuf* yellow_image = create_pixbuf("img/yellow.png");
     yellow_image = gdk_pixbuf_scale_simple(yellow_image, 100, 100, GDK_INTERP_BILINEAR);
     GtkWidget* yellow_button = gtk_image_new_from_pixbuf(yellow_image);
 
-    GdkPixbuf* purple_image = create_pixbuf("purple.png");
+    GdkPixbuf* purple_image = create_pixbuf("img/purple.png");
     purple_image = gdk_pixbuf_scale_simple(purple_image, 100, 100, GDK_INTERP_BILINEAR);
     GtkWidget* purple_button = gtk_image_new_from_pixbuf(purple_image);
 

@@ -13,10 +13,10 @@ int main(int argc, char* argv[]) {
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 500);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
   gtk_window_fullscreen(GTK_WINDOW(window));
-  gtk_window_set_icon_from_file(GTK_WINDOW(window), "icon.png", NULL);
+  gtk_window_set_icon_from_file(GTK_WINDOW(window), "img/icon.png", NULL);
 
   GdkPixmap* bg;
-  GdkPixbuf* image = create_pixbuf("bg.jpg");
+  GdkPixbuf* image = create_pixbuf("img/bg.jpg");
 
   image = gdk_pixbuf_scale_simple(image, gdk_screen_width(), gdk_screen_height(), GDK_INTERP_BILINEAR);
   gdk_pixbuf_render_pixmap_and_mask(image, &bg, NULL, 0);
