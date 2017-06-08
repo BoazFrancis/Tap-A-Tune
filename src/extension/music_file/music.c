@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "SDL.h"
 
 int main(void)
 
@@ -62,8 +63,11 @@ int main(void)
     fclose(fp);
 
     int j;
-    for(j = 0; j < i; j++)
-        printf("%s\n", words[j]);
+    for(j = 1; j < i; j++) {
+      SDL_Delay(strtol(words[0], NULL, 0));
+      printf("%s\n", words[j]);
+    }
+
 
     /* Good practice to free memory */
     for (;i>=0;i--)
