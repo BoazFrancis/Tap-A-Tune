@@ -8,5 +8,6 @@ GdkPixbuf *create_pixbuf(const gchar * filename);
 void set_favicon(GtkWidget* window);
 
 void exit_button(GtkWidget* container);
-void show_dialog(GtkWidget *widget, gpointer window);
 void add_text(GtkWidget* container);
+
+void key_event(GtkWidget *widget, GdkEventKey *event);
