@@ -10,9 +10,9 @@ int main(int argc, char *argv[]) {
   } */
   int s_int = strtol(s, NULL, 10);
   switch (s_int) {
-    case 1: play_sound("../1.wav"); break;
-    case 2: play_sound("../2.wav"); break;
-    case 3: play_sound("../3.wav"); break; 
+    case 1: play_sound("../1.wav", 600); break;
+    case 2: play_sound("../2.wav", 600); break;
+    case 3: play_sound("../3.wav", 600); break; 
   }
   return 0;
 }
