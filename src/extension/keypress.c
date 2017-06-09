@@ -1,4 +1,5 @@
 #include "gui.h"
+#include "sound.h"
 
 void start_game(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
   if (event->keyval == ENTER_KEY) {
@@ -86,6 +87,7 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
       red_image = gdk_pixbuf_scale_simple(red_image, 100, 100, GDK_INTERP_BILINEAR);
       red_button = gtk_image_new_from_pixbuf(red_image);
       gtk_fixed_put(GTK_FIXED(*container), red_button, 0, 0);
+      play_sound("wavs/piano/a1.wav", 600);
       break;
     }
     case BLUE_KEY: {
@@ -94,6 +96,7 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
       blue_image = gdk_pixbuf_scale_simple(blue_image, 100, 100, GDK_INTERP_BILINEAR);
       blue_button = gtk_image_new_from_pixbuf(blue_image);
       gtk_fixed_put(GTK_FIXED(*container), blue_button, 100, 0);
+      play_sound("wavs/piano/b1.wav", 600);
       break;
     }
     case GREEN_KEY: {

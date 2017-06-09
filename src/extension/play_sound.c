@@ -35,7 +35,7 @@ void play_sound(char* wav_file_name, int time) {
   if(channel == -1) {
     printf("Unable to play WAV file: %s\n", Mix_GetError());
   }
-  while(Mix_Playing(channel) != 0);
+  //while(Mix_Playing(channel) != 0);
 
   /*
   printf("%s\n", "Press 'a' to play bell sound");
@@ -49,9 +49,9 @@ void play_sound(char* wav_file_name, int time) {
     }
     while(Mix_Playing(channel) != 0);
   } */
-  Mix_FreeChunk(sound);
-  Mix_CloseAudio();
-  SDL_Quit();
+  //Mix_FreeChunk(sound);
+  //Mix_CloseAudio();
+  //SDL_Quit();
 }
 
 
