@@ -22,7 +22,10 @@ void add_text(GtkWidget* container) {
   gtk_widget_modify_fg(title, GTK_STATE_NORMAL, &color);
   gtk_widget_modify_fg(sub, GTK_STATE_NORMAL, &color);
 
-  gtk_fixed_put(GTK_FIXED(container), title, 300, 300);
+  GtkWidget* align_title = gtk_alignment_new(0, 0, 0, 0);
+  gtk_container_add(GTK_CONTAINER(align_title), title);
+
+  gtk_fixed_put(GTK_FIXED(container), align_title, 300, 300);
   gtk_fixed_put(GTK_FIXED(container), sub, 300, 400);
 
 }
