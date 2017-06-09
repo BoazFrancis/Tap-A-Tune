@@ -1,11 +1,7 @@
 CC      = gcc
 
-all: sound gui
+all: extension
 
-SOUND_SOURCES = sound2.c play_sound.c
-sound: $(SOUND_SOURCES)
-	$(CC) -Isdl/include/SDL $(SOUND_SOURCES) -Lsdl/lib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -o bin/sound2
-
-GUI_SOURCES = graphics.c exit.c text.c keypress.c favicon.c play_sound.c
-gui: $(GUI_SOURCES)
-	$(CC) $(CFLAG) -Isdl/include/SDL $(GUI_SOURCES) -Lsdl/lib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -o bin/gui `pkg-config --libs --cflags gtk+-2.0`
+GUI_SOURCES = extension.c buttons.c start_screen.c play_sound.c
+extension: $(GUI_SOURCES)
+	$(CC) $(CFLAG) -Isdl/include/SDL $(GUI_SOURCES) -Lsdl/lib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -o bin/extension `pkg-config --libs --cflags gtk+-2.0`
