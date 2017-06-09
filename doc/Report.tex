@@ -12,8 +12,8 @@
 
 \vspace{0.2in}
 
-\section{Introduction}
+\section{Implementing the Assembler}
 
-Final text here
+After creating an emulator to read and execute a binary file, our next task was to create an assembler to output ARM-binary code to a source file. Creating the assembler was broken into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. The setup of the symbol table was accomplished through creating two \emph{structs} in C. One improvement that we made while creating objects in the assembler compared to creating objects in the emulator was the fact that we preceded each struct with \emph{typedef}. This allowed us to call the symbol table in other programs without preceding the call with the word \emph{struct}. In order to define the symbol table, we had to first create a separate typedef, which we called \emph{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \emph{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.
 
 \end{document}
