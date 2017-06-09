@@ -1,6 +1,6 @@
 #include "sound.h"
 
 int main(int argc, char *argv[]) {
-  play_sound("guitar.wav");
+  play2sounds("../1.wav", "../2.wav");
   return 0;
 }
