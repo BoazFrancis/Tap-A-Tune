@@ -37,10 +37,10 @@ int main(int argc, char* argv[]) {
   gtk_widget_show_all(window);
 
   // Press <ENTER> to start the game
-  CallbackParams data;
-  data.field_one = &container;
-  data.field_two = start_content;
-  g_signal_connect(window, "key-release-event", G_CALLBACK(key_event), &data);
+  GObject* params = g_object_new(G_TYPE_OBJECT, NULL);
+  g_object_set_data(params, "container", &container);
+  g_object_set_data(params, "content", start_content);
+  g_signal_connect(window, "key-release-event", G_CALLBACK(start_game), params);
 
   // When the user closes the window, exit the program
   g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
