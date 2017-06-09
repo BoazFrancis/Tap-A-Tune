@@ -1,6 +1,6 @@
 #include "sound.h"
 
-void play_sound(char* wav_file_name) {
+void play_sound(char* wav_file_name, int time) {
   //SDL_Surface *screen;
   Mix_Chunk *sound = NULL;
   int channel;
@@ -31,7 +31,7 @@ void play_sound(char* wav_file_name) {
   }*/
 
 
-  channel = Mix_PlayChannel(-1, sound, 0);
+  channel = Mix_PlayChannelTimed(-1, sound, 0, time);
   if(channel == -1) {
     printf("Unable to play WAV file: %s\n", Mix_GetError());
   }
