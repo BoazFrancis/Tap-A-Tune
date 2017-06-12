@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include "extension.h"
 
-char** readfile(char* filepath) {
+char** read_file(char* filepath) {
   int lines_allocated = 128;
   int max_line_len = 100;
 
@@ -49,7 +49,7 @@ char** readfile(char* filepath) {
     for (j=strlen(words[i])-1; j>=0 && (words[i][j]=='\n' || words[i][j]=='\r'); j--) {
       words[i][j+1]='\0';
     }
-    i++
+    i++;
   /* Close file */
   fclose(fp);
   return words;

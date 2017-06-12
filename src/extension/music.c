@@ -1,4 +1,3 @@
-#include <string.h>
 #include "extension.h"
 
 int main(void) {

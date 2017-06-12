@@ -48,7 +48,7 @@
 #define BUTTONS_SIZE 100
 #define LINE_SIZE 10
 
-// Start screen methods
+// Start screen methodss
 void set_bg(GtkWidget* window);
 void start_screen(GtkWidget* window, GtkWidget* container, GObject* params, GtkWidget* start_content);
 GdkPixbuf *create_pixbuf(const gchar* filename);
@@ -69,4 +69,4 @@ gboolean move_title(gpointer data);
 void play_sound(char* wav_file_name, int time);
 
 // Reading in a file
-char** readfile();
+char** read_file(char* filepath);
