@@ -44,9 +44,10 @@ int read_file(FILE *input, int num_lines, char **instructions) {
     j++;
   }
 
+
+
   // Close the file
   fclose(input);
-
   return j;
 
 }

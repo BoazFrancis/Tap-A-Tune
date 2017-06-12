@@ -45,6 +45,9 @@ int main(int argc, char **argv) {
     // Process all these instructions
     process_instructions(total_size, &num_no_labels, instructions, output, &st);
 
+    for (int i = 0; i < input_lines; i++) {
+      free(instructions[i]);
+    }
     free(instructions);
     fclose(output);
 
