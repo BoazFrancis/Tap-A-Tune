@@ -8,8 +8,8 @@ typedef struct ARM {
    unsigned int registers[NUM_REGISTERS];
    unsigned int ir;
    int load;
-   int has_loaded;
-   int has_fetched;
+   unsigned int has_loaded : 1;
+   unsigned int has_fetched : 1;
 } ARM;
 
 // Reading binary files
