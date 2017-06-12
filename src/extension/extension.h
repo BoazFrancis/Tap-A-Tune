@@ -39,14 +39,16 @@
 #define IMG_PURPLE_SELECT IMG_PATH "purple_selected.png"
 #define IMG_EXIT IMG_PATH "exit.png"
 
-#define BUTTONS_YOFFSET 150
-#define RED_X 50
-#define BLUE_X 200
-#define GREEN_X 350
-#define YELLOW_X 500
-#define PURPLE_X 650
-#define BUTTONS_SIZE 100
-#define LINE_SIZE 10
+typedef enum buttons {
+BUTTONS_YOFFSET 150
+RED_X        = 50,
+BLUE_X       = 200,
+GREEN_X      = 350,
+YELLOW_X     = 500,
+PURPLE_X     = 650,
+BUTTONS_SIZE = 100,
+LINE_SIZE    = 10
+} button_enum;
 
 // Start screen methodss
 void set_bg(GtkWidget* window);
