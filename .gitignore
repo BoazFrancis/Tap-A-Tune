@@ -18,7 +18,7 @@
 *.exe
 emulate
 assemble
-extension
+src/extension/bin/extension
 
 #ignore junk files from compiling Haskell code
 *.hi
