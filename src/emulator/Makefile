@@ -7,7 +7,7 @@ SOURCES = emulate.c binary_read.c branch.c data_processing.c utils.c fetch_cycle
 all: emulate
 
 emulate: $(H) $(SOURCES)
-	$(CC) $(CFLAG) $(SOURCES) -lm -o ../../bin/emulate
+	$(CC) $(CFLAGS) $(SOURCES) -lm -o ../../bin/emulate
 
 clean:
 	rm -f $(wildcard *.o)

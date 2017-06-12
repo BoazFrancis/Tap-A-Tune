@@ -13,16 +13,16 @@ int main(int argc, char **argv) {
   }
   else {
 
-    char* input_file  = argv[1];
-    char* output_file = argv[2];
+    char *input_file  = argv[1];
+    char *output_file = argv[2];
 
     // Open the input file
-    FILE* input = fopen(input_file, "r+");
+    FILE *input = fopen(input_file, "r+");
     int input_lines = count_lines(input);
     rewind(input);
 
     // Clear file and then open it for appending
-    FILE* output = fopen(output_file, "wb");
+    FILE *output = fopen(output_file, "wb");
     output = freopen(output_file, "ab", output);
 
     char** instructions = malloc(sizeof(char*) * input_lines);

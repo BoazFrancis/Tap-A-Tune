@@ -8,11 +8,11 @@
  * @param output - A pointer to the output file
  * @param st - A pointer to the symbol table
 */
-void process_instructions(int total_size, int* num_no_labels, char** instructions, FILE* output, SymbolTable* st) {
+void process_instructions(int total_size, int *num_no_labels, char **instructions, FILE *output, SymbolTable *st) {
 
   const char space[2] = " ";
   int instruction_addr = 0;
-  int* memory = malloc(sizeof(int)*total_size);
+  int *memory = malloc(sizeof(int)*total_size);
 
   if (memory == NULL) {
     perror("memory malloc in process_instructions");
@@ -25,8 +25,8 @@ void process_instructions(int total_size, int* num_no_labels, char** instruction
     if (!strcmp(rest, "")) {
       break;
     }
-    char* mnem = strtok_r(rest, space, &rest);
-    char* pos = strchr(mnem, ':');
+    char *mnem = strtok_r(rest, space, &rest);
+    char *pos = strchr(mnem, ':');
     if (pos == NULL && strcmp(trim_whitespace(mnem), "") != 0) {
       // If this is a proper instruction (not a label)
       int data = identify_instruction(mnem, rest, st, instruction_addr, num_no_labels, &memory);
@@ -53,7 +53,7 @@ void process_instructions(int total_size, int* num_no_labels, char** instruction
  * @param memory - A pointer to the array of memory
  * @returns the completed instruction
  */
-int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, int* num_no_labels, int** memory) {
+int identify_instruction(char *mnem, char *params, SymbolTable *st, int addr, int *num_no_labels, int **memory) {
 
        if (!strcmp(mnem, "mov"))   { return do_mov(params); }
   else if (!strcmp(mnem, "add"))   { return do_add(params); }
@@ -68,7 +68,7 @@ int identify_instruction(char* mnem, char* params, SymbolTable* st, int addr, in
   else if (!strcmp(mnem, "and"))   { return do_and(params); }
   else if (!strcmp(mnem, "mla"))   { return do_mla(params); }
   else if (!strcmp(mnem, "ldr"))   { return do_ldr(params, addr, num_no_labels, memory); }
-  else if (!strcmp(mnem, "str"))   { return do_str(params); }
+  else if (!strcmp(mnem, "str"))   { return do_str(params, addr, num_no_labels, memory); }
   else if (!strcmp(mnem, "beq"))   { return do_beq(params, st, addr); }
   else if (!strcmp(mnem, "bne"))   { return do_bne(params, st, addr); }
   else if (!strcmp(mnem, "bge"))   { return do_bge(params, st, addr); }

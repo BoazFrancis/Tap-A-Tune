@@ -34,6 +34,8 @@
 #define OP2_SHIFT_START 7
 #define OP2_SHIFT_SIZE 5
 #define OP2_SHIFYBY_IDENTIFIER 4
+#define SHIFT_TYPE_1 5
+#define SHIFT_TYPE_2 6
 
 // Multiply
 #define MUL_BLOCK_SIZE 4
@@ -44,6 +46,9 @@
 #define MUL_RN 12
 
 // Branch
+#define BRANCH_PIPELINE_OFFSET 8
+#define BRANCH_SHIFT 2
+#define BRANCH_IDENTIFIER_2 25
 #define BRANCH_OFFSET_START 0
 #define BRANCH_OFFSET_LEN 24
 
@@ -57,6 +62,8 @@
 #define SDT_RN 16
 #define SDT_RD 12
 #define SDT_OFFSET_START 0
+#define LDR 1
+#define STR 0
 
 // Conditions
 #define COND_START 28

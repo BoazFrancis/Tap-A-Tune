@@ -6,10 +6,10 @@
  * @param path - The string of the filename
  * @returns void
 */
-void read_binary_file(ARM* proc, char* path) {
+void read_binary_file(ARM *proc, char *path) {
 
   // Open the input file
-  FILE* input = fopen(path, "rb");
+  FILE *input = fopen(path, "rb");
 
   // Reading the input file
   int pos = 0;

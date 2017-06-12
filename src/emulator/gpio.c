@@ -6,7 +6,7 @@
  * @param proc - The pointer to the processor
  * @returns void
  */
-void setGPIO(ARM* proc) {
+void setGPIO(ARM *proc) {
 	proc->memory[MAX_MEMORY_SIZE - 3] = GPIO_0_9;
 	proc->memory[MAX_MEMORY_SIZE - 2] = GPIO_10_19;
 	proc->memory[MAX_MEMORY_SIZE - 1] = GPIO_20_29;
@@ -17,7 +17,7 @@ void setGPIO(ARM* proc) {
  * @param proc - The pointer to the processor
  * @returns void
  */
-void clearGPIO(ARM* proc) {
+void clearGPIO(ARM *proc) {
 	proc->memory[MAX_MEMORY_SIZE - 3] = 0;
 	proc->memory[MAX_MEMORY_SIZE - 2] = 0;
 	proc->memory[MAX_MEMORY_SIZE - 1] = 0;
@@ -31,7 +31,7 @@ void clearGPIO(ARM* proc) {
  * @param memory_address - A pointer to the memory address
  * @returns whether or not to continue execution
  */
-int getGPIO(ARM* proc, int* memory_address) {
+int getGPIO(ARM *proc, int *memory_address) {
 
   switch (*memory_address) {
 
