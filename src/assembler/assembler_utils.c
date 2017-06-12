@@ -46,6 +46,12 @@ int do_mov(char* params) {
 
       shift = trim_whitespace(shift);
       char* shift_type = malloc(sizeof(char)*3);
+
+      if (shift_type == NULL) {
+        perror("shift_type malloc in assembler_utils");
+        exit(EXIT_FAILURE);
+      }
+
       strncpy(shift_type, shift, 3);
 
       if (!strcmp(shift_type,"lsr")) {
@@ -626,6 +632,10 @@ int do_lsl(char* params) {
   char* rest;
   char* rn_string = strtok_r(params, ",", &rest);
   char* lsl = malloc(sizeof(char)*12);
+  if (lsl == NULL) {
+    perror("lsl malloc in assembler_utils");
+    exit(EXIT_FAILURE);
+  }
   strcpy(lsl, "lsl ");
   lsl = strcat(lsl, trim_whitespace(rest));
 

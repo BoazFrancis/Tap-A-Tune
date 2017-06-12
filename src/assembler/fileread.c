@@ -28,6 +28,10 @@ int read_file(FILE* input, int num_lines, char** instructions) {
 
   for(int i=0; i<num_lines; i++) {
     instructions[i] = malloc(sizeof(char)*LENGTH_OF_LINE);
+    if (instructions == NULL) {
+      perror("Instructions malloc in assemble main");
+      exit(EXIT_FAILURE);
+    }
   }
 
   int j = 0;

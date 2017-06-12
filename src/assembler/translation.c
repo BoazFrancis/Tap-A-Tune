@@ -14,6 +14,11 @@ void process_instructions(int total_size, int* num_no_labels, char** instruction
   int instruction_addr = 0;
   int* memory = malloc(sizeof(int)*total_size);
 
+  if (memory == NULL) {
+    perror("memory malloc in process_instructions");
+    exit(EXIT_FAILURE);
+  }
+
   for (int i=0; i<total_size; i++) {
     char *rest = instructions[i];
     // Edge case: if empty line

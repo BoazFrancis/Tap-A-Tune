@@ -23,9 +23,14 @@ int build_symbol_table(int total_size, char** instructions, SymbolTable* st) {
 
       // This line is a label
       int index = pos - instructions[i];
-      char* label = malloc(index+1);
+      char* label = calloc(index+1, sizeof(char));
+
+      if (label == NULL) {
+        perror("label calloc in build_symbol_table");
+        exit(EXIT_FAILURE);
+      }
+
       strncpy(label, instructions[i], index);
-      label[index] = '\0';
 
       // Store in symbol table
       int address = instruction_count * WORD_SIZE;
