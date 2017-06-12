@@ -56,6 +56,7 @@ void exit_button(GtkWidget* container);
 void start_screen_text(GtkWidget* container);
 
 // Initialise buttons
+void draw_dot(GtkWidget* container);
 void draw_lines(GtkWidget* window, GtkWidget* container);
 void draw_buttons(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
 void key_colour(GtkWidget*widget, GdkEventKey* event, gpointer user_data);

@@ -24,6 +24,7 @@ void draw_buttons(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
     // Draw lines
     draw_lines(window, *container);
+    draw_dot(*container);
 
     reset_colour(window, NULL, new_params);
     gtk_widget_show_all(window);
@@ -50,6 +51,15 @@ void draw_lines(GtkWidget* window, GtkWidget* container) {
   gtk_fixed_put(GTK_FIXED(container), line_widget3, GREEN_X + BUTTONS_SIZE/2 - LINE_SIZE/2, 0);
   gtk_fixed_put(GTK_FIXED(container), line_widget4, YELLOW_X + BUTTONS_SIZE/2 - LINE_SIZE/2, 0);
   gtk_fixed_put(GTK_FIXED(container), line_widget5, PURPLE_X + BUTTONS_SIZE/2 - LINE_SIZE/2, 0);
+}
+
+void draw_dot(GtkWidget* container) {
+  GtkWidget* align = gtk_alignment_new(0, 0, 0, 0);
+  GdkPixbuf* dot = create_pixbuf("img/dot.png");
+  GtkWidget* dot_widget = gtk_image_new_from_pixbuf(dot);
+  gtk_container_add(GTK_CONTAINER(align), dot_widget);
+  gtk_fixed_put(GTK_FIXED(container), align, RED_X, 0);
+  g_timeout_add(10, move_title, align);
 }
 
 void reset_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
