@@ -40,7 +40,7 @@ void process_instructions(int total_size, int *num_no_labels, char **instruction
   for (int i=0; i<*num_no_labels; i++) {
     write_to_file(memory[i], output);
   }
-
+  free(memory);
 }
 
 /**
