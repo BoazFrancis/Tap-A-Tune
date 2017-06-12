@@ -40,14 +40,14 @@
 #define IMG_EXIT IMG_PATH "exit.png"
 
 typedef enum buttons {
-BUTTONS_YOFFSET 150
-RED_X        = 50,
-BLUE_X       = 200,
-GREEN_X      = 350,
-YELLOW_X     = 500,
-PURPLE_X     = 650,
-BUTTONS_SIZE = 100,
-LINE_SIZE    = 10
+BUTTONS_YOFFSET = 150,
+RED_X           = 50,
+BLUE_X          = 200,
+GREEN_X         = 350,
+YELLOW_X        = 500,
+PURPLE_X        = 650,
+BUTTONS_SIZE    = 100,
+LINE_SIZE       = 10
 } button_enum;
 
 // Start screen methodss
