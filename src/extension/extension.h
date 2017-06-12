@@ -66,3 +66,6 @@ gboolean move_title(gpointer data);
 
 // Sounds
 void play_sound(char* wav_file_name, int time);
+
+// Reading in a file
+char** readfile();
