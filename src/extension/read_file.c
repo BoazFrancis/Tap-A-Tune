@@ -17,7 +17,7 @@ char** read_file(char* filepath) {
     exit(2);
   }
 
-  int i;
+  int i = 0;
   // Alocate space for the next line
   words[i] = malloc(max_line_len);
 

@@ -2,7 +2,7 @@
 
 int main(void) {
 
-char** words = read_file("../music.txt");
+char** words = read_file("music.txt");
 /*
     int j;
     for(j = 1; j < i; j++) {
@@ -33,9 +33,9 @@ char** words = read_file("../music.txt");
   }
 
     /* Good practice to free memory */
-    for (int i = 0; i < words_length; i++) {
+    /*for (int i = 0; i < words_length; i++) {
       free(words[i]);
-    }
+    }*/
     free(words);
     return 0;
 }
