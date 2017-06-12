@@ -1,5 +1,5 @@
 #include "extension.h"
-/*
+
 int main(int argc, char* argv[]) {
 
   // Initialise Gtk
@@ -44,4 +44,3 @@ int main(int argc, char* argv[]) {
   return 0;
 
 }
-*/

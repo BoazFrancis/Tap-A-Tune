@@ -1,9 +1,9 @@
 #include "extension.h"
 
-int main(void) {
+/*int main(void) {
 
 char** words = read_file("music.txt");
-/*
+/* Should be commented out
     int j;
     for(j = 1; j < i; j++) {
       int note = strtol(words[j], NULL, 0);
@@ -15,7 +15,7 @@ char** words = read_file("music.txt");
                 SDL_Delay(strtol(words[0], NULL, 0));
       }
     }
-*/
+
   int words_length = sizeof(words) / sizeof(char*);
   for(int j = 1; j < words_length; j++) {
     int two_note = strtol(words[j], NULL, 0);
@@ -33,9 +33,10 @@ char** words = read_file("music.txt");
   }
 
     /* Good practice to free memory */
-    /*for (int i = 0; i < words_length; i++) {
+    /*for (int i = 0; i < words_length; i++) { should be commented out
       free(words[i]);
-    }*/
+    }
     free(words);
     return 0;
 }
+*/
