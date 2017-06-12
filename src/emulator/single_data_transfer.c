@@ -5,7 +5,7 @@
  * @param proc - The pointer to the processor
  * @returns void
  */
-void single_data_transfer(ARM* proc) {
+void single_data_transfer(ARM *proc) {
 
   // Extract the relavant parts of the instruction
   unsigned int immediate = extract_bit(proc->ir, SDT_IMM_IDENTIFIER);

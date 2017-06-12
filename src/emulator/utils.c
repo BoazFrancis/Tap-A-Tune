@@ -6,7 +6,7 @@
  * @param proc - The pointer to the processor
  * @returns the 32-bit operand
  */
-int calculate_op2(ARM* proc) {
+int calculate_op2(ARM *proc) {
 
   // If the operand2 is an immediate value
   if (extract_bit(proc->ir, DATA_PROC_IMM_IDENTIFIER) == 1) {
@@ -41,7 +41,7 @@ int calculate_op2(ARM* proc) {
  * @param shiftBy - the number of bits to shift
  * @returns the shifted register Rm
  */
-int barrel_shifter(ARM* proc, int shiftBy) {
+int barrel_shifter(ARM *proc, int shiftBy) {
 
   unsigned int shiftType = extract_bits(proc->ir, 5, 2);
   unsigned int rm = extract_bits(proc->ir, 0, 4);
@@ -111,7 +111,7 @@ int index_to_memaddr(int index) {
  * @param addr - The byte address to start reading from
  * @returns the 32-bit unsigned number
  */
-int read_memory_bytes(ARM* proc, unsigned int addr) {
+int read_memory_bytes(ARM *proc, unsigned int addr) {
 
   int mod = addr % WORD_SIZE;
   int start_addr = addr / WORD_SIZE;
@@ -140,7 +140,7 @@ int read_memory_bytes(ARM* proc, unsigned int addr) {
  * @param addr - The byte address to start writing to
  * @returns void
  */
-void write_memory_bytes(ARM* proc, unsigned int data, unsigned int addr) {
+void write_memory_bytes(ARM *proc, unsigned int data, unsigned int addr) {
 
   unsigned int mod = addr % WORD_SIZE;
   unsigned int start_addr = addr / WORD_SIZE;

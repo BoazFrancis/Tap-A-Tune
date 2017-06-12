@@ -6,7 +6,7 @@
  * @param label - The label to find
  * @returns the address
  */
-int get_address(SymbolTable* st, char* label) {
+int get_address(SymbolTable *st, char *label) {
   for (int i=0; i<st->size; i++) {
     if (strcmp(st->table[i].label, label) == 0) {
       return st->table[i].address;
@@ -22,7 +22,7 @@ int get_address(SymbolTable* st, char* label) {
  * @param address - The address in memory
  * @returns void
  */
-void add_label(SymbolTable* st, char* label, int address) {
+void add_label(SymbolTable *st, char *label, int address) {
   Map m;
   m.label = label;
   m.address = address;

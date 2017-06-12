@@ -1,6 +1,6 @@
 // Define the Map object to have a string label and int address
 typedef struct {
-   char* label;
+   char *label;
    int address;
 } Map;
 
@@ -11,5 +11,5 @@ typedef struct {
 } SymbolTable;
 
 // Map utility functions
-int get_address(SymbolTable* st, char* label);
-void add_label(SymbolTable* st, char* label, int address);
+int get_address(SymbolTable *st, char *label);
+void add_label(SymbolTable *st, char *label, int address);

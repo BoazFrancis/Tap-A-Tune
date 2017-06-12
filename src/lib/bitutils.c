@@ -33,7 +33,7 @@ inline unsigned int extract_bit(unsigned int n, int start) {
  * @param bit - The bit to check (0 indexed)
  * @returns 1 or 0 on success or failure
 */
-inline int is_bit_set(unsigned int* n, int bit) {
+inline int is_bit_set(unsigned int *n, int bit) {
   return (*n & (1 << bit)) > 0;
 }
 
@@ -43,7 +43,7 @@ inline int is_bit_set(unsigned int* n, int bit) {
  * @param bit - The bit to set
  * @returns void
 */
-inline void set_bit(unsigned int* n, int bit) {
+inline void set_bit(unsigned int *n, int bit) {
   *n |= (1 << bit);
 }
 
@@ -53,7 +53,7 @@ inline void set_bit(unsigned int* n, int bit) {
  * @param bit - The bit to clear
  * @returns void
 */
-inline void clear_bit(unsigned int* n, int bit) {
+inline void clear_bit(unsigned int *n, int bit) {
   *n &= ~(1 << bit);
 }
 
@@ -64,7 +64,7 @@ inline void clear_bit(unsigned int* n, int bit) {
  * @param value - Either 0 or 1
  * @returns void
 */
-inline void set_bit_to(unsigned int* n, int bit, int value) {
+inline void set_bit_to(unsigned int *n, int bit, int value) {
   if (value == 1) {
     set_bit(n, bit);
   }

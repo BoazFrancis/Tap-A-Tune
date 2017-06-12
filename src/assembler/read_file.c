@@ -5,7 +5,7 @@
  * @param input - The pointer to the input file
  * @returns the number of the lines
  */
-int count_lines(FILE* input) {
+int count_lines(FILE *input) {
   int ch = 0;
   int lines = 0;
   while (!feof(input)) {
@@ -24,7 +24,7 @@ int count_lines(FILE* input) {
  * @param instructions - The array of instructions
  * @returns the number of instructions
  */
-int read_file(FILE* input, int num_lines, char** instructions) {
+int read_file(FILE *input, int num_lines, char **instructions) {
 
   for(int i=0; i<num_lines; i++) {
     instructions[i] = malloc(sizeof(char)*LENGTH_OF_LINE);

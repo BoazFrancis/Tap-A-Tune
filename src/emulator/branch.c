@@ -5,7 +5,7 @@
  * @param proc - The pointer to the processor
  * @returns void
  */
-void branch(ARM* proc) {
+void branch(ARM *proc) {
 
   // Get bits 0-24 for 2s complement offset
   signed int offset = extract_bits(proc->ir, BRANCH_OFFSET_START, BRANCH_OFFSET_LEN);

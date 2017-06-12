@@ -7,7 +7,7 @@
  * @param cond - The condition which depends on the specific instruction (see below)
  * @returns the 32-bit instruction
  */
-int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
+int do_branch(char *params, SymbolTable *st, int addr, unsigned int cond) {
 
   // Get the jump address by looking up the label in the symbol table
   unsigned int jump_addr = get_address(st, trim_whitespace(params)) - addr - BRANCH_PIPELINE_OFFSET;
@@ -29,7 +29,7 @@ int do_branch(char* params, SymbolTable* st, int addr, unsigned int cond) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_beq(char* params, SymbolTable* st, int addr) {
+int do_beq(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, Z_SET << COND_START);
 }
 
@@ -40,7 +40,7 @@ int do_beq(char* params, SymbolTable* st, int addr) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_bne(char* params, SymbolTable* st, int addr) {
+int do_bne(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, Z_CLEAR << COND_START);
 }
 
@@ -51,7 +51,7 @@ int do_bne(char* params, SymbolTable* st, int addr) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_bge(char* params, SymbolTable* st, int count) {
+int do_bge(char *params, SymbolTable *st, int count) {
   return do_branch(params, st, count, N_EQUALS_V << COND_START);
 }
 
@@ -62,7 +62,7 @@ int do_bge(char* params, SymbolTable* st, int count) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_blt(char* params, SymbolTable* st, int addr) {
+int do_blt(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, N_NOT_V << COND_START);
 }
 
@@ -73,7 +73,7 @@ int do_blt(char* params, SymbolTable* st, int addr) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_bgt(char* params, SymbolTable* st, int addr) {
+int do_bgt(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, Z_CLEAR_N_EQUALS_V << COND_START);
 }
 
@@ -84,7 +84,7 @@ int do_bgt(char* params, SymbolTable* st, int addr) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_ble(char* params, SymbolTable* st, int addr) {
+int do_ble(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, Z_SET_N_NOT_V << COND_START);
 }
 
@@ -95,6 +95,6 @@ int do_ble(char* params, SymbolTable* st, int addr) {
  * @param addr - The address of this instruction to be stored in memory
  * @returns the 32-bit instruction
  */
-int do_b(char* params, SymbolTable* st, int addr) {
+int do_b(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, AL_FLAG << COND_START);
 }

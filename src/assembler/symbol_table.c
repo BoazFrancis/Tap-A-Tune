@@ -10,20 +10,20 @@
  * @param st - A pointer to the symbol table to load the labels into
  * @returns the new instruction count (without labels)
  */
-int build_symbol_table(int total_size, char** instructions, SymbolTable* st) {
+int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
 
   int instruction_count = 0;
 
   for (int i=0; i<total_size; i++) {
 
     // Find the label by splitting at ':'
-    char* pos = strchr(instructions[i], ':');
+    char *pos = strchr(instructions[i], ':');
 
     if (pos != NULL) {
 
       // This line is a label
       int index = pos - instructions[i];
-      char* label = malloc(index+1);
+      char *label = malloc(index+1);
       strncpy(label, instructions[i], index);
       label[index] = '\0';
 

@@ -6,7 +6,7 @@
  * @param value - The string value of the operand in the .s file
  * @returns the unsigned opera nd
  */
-unsigned int calculate_op2(unsigned int* instruction, char* value) {
+unsigned int calculate_op2(unsigned int *instruction, char *value) {
 
   unsigned int op2;
 
@@ -22,7 +22,7 @@ unsigned int calculate_op2(unsigned int* instruction, char* value) {
     // Register e.g. mov r2, r1
     clear_bit(instruction, DATA_PROC_IMM_IDENTIFIER);
     op2 = strtol(value+1, NULL, 0);
-    char* shift;
+    char *shift;
     strtok_r(value, ",", &shift);
     check_shift(instruction, shift);
   }
@@ -37,24 +37,24 @@ unsigned int calculate_op2(unsigned int* instruction, char* value) {
  * @param two_reg - If 1 then Rn and Rd are included, if 0 then just one register
  * @returns the partially completed data processing instruction
  */
-int setup_params(char* params, int two_reg) {
+int setup_params(char *params, int two_reg) {
 
   // Declare binary instruction, set it to 0
   unsigned int instruction = 0;
 
-  char* value;
+  char *value;
 
   // Set the condition field to 1110 (i.e. 14)
   unsigned int cond = AL_FLAG << COND_START;
 
-  char* rn_string = strtok_r(trim_whitespace(params), ",", &value);
+  char *rn_string = strtok_r(trim_whitespace(params), ",", &value);
   value = trim_whitespace(value);
   // Set Rn to value of base register
   unsigned int rn = strtol(rn_string+1, NULL, 0);
 
   if (two_reg == 1) {
     rn <<= DP_DEST_REG;
-    char* rd_string = strtok_r(value, ",", &value);
+    char *rd_string = strtok_r(value, ",", &value);
     // set Rd to value of destination register
     value = trim_whitespace(value);
     unsigned int rd = strtol(rd_string+1, NULL, 0) << DP_SRC_REG;

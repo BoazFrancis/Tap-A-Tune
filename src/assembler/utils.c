@@ -8,9 +8,9 @@
  * @param b - A pointer to the third string
  * @returns the concatenated string
  */
-char* cat(char* a, char* b, const char* c) {
+char *cat(char *a, char *b, const char *c) {
 
-  char* result = calloc(LENGTH_OF_LINE, sizeof(char));
+  char *result = calloc(LENGTH_OF_LINE, sizeof(char));
   for (int i = 0; a[i] != '\0'; i++) {
     result[i] = a[i];
   }
@@ -30,7 +30,7 @@ char* cat(char* a, char* b, const char* c) {
  * @param str - The string
  * @returns the adapted string
  */
-char* trim_whitespace(char *str) {
+char *trim_whitespace(char *str) {
 
   char *end;
 
@@ -61,7 +61,7 @@ char* trim_whitespace(char *str) {
  * @param operand - The operand to rotate
  * @returns the rotated operand
  */
-int get_rotated_op(unsigned int* operand) {
+int get_rotated_op(unsigned int *operand) {
   // Keep rotating until size is 8 bits
   int i = 0;
   unsigned int rotated_val;
@@ -82,13 +82,13 @@ int get_rotated_op(unsigned int* operand) {
  * @param shift - The shift (if it exists)
  * @returns void
  */
-void check_shift(unsigned int* instruction, char* shift) {
+void check_shift(unsigned int *instruction, char *shift) {
 
   if (strcmp(trim_whitespace(shift), "")) {
 
     // Fill a 4 character length string of the shift type
     shift = trim_whitespace(shift);
-    char* shift_type = malloc(sizeof(char)*DP_BLOCK_SIZE);
+    char *shift_type = malloc(sizeof(char)*DP_BLOCK_SIZE);
     strncpy(shift_type, shift, DP_BLOCK_SIZE-1);
     shift_type[DP_BLOCK_SIZE-1] = '\0';
 

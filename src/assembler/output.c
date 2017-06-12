@@ -6,6 +6,6 @@
  * @param output - A file pointer to the output file
  * @returns void
  */
-void write_to_file(unsigned int line, FILE* output) {
+void write_to_file(unsigned int line, FILE *output) {
   fwrite(&line, WORD_SIZE, 1, output);
 }

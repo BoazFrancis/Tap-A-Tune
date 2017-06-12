@@ -6,7 +6,7 @@
  * @param argv - An array of string arguments
  * @returns 0 on no errors
  */
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
   // Check for correct number of arguments
   if (argc != 2) {

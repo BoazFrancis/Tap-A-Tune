@@ -5,11 +5,11 @@
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_mov(char* params) {
+int do_mov(char *params) {
 
-  char* value;
+  char *value;
   unsigned int cond = AL_FLAG << COND_START;
-  char* reg = strtok_r(params, ",", &value);
+  char *reg = strtok_r(params, ",", &value);
   value = trim_whitespace(value);
   unsigned int instruction = MOV << DP_OPCODE_START;
 
@@ -29,7 +29,7 @@ int do_mov(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_add(char* params) {
+int do_add(char *params) {
   unsigned int opcode = ADD << DP_OPCODE_START;
   return setup_params(params, 1) | opcode;
 }
@@ -39,7 +39,7 @@ int do_add(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_orr(char* params) {
+int do_orr(char *params) {
   unsigned int opcode = ORR << DP_OPCODE_START;
   return setup_params(params, 1) | opcode;
 }
@@ -49,7 +49,7 @@ int do_orr(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_sub(char* params) {
+int do_sub(char *params) {
   unsigned int opcode = SUB << DP_OPCODE_START;
   return setup_params(params, 1) | opcode;
 }
@@ -59,7 +59,7 @@ int do_sub(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_cmp(char* params) {
+int do_cmp(char *params) {
   unsigned int instruction = setup_params(params, 0);
   unsigned int opcode = CMP << DP_OPCODE_START;
   set_bit(&instruction, S_BIT);
@@ -71,7 +71,7 @@ int do_cmp(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_eor(char* params) {
+int do_eor(char *params) {
   unsigned int opcode = EOR << DP_OPCODE_START;
   return setup_params(params, 1) | opcode;
 }
@@ -81,7 +81,7 @@ int do_eor(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_tst(char* params) {
+int do_tst(char *params) {
   unsigned int instruction = setup_params(params, 0);
   unsigned int opcode = TST << DP_OPCODE_START;
   set_bit(&instruction, S_BIT);
@@ -93,7 +93,7 @@ int do_tst(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_teq(char* params) {
+int do_teq(char *params) {
   unsigned int instruction = setup_params(params, 0);
   unsigned int opcode = TEQ << DP_OPCODE_START;
   set_bit(&instruction, S_BIT);
@@ -105,7 +105,7 @@ int do_teq(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_rsb(char* params) {
+int do_rsb(char *params) {
   unsigned int opcode = RSB << DP_OPCODE_START;
   return setup_params(params, 1) | opcode;
 }
@@ -115,7 +115,7 @@ int do_rsb(char* params) {
  * @param params - The string params for this instruction
  * @returns the instruction
  */
-int do_and(char* params) {
+int do_and(char *params) {
   unsigned int opcode = AND << DP_OPCODE_START;
   return setup_params(params, 1) | opcode;
 }

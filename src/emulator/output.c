@@ -5,7 +5,7 @@
  * @param proc - A pointer to the processor
  * @returns void
  */
-void print_registers(ARM* proc) {
+void print_registers(ARM *proc) {
   printf("Registers:\n");
   for (int i=0; i<=PRINT_REGISTERS; i++) {
     char register_num[100];
@@ -23,7 +23,7 @@ void print_registers(ARM* proc) {
  * @param proc - A pointer to the processor
  * @returns void
  */
-void print_nonzeromemory(ARM* proc) {
+void print_nonzeromemory(ARM *proc) {
   printf("Non-zero memory:\n");
   for (int i=0; i<MAX_MEMORY_SIZE; i++) {
     if (proc->memory[i] != 0) {

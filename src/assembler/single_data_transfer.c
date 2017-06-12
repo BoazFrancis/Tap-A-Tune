@@ -8,7 +8,7 @@
  * @param memory - A pointer to the array of memory
  * @returns the instruction
 */
-int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory) {
+int do_ldr(char *params, int instruction_addr, int *num_no_labels, int **memory) {
   return do_sdt(params, instruction_addr, num_no_labels, memory, LDR);
 }
 
@@ -20,7 +20,7 @@ int do_ldr(char* params, int instruction_addr, int* num_no_labels, int** memory)
 * @param memory - A pointer to the array of memory
 * @returns the instruction
 */
-int do_str(char* params, int instruction_addr, int* num_no_labels, int** memory) {
+int do_str(char *params, int instruction_addr, int *num_no_labels, int **memory) {
   return do_sdt(params, instruction_addr, num_no_labels, memory, STR);
 }
 
@@ -33,11 +33,11 @@ int do_str(char* params, int instruction_addr, int* num_no_labels, int** memory)
  * @param is_ldr - An integer that corresponds to the type of sdt instruction (ldr = 1, str = 0)
  * @returns the instruction
  */
-int do_sdt(char* params, int instruction_addr, int* num_no_labels, int** memory, int is_ldr) {
+int do_sdt(char *params, int instruction_addr, int *num_no_labels, int **memory, int is_ldr) {
 
   unsigned int instruction = 0;
-  char* rd_str;
-  char* addr_str;
+  char *rd_str;
+  char *addr_str;
   unsigned int rd = 0;
   unsigned int cond = AL_FLAG << 28;
 

@@ -5,7 +5,7 @@
  * @param proc - The pointer to the ARM processor
  * @returns void
 */
-void multiply(ARM* proc) {
+void multiply(ARM *proc) {
 
   unsigned int dest_register = extract_bits(proc->ir, MUL_DEST, MUL_BLOCK_SIZE);
   unsigned int src_register_s = extract_bits(proc->ir, MUL_RS, MUL_BLOCK_SIZE);
