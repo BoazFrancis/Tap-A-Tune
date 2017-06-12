@@ -10,7 +10,7 @@
  * @param st - A pointer to the symbol table to load the labels into
  * @returns the new instruction count (without labels)
  */
-int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
+int build_symbol_table(int total_size, char **instructions, SymbolTable *st, char* label) {
 
   int instruction_count = 0;
 
@@ -23,7 +23,7 @@ int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
 
       // This line is a label
       int index = pos - instructions[i];
-      char* label = calloc(index+1, sizeof(char));
+      label = calloc(index+1, sizeof(char));
 
       if (label == NULL) {
         perror("label calloc in build_symbol_table");
@@ -37,13 +37,12 @@ int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
       int address = instruction_count * WORD_SIZE;
       add_label(st, label, address);
 
-      free(label);
+
     }
     else if (strcmp(trim_whitespace(instructions[i]), "")) {
       // This is not a label, add it to the instruction count
       instruction_count++;
     }
-
   }
   return instruction_count;
 

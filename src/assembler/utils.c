@@ -112,7 +112,7 @@ void check_shift(unsigned int *instruction, char *shift) {
       set_bit(instruction, SHIFT_TYPE_1);
       set_bit(instruction, SHIFT_TYPE_2);
     }
-
+    free(shift_type);
     int shift_reg = strtol(shift + OP2_SHIFT_SIZE, NULL, 0);
 
     if (shift[OP2_SHIFT_SIZE-1] == '#') {

@@ -11,7 +11,7 @@
 // Loading in the assembly file
 int read_file(FILE *input, int num_lines, char **instructions);
 int count_lines(FILE *input);
-int build_symbol_table(int total_size, char **instructions, SymbolTable *st);
+int build_symbol_table(int total_size, char **instructions, SymbolTable *st, char* label);
 
 // Utility methods
 char *cat(char *m, char *r, const char *e);

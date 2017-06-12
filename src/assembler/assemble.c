@@ -38,18 +38,25 @@ int main(int argc, char **argv) {
     SymbolTable st;
     st.size = 0;
 
+    // Create label pointer
+    char* label = NULL;
+
     // Returns the number of actual instructions
     // i.e. every instruction except a jump label
-    int num_no_labels = build_symbol_table(total_size, instructions, &st);
+    int num_no_labels = build_symbol_table(total_size, instructions, &st, label);
 
     // Process all these instructions
     process_instructions(total_size, &num_no_labels, instructions, output, &st);
 
+    fclose(output);
+    // Free the memory of all instructions
     for (int i = 0; i < input_lines; i++) {
       free(instructions[i]);
     }
     free(instructions);
-    fclose(output);
+    for (int i = 0; i < (total_size - num_no_labels); i++) {
+      free(st.table[i].label);
+    }
 
     return 0;
 
