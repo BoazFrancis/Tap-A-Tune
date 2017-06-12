@@ -18,6 +18,7 @@
 *.exe
 emulate
 assemble
+extension
 
 #ignore junk files from compiling Haskell code
 *.hi
@@ -33,4 +34,3 @@ assemble
 *.vrb
 *.nav
 *.toc
-
