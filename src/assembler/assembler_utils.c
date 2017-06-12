@@ -599,31 +599,31 @@ int do_branch(char *params, SymbolTable *st, int addr, unsigned int cond) {
 
 }
 
-int do_beq(char *params, SymbolTable* st, int addr) {
+int do_beq(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, 0 << COND_START);
 }
 
-int do_bne(char *params, SymbolTable* st, int addr) {
+int do_bne(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, 1 << COND_START);
 }
 
-int do_bge(char *params, SymbolTable* st, int count) {
+int do_bge(char *params, SymbolTable *st, int count) {
   return do_branch(params, st, count, 10 << COND_START);
 }
 
-int do_blt(char *params, SymbolTable* st, int addr) {
+int do_blt(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, 11 << COND_START);
 }
 
-int do_bgt(char *params, SymbolTable* st, int addr) {
+int do_bgt(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, 12 << COND_START);
 }
 
-int do_ble(char *params, SymbolTable* st, int addr) {
+int do_ble(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, 13 << COND_START);
 }
 
-int do_b(char *params, SymbolTable* st, int addr) {
+int do_b(char *params, SymbolTable *st, int addr) {
   return do_branch(params, st, addr, 14 << COND_START);
 }
 
