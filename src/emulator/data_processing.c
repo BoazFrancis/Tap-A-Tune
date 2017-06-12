@@ -141,7 +141,7 @@ void do_add(ARM* proc, unsigned int rn, unsigned int op2, int dest, int s) {
     int a = extract_bit(rn, WORD_SIZE*BITS_IN_BYTE-1);
     int b = extract_bit(op2, WORD_SIZE*BITS_IN_BYTE-1);
     int c = extract_bit(proc->registers[dest], WORD_SIZE*BITS_IN_BYTE-1);
-    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, ((!a) & (!b) & c) | (a & b & (!c)));
+    set_bit_to(&proc->registers[CPSR_REGISTER], CPSR_C, (a & b & (!c)));
   }
 }
 
