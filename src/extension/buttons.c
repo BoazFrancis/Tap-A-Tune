@@ -70,6 +70,7 @@ void draw_dot(GtkWidget* window, GtkWidget* container) {
     g_timeout_add(5*i, move_dot, params);
   }
 
+}
 
 void reset_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
