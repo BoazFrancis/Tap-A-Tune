@@ -1,3 +1,6 @@
+#ifndef DEFS_H
+#define DEFS_H
+
 // ARM processor specifications
 #define MAX_MEMORY_SIZE (1 << 14)
 #define NUM_REGISTERS 17
@@ -102,3 +105,5 @@ enum opcodes {
 #define PINS_IN_MEMORY 9
 #define PIN_OFF 0x20200028
 #define PIN_ON 0x2020001c
+
+#endif

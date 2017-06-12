@@ -1,3 +1,7 @@
+#ifndef ASSEMBLE_H
+#define ASSEMBLE_H
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -62,3 +66,5 @@ int do_bge(char *params, SymbolTable *st, int addr);
 int do_blt(char *params, SymbolTable *st, int addr);
 int do_bgt(char *params, SymbolTable *st, int addr);
 int do_ble(char *params, SymbolTable *st, int addr);
+
+#endif

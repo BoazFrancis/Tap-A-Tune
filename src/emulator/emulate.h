@@ -1,3 +1,6 @@
+#ifndef EMULATE_H
+#define EMULATE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "../lib/bitutils.h"
@@ -82,3 +85,5 @@ void branch(ARM *proc);
 void setGPIO(ARM *proc);
 void clearGPIO(ARM *proc);
 int getGPIO(ARM *proc, int *memory_address);
+
+#endif

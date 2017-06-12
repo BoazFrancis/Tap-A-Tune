@@ -1,3 +1,6 @@
+#ifndef BITUTILS_H
+#define BITUTILS_H
+
 #include "defs.h"
 
 unsigned int extract_bits(unsigned int n, int start, int length);
@@ -12,3 +15,5 @@ signed int sign_extension(signed int n, int sbits, int ebits);
 unsigned int reverse_int(unsigned int n);
 unsigned int rotate_left(const unsigned int val, int shiftBy);
 unsigned int rotate_right(const unsigned int val, int shiftBy);
+
+#endif
