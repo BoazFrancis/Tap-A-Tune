@@ -37,6 +37,10 @@ int read_file(FILE *input, int num_lines, char **instructions) {
   int j = 0;
   while (fgets(instructions[j], LENGTH_OF_LINE, input)) {
     instructions[j] = realloc(instructions[j], sizeof(char)*strlen(instructions[j]));
+    if (instructions == NULL) {
+      perror("Instructions calloc in assemble main");
+      exit(EXIT_FAILURE);
+    }
     j++;
   }
 

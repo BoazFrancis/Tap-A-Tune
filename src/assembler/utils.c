@@ -11,6 +11,10 @@
 char *cat(char *a, char *b, const char *c) {
 
   char *result = calloc(LENGTH_OF_LINE, sizeof(char));
+  if (result == NULL) {
+    perror("result calloc in utils");
+    exit(EXIT_FAILURE);
+  }
   for (int i = 0; a[i] != '\0'; i++) {
     result[i] = a[i];
   }
