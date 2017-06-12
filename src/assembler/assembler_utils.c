@@ -259,6 +259,7 @@ int do_sub(char *params) {
       if (!strcmp(shift_type_str, "ror")) {shift_type = 3 << 5;}
 
       op2 |= rm | shift_type;
+      free(shift_type);
       // now offset_str = shift (either register or a constant amount)
       if (offset_str[0] == '#') {
         // shift = constant amount

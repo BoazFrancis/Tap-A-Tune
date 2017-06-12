@@ -37,6 +37,7 @@ int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
       int address = instruction_count * WORD_SIZE;
       add_label(st, label, address);
 
+      free(label);
     }
     else if (strcmp(trim_whitespace(instructions[i]), "")) {
       // This is not a label, add it to the instruction count
@@ -44,7 +45,6 @@ int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
     }
 
   }
-
   return instruction_count;
 
 }
