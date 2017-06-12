@@ -54,4 +54,5 @@ char** read_file(char* filepath) {
   fclose(fp);
   return words;
 
+  }
 }

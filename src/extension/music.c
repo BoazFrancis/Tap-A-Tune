@@ -2,7 +2,7 @@
 
 int main(void) {
 
-char** words = read_file("music.txt");
+char** words = read_file("../music.txt");
 /*
     int j;
     for(j = 1; j < i; j++) {
