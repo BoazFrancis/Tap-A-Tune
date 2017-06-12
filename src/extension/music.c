@@ -1,9 +1,8 @@
-#include <string.h>
 #include "extension.h"
 
 int main(void) {
 
-char** words = readfile("music.txt");
+char** words = read_file("music.txt");
 /*
     int j;
     for(j = 1; j < i; j++) {
