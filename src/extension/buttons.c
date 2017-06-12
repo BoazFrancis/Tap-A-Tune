@@ -24,7 +24,7 @@ void draw_buttons(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
     // Draw lines
     draw_lines(window, *container);
-    draw_dot(*container);
+    draw_dot(window, *container);
 
     reset_colour(window, NULL, new_params);
     gtk_widget_show_all(window);
@@ -53,14 +53,23 @@ void draw_lines(GtkWidget* window, GtkWidget* container) {
   gtk_fixed_put(GTK_FIXED(container), line_widget5, PURPLE_X + BUTTONS_SIZE/2 - LINE_SIZE/2, 0);
 }
 
-void draw_dot(GtkWidget* container) {
+void draw_dot(GtkWidget* window, GtkWidget* container) {
+
   GtkWidget* align = gtk_alignment_new(0, 0, 0, 0);
   GdkPixbuf* dot = create_pixbuf("img/dot.png");
   GtkWidget* dot_widget = gtk_image_new_from_pixbuf(dot);
   gtk_container_add(GTK_CONTAINER(align), dot_widget);
   gtk_fixed_put(GTK_FIXED(container), align, RED_X, 0);
-  g_timeout_add(10, move_title, align);
-}
+
+  int height;
+  gtk_window_get_size(GTK_WINDOW(window), NULL, &height);
+  GObject* params = g_object_new(G_TYPE_OBJECT, NULL);
+  g_object_set_data(params, "align", align);
+  g_object_set_data(params, "window", window);
+  for (int i=0; i<(height-BUTTONS_YOFFSET); i++) {
+    g_timeout_add(5*i, move_dot, params);
+  }
+
 
 void reset_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
@@ -92,11 +101,13 @@ void reset_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
   purple_button = gtk_image_new_from_pixbuf(purple_image);
 
   GtkWidget** container = g_object_get_data(params, "container");
-  gtk_fixed_put(GTK_FIXED(*container), red_button, RED_X, BUTTONS_Y);
-  gtk_fixed_put(GTK_FIXED(*container), blue_button, BLUE_X, BUTTONS_Y);
-  gtk_fixed_put(GTK_FIXED(*container), green_button, GREEN_X, BUTTONS_Y);
-  gtk_fixed_put(GTK_FIXED(*container), yellow_button, YELLOW_X, BUTTONS_Y);
-  gtk_fixed_put(GTK_FIXED(*container), purple_button, PURPLE_X, BUTTONS_Y);
+  int height;
+  gtk_window_get_size(GTK_WINDOW(window), NULL, &height);
+  gtk_fixed_put(GTK_FIXED(*container), red_button, RED_X, height-BUTTONS_YOFFSET);
+  gtk_fixed_put(GTK_FIXED(*container), blue_button, BLUE_X, height-BUTTONS_YOFFSET);
+  gtk_fixed_put(GTK_FIXED(*container), green_button, GREEN_X, height-BUTTONS_YOFFSET);
+  gtk_fixed_put(GTK_FIXED(*container), yellow_button, YELLOW_X, height-BUTTONS_YOFFSET);
+  gtk_fixed_put(GTK_FIXED(*container), purple_button, PURPLE_X, height-BUTTONS_YOFFSET);
   gtk_widget_show_all(window);
 
 }
@@ -105,15 +116,16 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
   GObject* params = user_data;
   GtkWidget** container = g_object_get_data(params, "container");
+  int height;
+  gtk_window_get_size(GTK_WINDOW(window), NULL, &height);
 
   switch (event->keyval) {
-
     case RED_KEY: {
       GtkWidget* red_button = g_object_get_data(params, "red_button");
       GdkPixbuf* red_image = create_pixbuf(IMG_RED_SELECT);
       red_image = gdk_pixbuf_scale_simple(red_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
       red_button = gtk_image_new_from_pixbuf(red_image);
-      gtk_fixed_put(GTK_FIXED(*container), red_button, RED_X, BUTTONS_Y);
+      gtk_fixed_put(GTK_FIXED(*container), red_button, RED_X, height-BUTTONS_YOFFSET);
       play_sound("wavs/piano/a1.wav", 600);
       break;
     }
@@ -122,7 +134,7 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
       GdkPixbuf* blue_image = create_pixbuf(IMG_BLUE_SELECT);
       blue_image = gdk_pixbuf_scale_simple(blue_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
       blue_button = gtk_image_new_from_pixbuf(blue_image);
-      gtk_fixed_put(GTK_FIXED(*container), blue_button, BLUE_X, BUTTONS_Y);
+      gtk_fixed_put(GTK_FIXED(*container), blue_button, BLUE_X, height-BUTTONS_YOFFSET);
       play_sound("wavs/piano/b1.wav", 600);
       break;
     }
@@ -131,7 +143,7 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
       GdkPixbuf* green_image = create_pixbuf(IMG_GREEN_SELECT);
       green_image = gdk_pixbuf_scale_simple(green_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
       green_button = gtk_image_new_from_pixbuf(green_image);
-      gtk_fixed_put(GTK_FIXED(*container), green_button, GREEN_X, BUTTONS_Y);
+      gtk_fixed_put(GTK_FIXED(*container), green_button, GREEN_X, height-BUTTONS_YOFFSET);
       break;
     }
     case YELLOW_KEY: {
@@ -139,7 +151,7 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
       GdkPixbuf* yellow_image = create_pixbuf(IMG_YELLOW_SELECT);
       yellow_image = gdk_pixbuf_scale_simple(yellow_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
       yellow_button = gtk_image_new_from_pixbuf(yellow_image);
-      gtk_fixed_put(GTK_FIXED(*container), yellow_button, YELLOW_X, BUTTONS_Y);
+      gtk_fixed_put(GTK_FIXED(*container), yellow_button, YELLOW_X, height-BUTTONS_YOFFSET);
       break;
     }
     case PURPLE_KEY: {
@@ -147,7 +159,7 @@ void key_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
       GdkPixbuf* purple_image = create_pixbuf(IMG_PURPLE_SELECT);
       purple_image = gdk_pixbuf_scale_simple(purple_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
       purple_button = gtk_image_new_from_pixbuf(purple_image);
-      gtk_fixed_put(GTK_FIXED(*container), purple_button, PURPLE_X, BUTTONS_Y);
+      gtk_fixed_put(GTK_FIXED(*container), purple_button, PURPLE_X, height-BUTTONS_YOFFSET);
       break;
     }
   }

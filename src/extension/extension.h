@@ -39,7 +39,7 @@
 #define IMG_PURPLE_SELECT IMG_PATH "purple_selected.png"
 #define IMG_EXIT IMG_PATH "exit.png"
 
-#define BUTTONS_Y gdk_screen_height()-200
+#define BUTTONS_YOFFSET 150
 #define RED_X 50
 #define BLUE_X 200
 #define GREEN_X 350
@@ -56,14 +56,15 @@ void exit_button(GtkWidget* container);
 void start_screen_text(GtkWidget* container);
 
 // Initialise buttons
-void draw_dot(GtkWidget* container);
+void draw_dot(GtkWidget* window, GtkWidget* container);
 void draw_lines(GtkWidget* window, GtkWidget* container);
 void draw_buttons(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
 void key_colour(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
 void reset_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data);
 
 // Move
-gboolean move_title(gpointer data);
+gboolean move_dot(gpointer data);
+gboolean respond(gpointer data);
 
 // Sounds
 void play_sound(char* wav_file_name, int time);
