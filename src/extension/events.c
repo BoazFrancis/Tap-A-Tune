@@ -43,6 +43,7 @@ void select_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
   for (int i=0; i<game->num_buttons; i++) {
     if (strcmp(game->buttons[i].key, label) == 0 && game->buttons[i].active == 0) {
       gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].selected, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
+      g_object_ref(game->buttons[i].selected);
       game->buttons[i].active = 1;
     }
   }
@@ -68,26 +69,26 @@ void release_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
 }
 
-gboolean move_dot(gpointer data) {
+gboolean move_dots(gpointer user_data) {
 
-  /*GObject* params = data;
-  GtkWidget* window = g_object_get_data(data, "window");
-  GtkWidget* align = g_object_get_data(data, "align");
+  ctap_t *game = user_data;
 
-  int pad;
-  gtk_alignment_get_padding(GTK_ALIGNMENT(align), &pad, NULL, NULL, NULL);
-  gtk_alignment_set_padding(GTK_ALIGNMENT(align), pad + 1, 0, 0, 0);
-  gtk_widget_queue_draw(align);
+  for (int i=0; i<game->num_dots; i++) {
+    int pad;
+    gtk_alignment_get_padding(GTK_ALIGNMENT(game->dots[i]), &pad, NULL, NULL, NULL);
+    gtk_alignment_set_padding(GTK_ALIGNMENT(game->dots[i]), pad + 1, 0, 0, 0);
+    gtk_widget_queue_draw(game->dots[i]);
 
-  int height;
-  gtk_window_get_size(GTK_WINDOW(window), NULL, &height);
+    int height;
+    gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
 
-  // If in boundary to press
-  int total_distance = (height-BUTTONS_YOFFSET);
-  if (pad >= total_distance - 50 && pad <= total_distance + 50) {
+    // If in boundary to press
+    int total_distance = (height-BUTTONS_YOFFSET);
+    if (pad >= total_distance - 50 && pad <= total_distance + 50) {
 
+    }
   }
 
-  return FALSE;*/
+  return FALSE;
 
 }

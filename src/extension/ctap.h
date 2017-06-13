@@ -48,6 +48,8 @@ typedef struct {
   GtkWidget *content;
   ctap_button_t *buttons;
   int num_buttons;
+  GtkWidget **dots;
+  int num_dots;
 } ctap_t;
 
 enum {
@@ -80,7 +82,7 @@ void draw_lines(ctap_t *game);
 void start_game(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
 void select_button(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
 void release_button(GtkWidget* window, GdkEventKey* event, gpointer user_data);
-gboolean move_dot(gpointer data);
+gboolean move_dots(gpointer user_data);
 
 // Sounds
 void play_sound(char* wav_file_name, int time);
