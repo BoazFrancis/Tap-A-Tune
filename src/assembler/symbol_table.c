@@ -10,9 +10,12 @@
  * @param st - A pointer to the symbol table to load the labels into
  * @returns the new instruction count (without labels)
  */
-int build_symbol_table(int total_size, char **instructions, SymbolTable *st, char* label) {
+int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
 
   int instruction_count = 0;
+
+  // Create label pointer
+  char* label;
 
   for (int i=0; i<total_size; i++) {
 
