@@ -10,6 +10,8 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
     // Draw lines
     draw_lines(game);
+    draw_dot(game, 1);
+    draw_dot(game, 3);
 
     draw_buttons(game);
     gtk_widget_show_all(game->window);
@@ -22,6 +24,7 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     g_signal_connect(game->window, "key-release-event", G_CALLBACK(release_button), game);
 
   }
+
 }
 
 void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
@@ -32,18 +35,20 @@ void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
   char *label;
 
   switch (event->keyval) {
-    case RED_KEY: label = RED_LABEL; break;
-    case BLUE_KEY: label = BLUE_LABEL; break;
-    case GREEN_KEY: label = GREEN_LABEL; break;
-    case YELLOW_KEY: label = YELLOW_LABEL; break;
-    case PURPLE_KEY: label = PURPLE_LABEL; break;
+    case RED_KEY:     label = RED_LABEL; break;
+    case BLUE_KEY:    label = BLUE_LABEL; break;
+    case GREEN_KEY:   label = GREEN_LABEL; break;
+    case YELLOW_KEY:  label = YELLOW_LABEL; break;
+    case PURPLE_KEY:  label = PURPLE_LABEL; break;
+    default: return;
   }
 
   for (int i=0; i<game->num_buttons; i++) {
-    if (strcmp(game->buttons[i].key, label) == 0 && game->buttons[i].active == 0) {
+    if (strcmp(game->buttons[i].key, label) == 0 && game->buttons[i].is_selected == 0) {
+      // Highlight the button
       gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].selected, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
       g_object_ref(game->buttons[i].selected);
-      game->buttons[i].active = 1;
+      game->buttons[i].is_selected = 1;
     }
   }
 
@@ -58,9 +63,18 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
   int height;
   gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
   for (int i=0; i<game->num_buttons; i++) {
-    if (game->buttons[i].active == 1) {
+    if (game->buttons[i].is_selected == 1) {
+
       gtk_container_remove(GTK_CONTAINER(game->container), game->buttons[i].selected);
-      game->buttons[i].active = 0;
+      game->buttons[i].is_selected = 0;
+
+      // Check if any dots on this track are selectable
+      for (int j=0; j<game->num_dots; j++) {
+        if (game->dots[j].track == i && game->buttons[i].can_press == 1) {
+          printf("You did it\n");
+        }
+      }
+
     }
   }
 
@@ -72,20 +86,21 @@ gboolean move_dot(gpointer user_data) {
 
   GObject *params = user_data;
   ctap_t *game = g_object_get_data(params, "game");
-  int dot = GPOINTER_TO_INT(g_object_get_data(params, "dot"));
+  int track = GPOINTER_TO_INT(g_object_get_data(params, "track"));
 
-  unsigned int pad;
-  gtk_alignment_get_padding(GTK_ALIGNMENT(game->dots[dot]), &pad, NULL, NULL, NULL);
-  gtk_alignment_set_padding(GTK_ALIGNMENT(game->dots[dot]), pad + 1, 0, 0, 0);
-  gtk_widget_queue_draw(game->dots[dot]);
+  game->dots[track].y++;
+  gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
 
   int height;
   gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
 
   // If in boundary to press
   int total_distance = (height-BUTTONS_YOFFSET);
-  if (pad >= total_distance - 50 && pad <= total_distance + 50) {
-
+  if (game->dots[track].y >= total_distance - BUTTON_BOUNDARY && game->dots[track].y <= total_distance + BUTTON_BOUNDARY) {
+    game->buttons[track].can_press = 1;
+  }
+  else {
+    game->buttons[track].can_press = 0;
   }
 
   return FALSE;

@@ -67,13 +67,14 @@ void init_buttons(ctap_t *game) {
     game->buttons[i].key = button_names[i];
     game->buttons[i].widget = gtk_image_new_from_pixbuf(image);
     game->buttons[i].selected = gtk_image_new_from_pixbuf(image_selected);
-    game->buttons[i].active = 0;
+    game->buttons[i].is_selected = 0;
+    game->buttons[i].can_press = 0;
 
   }
 
   // Init dots as empty
   game->num_dots = 0;
-  game->dots = malloc(sizeof(GtkWidget *));
+  game->dots = malloc(sizeof(ctap_dot_t *));
 
 }
 

@@ -32,17 +32,20 @@ void draw_dot(ctap_t *game, int track) {
   gtk_container_add(GTK_CONTAINER(align), dot_widget);
 
   game->num_dots++;
-  game->dots = realloc(game->dots, sizeof(GtkWidget *) * game->num_dots);
-  game->dots[game->num_dots - 1] = align;
+  game->dots = realloc(game->dots, sizeof(ctap_dot_t) * game->num_dots);
+  game->dots[game->num_dots - 1].widget = align;
+  game->dots[game->num_dots - 1].track = track;
+  game->dots[game->num_dots - 1].x = BUTTONS_XOFFSET + track*BUTTONS_XINC;
+  game->dots[game->num_dots - 1].y = 0;
 
-  gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1], BUTTONS_XOFFSET + track*BUTTONS_XINC, 0);
+  gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1].widget, game->dots[game->num_dots - 1].x, game->dots[game->num_dots - 1].y);
 
   int height;
   gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
-  for (int i=0; i<(height-BUTTONS_YOFFSET); i++) {
+  for (int i=0; i<height+BUTTONS_SIZE; i++) {
     GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
     g_object_set_data(params, "game", game);
-    g_object_set_data(params, "dot", GINT_TO_POINTER(game->num_dots - 1));
+    g_object_set_data(params, "track", GINT_TO_POINTER(game->num_dots - 1));
     g_timeout_add(5*i, move_dot, params);
   }
 

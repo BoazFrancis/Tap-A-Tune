@@ -39,8 +39,16 @@ typedef struct {
   char *key;
   GtkWidget *widget;
   GtkWidget *selected;
-  int active;
+  int is_selected;
+  int can_press;
 } ctap_button_t;
+
+typedef struct {
+  GtkWidget *widget;
+  int track;
+  int x;
+  int y;
+} ctap_dot_t;
 
 typedef struct {
   GtkWidget *window;
@@ -48,7 +56,7 @@ typedef struct {
   GtkWidget *content;
   ctap_button_t *buttons;
   int num_buttons;
-  GtkWidget **dots;
+  ctap_dot_t *dots;
   int num_dots;
 } ctap_t;
 
