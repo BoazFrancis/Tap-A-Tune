@@ -63,6 +63,7 @@ enum {
 
 // Utils methodss
 GdkPixbuf *create_pixbuf(const gchar *filename);
+char *trim_whitespace(char *str);
 
 // Init methods
 void init_window(ctap_t *game);
@@ -85,7 +86,7 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data);
 gboolean move_dot(gpointer user_data);
 
 // Sounds
-void play_sound(char *wav_file_name, int time);
+void play_sound(char *wav_file_name, int length);
 
 // Reading in a file
 char **read_file(char *filepath);

@@ -1,6 +1,6 @@
 #include "ctap.h"
 
-void play_sound(char *wav_file_name, int time) {
+void play_sound(char *wav_file_name, int length) {
 
   Mix_Chunk *sound = NULL;
   int channel;
@@ -23,7 +23,7 @@ void play_sound(char *wav_file_name, int time) {
     printf("Unable to load WAV file: %s\n", Mix_GetError());
   }
 
-  channel = Mix_PlayChannelTimed(-1, sound, 0, time);
+  channel = Mix_PlayChannelTimed(-1, sound, 0, length);
   if(channel == -1) {
     printf("Unable to play WAV file: %s\n", Mix_GetError());
   }

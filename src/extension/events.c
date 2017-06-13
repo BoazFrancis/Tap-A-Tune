@@ -10,14 +10,12 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
     // Draw lines
     draw_lines(game);
-    draw_dot(game, 0);
-    draw_dot(game, 3);
 
     draw_buttons(game);
     gtk_widget_show_all(game->window);
 
     // Don't care about this key press event anymore
-    g_signal_handlers_disconnect_by_func(game->window, G_CALLBACK(start_game), user_data);
+    gtk_signal_disconnect_by_func(GTK_OBJECT(game->window), GTK_SIGNAL_FUNC(start_game), user_data);
 
     // Key presses for 5 different buttons
     g_signal_connect(game->window, "key-press-event", G_CALLBACK(select_button), game);
@@ -76,7 +74,7 @@ gboolean move_dot(gpointer user_data) {
   ctap_t *game = g_object_get_data(params, "game");
   int dot = GPOINTER_TO_INT(g_object_get_data(params, "dot"));
 
-  int pad;
+  unsigned int pad;
   gtk_alignment_get_padding(GTK_ALIGNMENT(game->dots[dot]), &pad, NULL, NULL, NULL);
   gtk_alignment_set_padding(GTK_ALIGNMENT(game->dots[dot]), pad + 1, 0, 0, 0);
   gtk_widget_queue_draw(game->dots[dot]);

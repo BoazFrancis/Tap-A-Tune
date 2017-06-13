@@ -1,9 +1,9 @@
 #include "ctap.h"
-
-/*int main(void) {
+/*
+int main(void) {
 
 char** words = read_file("music.txt");
-/* Should be commented out
+
     int j;
     for(j = 1; j < i; j++) {
       int note = strtol(words[j], NULL, 0);
@@ -15,7 +15,7 @@ char** words = read_file("music.txt");
                 SDL_Delay(strtol(words[0], NULL, 0));
       }
     }
-
+printf("%s\n", words[1]);
   int words_length = sizeof(words) / sizeof(char*);
   for(int j = 1; j < words_length; j++) {
     int two_note = strtol(words[j], NULL, 0);
@@ -32,8 +32,8 @@ char** words = read_file("music.txt");
     }
   }
 
-    /* Good practice to free memory */
-    /*for (int i = 0; i < words_length; i++) { should be commented out
+    // Good practice to free memory
+    for (int i = 0; i < words_length; i++) {
       free(words[i]);
     }
     free(words);
