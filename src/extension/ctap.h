@@ -98,3 +98,4 @@ void play_sound(char *wav_file_name, int length);
 
 // Reading in a file
 char **read_file(char *filepath);
+int count_lines(char *filepath);
