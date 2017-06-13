@@ -24,7 +24,7 @@ void draw_lines(ctap_t *game) {
 
 }
 
-void draw_dot(ctap_t *game) {
+void draw_dot(ctap_t *game, int track) {
 
   GtkWidget* align = gtk_alignment_new(0, 0, 0, 0);
   GdkPixbuf* dot = create_pixbuf("img/dot.png");
@@ -35,12 +35,15 @@ void draw_dot(ctap_t *game) {
   game->dots = realloc(game->dots, sizeof(GtkWidget *) * game->num_dots);
   game->dots[game->num_dots - 1] = align;
 
-  gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1], BUTTONS_XOFFSET, 0);
+  gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1], BUTTONS_XOFFSET + track*BUTTONS_XINC, 0);
 
   int height;
   gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
   for (int i=0; i<(height-BUTTONS_YOFFSET); i++) {
-    g_timeout_add(5*i, move_dots, game);
+    GObject* params = g_object_new(G_TYPE_OBJECT, NULL);
+    g_object_set_data(params, "game", game);
+    g_object_set_data(params, "dot", GINT_TO_POINTER(game->num_dots - 1));
+    g_timeout_add(5*i, move_dot, params);
   }
 
 }
