@@ -39,34 +39,51 @@
 #define IMG_PURPLE_SELECT IMG_PATH "purple_selected.png"
 #define IMG_EXIT IMG_PATH "exit.png"
 
-typedef enum buttons {
-BUTTONS_YOFFSET = 150,
-RED_X           = 50,
-BLUE_X          = 200,
-GREEN_X         = 350,
-YELLOW_X        = 500,
-PURPLE_X        = 650,
-BUTTONS_SIZE    = 100,
-LINE_SIZE       = 10
-} button_enum;
+typedef struct {
+  char *key;
+  GtkWidget *widget;
+  GtkWidget *selected;
+  int active;
+} ctap_button_t;
 
-// Start screen methodss
-void set_bg(GtkWidget* window);
-void start_screen(GtkWidget* window, GtkWidget* container, GObject* params, GtkWidget* start_content);
+typedef struct {
+  GtkWidget *window;
+  GtkWidget *container;
+  GtkWidget *content;
+  ctap_button_t *buttons;
+  int num_buttons;
+} ctap_t;
+
+enum {
+  BUTTONS_YOFFSET = 150,
+  BUTTONS_XOFFSET = 50,
+  BUTTONS_XINC    = 150,
+  BUTTONS_SIZE    = 100,
+  LINE_SIZE       = 10,
+  BUTTON_BOUNDARY = 50
+};
+
+// Utils methodss
 GdkPixbuf *create_pixbuf(const gchar* filename);
-void exit_button(GtkWidget* container);
-void start_screen_text(GtkWidget* container);
 
-// Initialise buttons
-void draw_dot(GtkWidget* window, GtkWidget* container);
-void draw_lines(GtkWidget* window, GtkWidget* container);
-void draw_buttons(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
-void key_colour(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
-void reset_colour(GtkWidget* window, GdkEventKey* event, gpointer user_data);
+// Init methods
+void init_window(ctap_t *game);
+void init_container(ctap_t *game);
+void init_startscreen(ctap_t *game);
+void init_buttons(ctap_t *game);
+void set_bg(ctap_t *game);
+void start_screen_text(ctap_t *game);
+void exit_button(ctap_t *game);
 
-// Move
+// Draw methods
+void draw_dot(ctap_t *game);
+void draw_lines(ctap_t *game);
+
+// Event callbacks
+void start_game(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
+void select_button(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
+void draw_buttons(GtkWidget* window, GdkEventKey* event, gpointer user_data);
 gboolean move_dot(gpointer data);
-gboolean respond(gpointer data);
 
 // Sounds
 void play_sound(char* wav_file_name, int time);

@@ -1,4 +1,4 @@
-#include "extension.h"
+#include "ctap.h"
 
 char** read_file(char* filepath) {
   int lines_allocated = 128;
