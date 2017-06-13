@@ -1,6 +1,7 @@
 #include "ctap.h"
 
 void start_game(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
+
   if (event->keyval == ENTER_KEY) {
 
     ctap_t *game = user_data;
@@ -11,7 +12,7 @@ void start_game(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
     draw_lines(game);
     draw_dot(game);
 
-    draw_buttons(window, NULL, game);
+    draw_buttons(game);
     gtk_widget_show_all(game->window);
 
     // Don't care about this key press event anymore
@@ -19,78 +20,51 @@ void start_game(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
     // Key presses for 5 different buttons
     g_signal_connect(game->window, "key-press-event", G_CALLBACK(select_button), game);
-    g_signal_connect(game->window, "key-release-event", G_CALLBACK(draw_buttons), game);
+    g_signal_connect(game->window, "key-release-event", G_CALLBACK(release_button), game);
 
   }
 }
 
-void draw_buttons(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
+void select_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
+
+  ctap_t *game = user_data;
+  int height;
+  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
+  char *label;
+
+  switch (event->keyval) {
+    case RED_KEY: label = RED_LABEL; break;
+    case BLUE_KEY: label = BLUE_LABEL; break;
+    case GREEN_KEY: label = GREEN_LABEL; break;
+    case YELLOW_KEY: label = YELLOW_LABEL; break;
+    case PURPLE_KEY: label = PURPLE_LABEL; break;
+  }
+
+  for (int i=0; i<game->num_buttons; i++) {
+    if (strcmp(game->buttons[i].key, label) == 0 && game->buttons[i].active == 0) {
+      gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].selected, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
+      game->buttons[i].active = 1;
+    }
+  }
+
+  gtk_widget_show_all(window);
+
+}
+
+void release_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
   ctap_t *game = user_data;
 
   int height;
   gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
   for (int i=0; i<game->num_buttons; i++) {
-    gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].widget, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
+    if (game->buttons[i].active == 1) {
+      gtk_container_remove(GTK_CONTAINER(game->container), game->buttons[i].selected);
+      game->buttons[i].active = 0;
+    }
   }
 
   gtk_widget_show_all(game->window);
-
-}
-
-void select_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
-
-  /*GObject* params = user_data;
-  GtkWidget** container = g_object_get_data(params, "container");
-  int height;
-  gtk_window_get_size(GTK_WINDOW(window), NULL, &height);
-
-  switch (event->keyval) {
-    case RED_KEY: {
-      GtkWidget* red_button = g_object_get_data(params, "red_button");
-      GdkPixbuf* red_image = create_pixbuf(IMG_RED_SELECT);
-      red_image = gdk_pixbuf_scale_simple(red_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
-      red_button = gtk_image_new_from_pixbuf(red_image);
-      gtk_fixed_put(GTK_FIXED(*container), red_button, RED_X, height-BUTTONS_YOFFSET);
-      play_sound("wavs/piano/a1.wav", 600);
-      break;
-    }
-    case BLUE_KEY: {
-      GtkWidget* blue_button = g_object_get_data(params, "blue_button");
-      GdkPixbuf* blue_image = create_pixbuf(IMG_BLUE_SELECT);
-      blue_image = gdk_pixbuf_scale_simple(blue_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
-      blue_button = gtk_image_new_from_pixbuf(blue_image);
-      gtk_fixed_put(GTK_FIXED(*container), blue_button, BLUE_X, height-BUTTONS_YOFFSET);
-      play_sound("wavs/piano/b1.wav", 600);
-      break;
-    }
-    case GREEN_KEY: {
-      GtkWidget* green_button = g_object_get_data(params, "green_button");
-      GdkPixbuf* green_image = create_pixbuf(IMG_GREEN_SELECT);
-      green_image = gdk_pixbuf_scale_simple(green_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
-      green_button = gtk_image_new_from_pixbuf(green_image);
-      gtk_fixed_put(GTK_FIXED(*container), green_button, GREEN_X, height-BUTTONS_YOFFSET);
-      break;
-    }
-    case YELLOW_KEY: {
-      GtkWidget* yellow_button = g_object_get_data(params, "yellow_button");
-      GdkPixbuf* yellow_image = create_pixbuf(IMG_YELLOW_SELECT);
-      yellow_image = gdk_pixbuf_scale_simple(yellow_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
-      yellow_button = gtk_image_new_from_pixbuf(yellow_image);
-      gtk_fixed_put(GTK_FIXED(*container), yellow_button, YELLOW_X, height-BUTTONS_YOFFSET);
-      break;
-    }
-    case PURPLE_KEY: {
-      GtkWidget* purple_button = g_object_get_data(params, "purple_button");
-      GdkPixbuf* purple_image = create_pixbuf(IMG_PURPLE_SELECT);
-      purple_image = gdk_pixbuf_scale_simple(purple_image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
-      purple_button = gtk_image_new_from_pixbuf(purple_image);
-      gtk_fixed_put(GTK_FIXED(*container), purple_button, PURPLE_X, height-BUTTONS_YOFFSET);
-      break;
-    }
-  }
-
-  gtk_widget_show_all(window);*/
 
 }
 

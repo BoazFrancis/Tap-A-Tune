@@ -46,8 +46,8 @@ void init_buttons(ctap_t *game) {
   game->num_buttons = 5;
   char *button_names[game->num_buttons];
   button_names[0] = "red";
-  button_names[1] = "green";
-  button_names[2] = "blue";
+  button_names[1] = "blue";
+  button_names[2] = "green";
   button_names[3] = "yellow";
   button_names[4] = "purple";
 

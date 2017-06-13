@@ -21,22 +21,18 @@
 #define YELLOW_KEY R_KEY
 #define PURPLE_KEY T_KEY
 
+#define RED_LABEL "red"
+#define GREEN_LABEL "green"
+#define BLUE_LABEL "blue"
+#define YELLOW_LABEL "yellow"
+#define PURPLE_LABEL "purple"
+
 #define WINDOW_SIZE 500
 
 // Images
 #define IMG_PATH "img/"
 #define IMG_BG IMG_PATH "bg.jpg"
 #define IMG_ICON IMG_PATH "icon.png"
-#define IMG_RED IMG_PATH "red.png"
-#define IMG_RED_SELECT IMG_PATH "red_selected.png"
-#define IMG_BLUE IMG_PATH "blue.png"
-#define IMG_BLUE_SELECT IMG_PATH "blue_selected.png"
-#define IMG_GREEN IMG_PATH "green.png"
-#define IMG_GREEN_SELECT IMG_PATH "green_selected.png"
-#define IMG_YELLOW IMG_PATH "yellow.png"
-#define IMG_YELLOW_SELECT IMG_PATH "yellow_selected.png"
-#define IMG_PURPLE IMG_PATH "purple.png"
-#define IMG_PURPLE_SELECT IMG_PATH "purple_selected.png"
 #define IMG_EXIT IMG_PATH "exit.png"
 
 typedef struct {
@@ -76,13 +72,14 @@ void start_screen_text(ctap_t *game);
 void exit_button(ctap_t *game);
 
 // Draw methods
+void draw_buttons(ctap_t *game);
 void draw_dot(ctap_t *game);
 void draw_lines(ctap_t *game);
 
 // Event callbacks
 void start_game(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
 void select_button(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
-void draw_buttons(GtkWidget* window, GdkEventKey* event, gpointer user_data);
+void release_button(GtkWidget* window, GdkEventKey* event, gpointer user_data);
 gboolean move_dot(gpointer data);
 
 // Sounds

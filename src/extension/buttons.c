@@ -1,5 +1,23 @@
 #include "ctap.h"
 
+void draw_buttons(ctap_t *game) {
+
+  int height;
+  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
+  for (int i=0; i<game->num_buttons; i++) {
+    if (game->buttons[i].active == 1) {
+      gtk_container_remove(GTK_CONTAINER(game->container), game->buttons[i].selected);
+      game->buttons[i].active = 0;
+    }
+    else {
+      gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].widget, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
+    }
+  }
+
+  gtk_widget_show_all(game->window);
+
+}
+
 void draw_lines(ctap_t *game) {
 /*
   GdkPixbuf* line = create_pixbuf("img/line.png");
