@@ -27,9 +27,9 @@ int count_lines(FILE *input) {
 int read_file(FILE *input, int num_lines, char **instructions) {
 
   for(int i=0; i<num_lines; i++) {
-    instructions[i] = malloc(sizeof(char)*LENGTH_OF_LINE);
+    instructions[i] = calloc(LENGTH_OF_LINE, sizeof(char));
     if (instructions == NULL) {
-      perror("Instructions malloc in assemble main");
+      perror("Instructions calloc in assemble main");
       exit(EXIT_FAILURE);
     }
   }
