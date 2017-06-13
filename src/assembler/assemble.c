@@ -40,12 +40,9 @@ int main(int argc, char **argv) {
     SymbolTable st;
     st.size = 0;
 
-    // Create label pointer
-    char* label = NULL;
-
     // Returns the number of actual instructions
     // i.e. every instruction except a jump label
-    int num_no_labels = build_symbol_table(total_size, instructions, &st, label);
+    int num_no_labels = build_symbol_table(total_size, instructions, &st);
 
     // Process all these instructions
     process_instructions(total_size, &num_no_labels, instructions, output, &st);
