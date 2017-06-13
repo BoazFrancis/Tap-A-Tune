@@ -59,8 +59,8 @@ void init_buttons(ctap_t *game) {
     char *filename_selected = malloc(sizeof(char)*100);
     sprintf(filename, "img/%s.png", button_names[i]);
     sprintf(filename_selected, "img/%s_selected.png", button_names[i]);
-    GdkPixbuf* image = create_pixbuf(filename);
-    GdkPixbuf* image_selected = create_pixbuf(filename_selected);
+    GdkPixbuf *image = create_pixbuf(filename);
+    GdkPixbuf *image_selected = create_pixbuf(filename_selected);
     image = gdk_pixbuf_scale_simple(image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
     image_selected = gdk_pixbuf_scale_simple(image_selected, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
 
@@ -80,17 +80,17 @@ void init_buttons(ctap_t *game) {
 void set_bg(ctap_t *game) {
 
   // Initialise bg pixmap
-  GdkPixmap* bg;
+  GdkPixmap *bg;
 
   // Load bg image file into pixbuf
-  GdkPixbuf* image = create_pixbuf(IMG_BG);
+  GdkPixbuf *image = create_pixbuf(IMG_BG);
 
   // Image should fill screen size
   image = gdk_pixbuf_scale_simple(image, gdk_screen_width(), gdk_screen_height(), GDK_INTERP_BILINEAR);
   gdk_pixbuf_render_pixmap_and_mask(image, &bg, NULL, 0);
 
   // Create a new style
-  GtkStyle* style = gtk_style_new();
+  GtkStyle *style = gtk_style_new();
   style->bg_pixmap[0] = bg;
 
   // Append the style to the window
@@ -100,11 +100,11 @@ void set_bg(ctap_t *game) {
 
 void start_screen_text(ctap_t *game) {
 
-  PangoFontDescription* font_desc;
+  PangoFontDescription *font_desc;
   GdkColor color;
 
-  GtkWidget* title = gtk_label_new("Welcome to Tap Tap!");
-  GtkWidget* sub = gtk_label_new("Press <ENTER> to start.");
+  GtkWidget *title = gtk_label_new("Welcome to Tap Tap!");
+  GtkWidget *sub = gtk_label_new("Press <ENTER> to start.");
 
   /* Change default font throughout the widget */
   font_desc = pango_font_description_from_string("Serif 40");
@@ -120,7 +120,7 @@ void start_screen_text(ctap_t *game) {
   gtk_widget_modify_fg(title, GTK_STATE_NORMAL, &color);
   gtk_widget_modify_fg(sub, GTK_STATE_NORMAL, &color);
 
-  GtkWidget* align_title = gtk_alignment_new(0, 0, 0, 0);
+  GtkWidget *align_title = gtk_alignment_new(0, 0, 0, 0);
   gtk_container_add(GTK_CONTAINER(align_title), title);
 
   gtk_fixed_put(GTK_FIXED(game->content), align_title, 300, 300);
@@ -132,14 +132,14 @@ void start_screen_text(ctap_t *game) {
 
 void exit_button(ctap_t *game) {
 
-  GtkWidget* event_box = gtk_event_box_new();
+  GtkWidget *event_box = gtk_event_box_new();
 
   GdkColor bg;
   gdk_color_parse("black", &bg);
   gtk_widget_modify_bg(event_box, GTK_STATE_NORMAL, &bg);
 
-  GdkPixbuf* icon = create_pixbuf(IMG_EXIT);
-  GtkWidget* exit_image = gtk_image_new_from_pixbuf(icon);
+  GdkPixbuf *icon = create_pixbuf(IMG_EXIT);
+  GtkWidget *exit_image = gtk_image_new_from_pixbuf(icon);
   gtk_container_add(GTK_CONTAINER(event_box), exit_image);
 
   g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);

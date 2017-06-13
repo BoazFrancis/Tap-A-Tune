@@ -1,6 +1,6 @@
 #include "ctap.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
   // Initialise Gtk
   gtk_init(&argc, &argv);

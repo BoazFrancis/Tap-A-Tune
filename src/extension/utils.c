@@ -1,6 +1,6 @@
 #include "ctap.h"
 
-GdkPixbuf *create_pixbuf(const gchar* filename) {
+GdkPixbuf *create_pixbuf(const gchar *filename) {
 
    GdkPixbuf *pixbuf;
    GError *error = NULL;

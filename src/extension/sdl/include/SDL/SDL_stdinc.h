@@ -496,13 +496,13 @@ extern DECLSPEC unsigned long SDLCALL SDL_strtoul(const char *string, char **end
 #ifdef HAVE__I64TOA
 #define SDL_lltoa       _i64toa
 #else
-extern DECLSPEC char* SDLCALL SDL_lltoa(Sint64 value, char *string, int radix);
+extern DECLSPEC char *SDLCALL SDL_lltoa(Sint64 value, char *string, int radix);
 #endif
 
 #ifdef HAVE__UI64TOA
 #define SDL_ulltoa      _ui64toa
 #else
-extern DECLSPEC char* SDLCALL SDL_ulltoa(Uint64 value, char *string, int radix);
+extern DECLSPEC char *SDLCALL SDL_ulltoa(Uint64 value, char *string, int radix);
 #endif
 
 #ifdef HAVE_STRTOLL

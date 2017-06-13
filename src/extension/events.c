@@ -1,6 +1,6 @@
 #include "ctap.h"
 
-void start_game(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
+void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
   if (event->keyval == ENTER_KEY) {
 
@@ -26,7 +26,7 @@ void start_game(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
   }
 }
 
-void select_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
+void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
   ctap_t *game = user_data;
   int height;
@@ -53,7 +53,7 @@ void select_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
 
 }
 
-void release_button(GtkWidget* window, GdkEventKey* event, gpointer user_data) {
+void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
   ctap_t *game = user_data;
 

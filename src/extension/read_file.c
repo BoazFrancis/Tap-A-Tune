@@ -1,6 +1,6 @@
 #include "ctap.h"
 
-char** read_file(char* filepath) {
+char** read_file(char *filepath) {
   int lines_allocated = 128;
   int max_line_len = 100;
 

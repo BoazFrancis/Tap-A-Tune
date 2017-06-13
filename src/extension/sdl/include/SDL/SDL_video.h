@@ -839,7 +839,7 @@ extern DECLSPEC int SDLCALL SDL_GL_LoadLibrary(const char *path);
 /**
  * Get the address of a GL function
  */
-extern DECLSPEC void * SDLCALL SDL_GL_GetProcAddress(const char* proc);
+extern DECLSPEC void * SDLCALL SDL_GL_GetProcAddress(const char *proc);
 
 /**
  * Set an attribute of the OpenGL subsystem before intialization.

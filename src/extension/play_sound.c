@@ -1,6 +1,6 @@
 #include "ctap.h"
 
-void play_sound(char* wav_file_name, int time) {
+void play_sound(char *wav_file_name, int time) {
 
   Mix_Chunk *sound = NULL;
   int channel;

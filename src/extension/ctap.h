@@ -62,7 +62,7 @@ enum {
 };
 
 // Utils methodss
-GdkPixbuf *create_pixbuf(const gchar* filename);
+GdkPixbuf *create_pixbuf(const gchar *filename);
 
 // Init methods
 void init_window(ctap_t *game);
@@ -79,13 +79,13 @@ void draw_dot(ctap_t *game, int track);
 void draw_lines(ctap_t *game);
 
 // Event callbacks
-void start_game(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
-void select_button(GtkWidget*widget, GdkEventKey* event, gpointer user_data);
-void release_button(GtkWidget* window, GdkEventKey* event, gpointer user_data);
+void start_game(GtkWidget*widget, GdkEventKey *event, gpointer user_data);
+void select_button(GtkWidget*widget, GdkEventKey *event, gpointer user_data);
+void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data);
 gboolean move_dot(gpointer user_data);
 
 // Sounds
-void play_sound(char* wav_file_name, int time);
+void play_sound(char *wav_file_name, int time);
 
 // Reading in a file
-char** read_file(char* filepath);
+char **read_file(char *filepath);
