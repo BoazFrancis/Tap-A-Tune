@@ -43,7 +43,14 @@ Having all played Guitar Hero in our childhoods at one point or another, we had 
 
 \subsection{Challenges}
 
-*Will elaborate*
+\begin{itemize}
+\item Lag/Memory - The GUI that we coded initially encountered a tremendous amount of lag as the buttons were falling down the screen. To fix this, we optimized the graphics so that the buttons would immediately free memory after their termination. This also improved lag time.
+
+\item Playing Multiple Sounds - This challenge was fixed through copious amounts of research. We were trying to play sounds simultaneously along with the GUI, so we could also respond to the pressing of multiple buttons. This was finally accomplished after thorough research and extensive development.
+
+\item Loop Delay (Assembler) - Going back to the assembler, there were times when certain test cases would not pass on certain computers - namely, the tests with loops. We found that if other processes were running in the background of the tests, then the code would take longer to run, ultimately failing our tests. We accounted for this interference in our updated code and ultimately ran the tests on machines that were not busy. This was how the tests were intended to be run, and the initial ones that failed then passed. 
+
+\end{itemize}
 
 \subsection{Testing}
 
