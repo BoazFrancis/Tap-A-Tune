@@ -6,13 +6,14 @@
 \let\LaTeXsubsection\subsubsection
 \def\subsubsection{\setlength{\parindent}{5mm}\LaTeXsubsection}
 
-
+\usepackage{titling}
+\setlength{\droptitle}{-4em} 
 
 \begin{document}
 
-\title{\textbf{ARM Final Report}}
-\author{Shravan Nageswaran, Alexandr Zakon, Jason Lipowicz, Boaz Francis}
-\date{\today}
+\title{\textbf{C Project - Final Report}}
+\author{Shravan Nageswaran, Jason Lipowicz,\\ Alexandr Zakon, Boaz Francis}
+\date{20th June 2017}
 
 \maketitle
 
@@ -36,7 +37,9 @@ Creating the assembler and emulator made us appreciate the designs of computer a
 
 \subsection{Design}
 
-*Will elaborate*
+Having all played Guitar Hero in our childhoods at one point or another, we had an idea of where to start in order to successfully implement our extension. We split into groups of two to do some preliminary research on how to implement sound and GUIs in C. Notably, progress in the graphics area was made much faster than progress in the sound area, as we were able to quickly code a user interface for our game. One member of the group also was quickly able to setup a program which read user input through the keyboard. This was important as it corresponded to the user's pressing of the GUI's buttons, each of which represented a different guitar string. 
+\\ \hspace{10mm} As is good practice in C, we created a header file, called \emph{ctap.h}, which consisted of numerous constant, enumeration, struct, and function definitions. A button was represented as a struct, with characteristics from the \emph{GtkWidget} platform in C. We were able to code the graphics within three days, after which we started to make tests on the graphics, while we waited to integrate the sound component of the extension.
+\\ \hspace{10mm} Once we were able to figure out how to play a sound, using the \emph{SDL Mixer} platform, the ball was rolling. We extended our progress to have the program play multiple songs at once, to create a more realistic interpretation of a guitar. We were now able to read sounds from a file, read user input, and integrate both into our advanced graphics. Our game has come along nicely.
 
 \subsection{Challenges}
 
@@ -52,17 +55,30 @@ Creating the assembler and emulator made us appreciate the designs of computer a
 
 \subsection{Individual Reflections}
 
-\subsubsection{Shravan Nageswaran:} \emph{Shravan to fill out}
+\subsubsection{Shravan Nageswaran} 
+\begin{quote}
+``\textit{Shravan to fill out}"
+\end{quote}
 
 
-\subsubsection{Jason Lipowicz:} \emph{Jason to fill out}
+\subsubsection{Jason Lipowicz}
+\begin{quote}
+``\textit{I am very happy with the performance of my entire group in this project, and I have really enjoyed the challenge. It has been exciting and rewarding to be the group leader and I believe that I have managed the group well throughout. Having a lot of experience in programming has proved very useful during this project, and it meant that I was able to assist my group in the more complicated aspects to the C language. One aspect of the WebPA assessment that I am most proud of is being able to point other people in the right direction when they are struggling with coding - especially when it is a segmentation fault!} 
+\textit{\\Reflecting on my progress throughout, I think that I made a slower start to Part I than I had hoped. It took a few days for all of us to get a full understanding of the requirements of the emulator, and the hardest part of the whole project in my opinion, was the initial setup of the emulator, which involved reading in the binary file and loading in the instructions into the \emph{pipeline}. I felt a lot more comfortable after that, and we were able to make much better progress are overcoming this initial hurdle.} 
+\textit {\\In the future, if I were to repeat this project, I would have probably started out differently. Instead of trying to understand the  specification in its entirety, I would break down the first part and get straight to programming the binary file reader. That way, we'd be in a better position to continue and work systematically. Other than that, I can't fault anything else in our group and I am extremely happy with the finished products!}"
+\end{quote}
+
+\subsubsection{Alexandr Zakon} 
+\begin{quote}
+``\textit{Alexandr to fill out}"
+\end{quote}
 
 
-\subsubsection{Alexandr Zakon:} \emph{Alexandr to fill out}
+\subsubsection{Boaz Francis}
+\begin{quote}
+``\textit{Boaz to fill out}"
+\end{quote}
 
-
-\subsubsection{Boaz Francis:} \emph{Boaz to fill out}
-
-\subsection{Conclusion}
+\section{Conclusion}
 
 \end{document}
