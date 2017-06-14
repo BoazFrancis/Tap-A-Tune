@@ -105,3 +105,16 @@ gboolean move_dot(gpointer user_data) {
   return FALSE;
 
 }
+
+gboolean create_note(gpointer user_data) {
+
+  GObject *params = user_data;
+  ctap_t *game = g_object_get_data(params, "game");
+  char note = GPOINTER_TO_INT(g_object_get_data(params, "note"));
+
+  int track = get_track_from_note(note);
+  draw_dot(game, track);
+
+  return FALSE;
+
+}

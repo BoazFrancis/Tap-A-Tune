@@ -95,6 +95,7 @@ void start_game(GtkWidget*widget, GdkEventKey *event, gpointer user_data);
 void select_button(GtkWidget*widget, GdkEventKey *event, gpointer user_data);
 void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data);
 gboolean move_dot(gpointer user_data);
+gboolean create_note(gpointer user_data);
 
 // Sounds
 void play_sound(char *wav_file_name, int length);

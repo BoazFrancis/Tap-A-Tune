@@ -46,7 +46,8 @@ void draw_dot(ctap_t *game, int track) {
     GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
     g_object_set_data(params, "game", game);
     g_object_set_data(params, "track", GINT_TO_POINTER(game->num_dots - 1));
-    g_timeout_add(5*i, move_dot, params);
+    int timeout = 10 - game->speed;
+    g_timeout_add(timeout*i, move_dot, params);
   }
 
 }

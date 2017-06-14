@@ -3,6 +3,7 @@
 void start_song(ctap_t *game) {
 
   int playing_song = 0;
+  int note_number = 0;
   char *filename = "music.txt";
   char **words = read_file(filename);
   int num_lines = count_lines(filename);
@@ -46,7 +47,12 @@ void start_song(ctap_t *game) {
 
     // Get notes
     if (playing_song == 1) {
-      printf("%s\n", words[i]);
+      int note = words[i][0];
+      GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
+      g_object_set_data(params, "game", game);
+      g_object_set_data(params, "note", GINT_TO_POINTER(note));
+      g_timeout_add(game->tempo * note_number, create_note, params);
+      note_number++;
     }
 
   }
