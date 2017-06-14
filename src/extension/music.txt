@@ -3,7 +3,7 @@
 #####################################
 
 # The speed at which dots move to the user
-speed 5
+speed 2
 
 # The number of milliseconds between each block
 tempo 1000

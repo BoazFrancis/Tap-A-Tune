@@ -42,7 +42,6 @@ typedef struct {
   GtkWidget *widget;
   GtkWidget *selected;
   int is_selected;
-  int can_press;
 } ctap_button_t;
 
 typedef struct {
@@ -50,6 +49,7 @@ typedef struct {
   int track;
   int x;
   int y;
+  char note;
 } ctap_dot_t;
 
 typedef struct {
@@ -91,7 +91,7 @@ void init_notetable(ctap_t *game);
 
 // Draw methods
 void draw_buttons(ctap_t *game);
-void draw_dot(ctap_t *game, int track);
+void draw_dot(ctap_t *game, char note);
 void draw_lines(ctap_t *game);
 
 // Event callbacks

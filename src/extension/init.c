@@ -68,7 +68,6 @@ void init_buttons(ctap_t *game) {
     game->buttons[i].widget = gtk_image_new_from_pixbuf(image);
     game->buttons[i].selected = gtk_image_new_from_pixbuf(image_selected);
     game->buttons[i].is_selected = 0;
-    game->buttons[i].can_press = 0;
 
   }
 

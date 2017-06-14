@@ -47,11 +47,13 @@ void start_song(ctap_t *game) {
 
     // Get notes
     if (playing_song == 1) {
-      int note = words[i][0];
-      GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
-      g_object_set_data(params, "game", game);
-      g_object_set_data(params, "note", GINT_TO_POINTER(note));
-      g_timeout_add(game->tempo * note_number, create_note, params);
+      if (words[i][0] != '-') {
+        int note = words[i][0];
+        GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
+        g_object_set_data(params, "game", game);
+        g_object_set_data(params, "note", GINT_TO_POINTER(note));
+        g_timeout_add(game->tempo * note_number, create_note, params);
+      }
       note_number++;
     }
 

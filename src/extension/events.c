@@ -69,8 +69,15 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
       // Check if any dots on this track are selectable
       for (int j=0; j<game->num_dots; j++) {
-        if (game->dots[j].track == i && game->buttons[i].can_press == 1) {
-          printf("You did it\n");
+        if (game->dots[j].track == i) {
+          // If in boundary to press
+          int total_distance = (height-BUTTONS_YOFFSET);
+          if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY) {
+            // Play the sound
+            char *sound_file = malloc(sizeof(char)*12);
+            sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
+            play_sound(sound_file, -1);
+          }
         }
       }
 
@@ -93,15 +100,6 @@ gboolean move_dot(gpointer user_data) {
   int height;
   gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
 
-  // If in boundary to press
-  int total_distance = (height-BUTTONS_YOFFSET);
-  if (game->dots[track].y >= total_distance - BUTTON_BOUNDARY && game->dots[track].y <= total_distance + BUTTON_BOUNDARY) {
-    game->buttons[track].can_press = 1;
-  }
-  else {
-    game->buttons[track].can_press = 0;
-  }
-
   return FALSE;
 
 }
@@ -112,10 +110,7 @@ gboolean create_note(gpointer user_data) {
   ctap_t *game = g_object_get_data(params, "game");
   char note = GPOINTER_TO_INT(g_object_get_data(params, "note"));
 
-  int index = note - 'a';
-  int track = game->map[index];
-  printf("%d %d\n", index, track);
-  draw_dot(game, track);
+  draw_dot(game, note);
 
   gtk_widget_show_all(game->window);
 

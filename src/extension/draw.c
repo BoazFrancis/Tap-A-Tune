@@ -24,7 +24,10 @@ void draw_lines(ctap_t *game) {
 
 }
 
-void draw_dot(ctap_t *game, int track) {
+void draw_dot(ctap_t *game, char note) {
+
+  int index = note - 'a';
+  int track = game->map[index];
 
   GtkWidget *align = gtk_alignment_new(0, 0, 0, 0);
   GdkPixbuf *dot = create_pixbuf("img/dot.png");
@@ -37,6 +40,7 @@ void draw_dot(ctap_t *game, int track) {
   game->dots[game->num_dots - 1].track = track;
   game->dots[game->num_dots - 1].x = BUTTONS_XOFFSET + track*BUTTONS_XINC;
   game->dots[game->num_dots - 1].y = 0;
+  game->dots[game->num_dots - 1].note = note;
 
   gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1].widget, game->dots[game->num_dots - 1].x, game->dots[game->num_dots - 1].y);
 
