@@ -8,11 +8,8 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
     gtk_container_remove(GTK_CONTAINER(game->container), game->content);
 
-    // Draw lines
+    // Draw lines and buttons
     draw_lines(game);
-    draw_dot(game, 1);
-    draw_dot(game, 3);
-
     draw_buttons(game);
     gtk_widget_show_all(game->window);
 
@@ -22,6 +19,8 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     // Key presses for 5 different buttons
     g_signal_connect(game->window, "key-press-event", G_CALLBACK(select_button), game);
     g_signal_connect(game->window, "key-release-event", G_CALLBACK(release_button), game);
+
+    start_song(game);
 
   }
 

@@ -42,3 +42,10 @@ char *trim_whitespace(char *str) {
   return str;
 
 }
+
+char *str_lower(char *str) {
+  for (int j=0; str[j]; j++) {
+    str[j] = tolower(str[j]);
+  }
+  return str;
+}

@@ -1,29 +1,28 @@
-700
-11
-22
-13
-22
-21
-11
-11
+###### CTap: Twinkle Twinkle ########
+###### Scored by Jason Lipowicz #####
+#####################################
 
-12
-22
-21
-12
-23
+# The speed at which dots move to the user
+speed 5
 
+# The number of milliseconds between each block
+tempo 1000
 
-21
-12
-13
-22
-11
-21
-21
-
-12
-22
-23
-12
-11
+# The song
+begin
+C
+C
+G
+G
+A
+A
+G
+-
+F
+F
+E
+E
+D
+D
+C
+end

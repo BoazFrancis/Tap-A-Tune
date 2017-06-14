@@ -58,6 +58,8 @@ typedef struct {
   int num_buttons;
   ctap_dot_t *dots;
   int num_dots;
+  int speed;
+  int tempo;
 } ctap_t;
 
 enum {
@@ -72,6 +74,7 @@ enum {
 // Utils methodss
 GdkPixbuf *create_pixbuf(const gchar *filename);
 char *trim_whitespace(char *str);
+char *str_lower(char *str);
 
 // Init methods
 void init_window(ctap_t *game);
@@ -99,3 +102,6 @@ void play_sound(char *wav_file_name, int length);
 // Reading in a file
 char **read_file(char *filepath);
 int count_lines(char *filepath);
+
+// Start song
+void start_song(ctap_t *game);
