@@ -9,6 +9,7 @@ int main(int argc, char *argv[]) {
   ctap_t *game = malloc(sizeof(ctap_t));
 
   // Initialise the game
+  init_notetable(game);
   init_window(game);
   init_container(game);
   init_startscreen(game);

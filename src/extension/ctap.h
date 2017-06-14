@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <gtk/gtk.h>
 #include <glib/gprintf.h>
 #include "SDL.h"
@@ -28,6 +29,7 @@
 #define PURPLE_LABEL "purple"
 
 #define WINDOW_SIZE 500
+#define NUM_NOTES 7
 
 // Images
 #define IMG_PATH "img/"
@@ -60,6 +62,7 @@ typedef struct {
   int num_dots;
   int speed;
   int tempo;
+  int *map;
 } ctap_t;
 
 enum {
@@ -84,6 +87,7 @@ void init_buttons(ctap_t *game);
 void set_bg(ctap_t *game);
 void start_screen_text(ctap_t *game);
 void exit_button(ctap_t *game);
+void init_notetable(ctap_t *game);
 
 // Draw methods
 void draw_buttons(ctap_t *game);

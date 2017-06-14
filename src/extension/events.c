@@ -112,8 +112,12 @@ gboolean create_note(gpointer user_data) {
   ctap_t *game = g_object_get_data(params, "game");
   char note = GPOINTER_TO_INT(g_object_get_data(params, "note"));
 
-  int track = get_track_from_note(note);
+  int index = note - 'a';
+  int track = game->map[index];
+  printf("%d %d\n", index, track);
   draw_dot(game, track);
+
+  gtk_widget_show_all(game->window);
 
   return FALSE;
 

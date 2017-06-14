@@ -149,3 +149,24 @@ void exit_button(ctap_t *game) {
   gtk_widget_set_size_request(event_box, 128, 128);
 
 }
+
+void init_notetable(ctap_t *game) {
+
+  // Make an array of length 7 for notes A-E
+  // Fill it with numbers 0-4 as there are 5 buttons
+  game->map = malloc(sizeof(int)*NUM_NOTES);
+  const int map[NUM_NOTES] = {0, 0, 1, 1, 2, 3, 4};
+  memcpy(game->map, map, sizeof(map));
+
+  // Use a different seed value so that we don't get same
+  // result each time we run this program
+  srand(time(NULL));
+
+  for (int i = 0; i < NUM_NOTES - 1; i++) {
+	  int j = i + rand() / (RAND_MAX / (NUM_NOTES - i) + 1);
+	  int t = game->map[j];
+	  game->map[j] = game->map[i];
+	  game->map[i] = t;
+  }
+
+}
