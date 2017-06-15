@@ -1,0 +1,61 @@
+###### CTap: Happy Birthday #########
+###### Scored by Boaz Francis #######
+#####################################
+
+# The speed at which dots move to the user
+speed 2
+
+# The number of milliseconds between each block
+tempo 500
+
+# The song
+begin
+G
+G
+-
+A
+-
+G
+-
+-
+C
+B
+-
+-
+G
+G
+-
+A
+-
+G
+-
+-
+D
+B
+-
+-
+G
+G
+-
+G
+-
+E
+-
+C
+-
+B
+-
+A
+-
+-
+F
+F
+-
+E
+-
+C
+-
+D
+-
+C
+end
