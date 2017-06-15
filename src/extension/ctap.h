@@ -64,6 +64,7 @@ typedef struct {
   int tempo;
   int *map;
   int max_height;
+  int score
 } ctap_t;
 
 enum {
@@ -89,6 +90,8 @@ void set_bg(ctap_t *game);
 void start_screen_text(ctap_t *game);
 void exit_button(ctap_t *game);
 void init_notetable(ctap_t *game);
+void init_score(ctap_t *game);
+
 
 // Draw methods
 void draw_buttons(ctap_t *game);

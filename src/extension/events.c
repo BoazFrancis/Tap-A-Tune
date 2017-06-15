@@ -16,6 +16,7 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     draw_buttons(game);
     gtk_widget_show_all(game->window);
 
+    init_score(game);
     // Don't care about this key press event anymore
     gtk_signal_disconnect_by_func(GTK_OBJECT(game->window), GTK_SIGNAL_FUNC(start_game), user_data);
 
