@@ -82,6 +82,8 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
             play_sound(sound_file, -1);
             game->score+=2;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+            game->dots[j].removed = 1;
+            gtk_container_remove(GTK_CONTAINER(game->container), game->dots[j].widget);
             draw_score(game);
           }
           else if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && game->dots[j].pressed == 1) {
@@ -118,8 +120,10 @@ gboolean move_dot(gpointer user_data) {
   ctap_t *game = g_object_get_data(params, "game");
   int track = GPOINTER_TO_INT(g_object_get_data(params, "track"));
 
-  game->dots[track].y++;
-  gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
+  if (!(game->dots[track].removed == 1)) {
+    game->dots[track].y++;
+    gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
+  }
 
   return FALSE;
 
