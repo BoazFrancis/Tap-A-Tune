@@ -3,6 +3,9 @@
 \usepackage{fullpage}
 \usepackage{indentfirst}
 \usepackage[a4paper, total={6.5in, 10in}]{geometry}
+\usepackage{svg}
+\usepackage{wrapfig}
+
 
 \let\LaTeXsubsection\subsubsection
 \def\subsubsection{\setlength{\parindent}{5mm}\LaTeXsubsection}
@@ -44,6 +47,12 @@ Once the symbol table structure was created, we had to write code for the assemb
 Creating the assembler and emulator made us appreciate the designs of computer architecture. However, for our extension, we also wanted to immerse ourselves in the interactive aspects of C, and we endeavored to create an extension that would let us use GUIs, I/O, etc. Our main objective was to create an extension that would respond in real-time to user input, so we decided to code a game similar to the classic video game \emph{Guitar Hero}. Our vision for this was the synchronization of an animated GUI with chosen sound files. Different coloured buttons would flash on the GUI, which would correspond to ``notes" generated from the sound file. The user would have to press the corresponding key to the button on the keyboard before the next button presented itself.
 
 \subsection{Design}
+
+\begin{wrapfigure}{R}{0.3\textwidth}
+  \centering
+  \includesvg[width = 90pt]{keypress}
+\end{wrapfigure}
+
 
 Having all played Guitar Hero in our childhoods at one point or another, we had an idea of where to start in order to successfully implement our extension. We split into groups of two to do some preliminary research on how to implement sound and GUIs in C. Notably, progress in the graphics area was made much faster than progress in the sound area, as we were able to quickly code a user interface for our game. One member of the group also was quickly able to setup a program which read user input through the keyboard. This was important as it corresponded to the user's pressing of the GUI's buttons, each of which represented a different guitar string.
 \\ \hspace{10mm} As is good practice in C, we created a header file, called \texttt{ctap.h}, which consisted of numerous constant, enumeration, struct, and function definitions. A button was represented as a struct, with characteristics from the \texttt{GtkWidget} platform in C. We were able to code the graphics within three days, after which we started to make tests on the graphics, while we waited to integrate the sound component of the extension.
