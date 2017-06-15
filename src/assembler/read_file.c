@@ -6,15 +6,12 @@
  * @returns the number of the lines
  */
 int count_lines(FILE *input) {
-  int ch = 0;
-  int lines = 0;
-  while (!feof(input)) {
-    ch = fgetc(input);
-    if (ch == '\n') {
-      lines++;
-    }
+  char buff[LENGTH_OF_LINE];
+  int count = 0;
+  while(fgets(buff, LENGTH_OF_LINE, input) != NULL) {
+    count++;
   }
-  return lines;
+  return count;
 }
 
 /**
