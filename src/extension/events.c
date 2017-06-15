@@ -75,8 +75,8 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
           int total_distance = (game->max_height-BUTTONS_YOFFSET);
           if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && !(game->dots[j].pressed == 1)) {
             within_range = 1;
-            // Play the sound
             game->dots[j].pressed = 1;
+            // Play the sound
             char *sound_file = malloc(sizeof(char)*12);
             sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
             play_sound(sound_file, -1);
@@ -95,6 +95,10 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
       }
 
       if (!within_range) {
+        //Play error sound
+        char *sound_file = malloc(sizeof(char)*12);
+        sprintf(sound_file, "wav/error.wav");
+        play_sound(sound_file, -1);
         //Deduct score
         game->score-=2;
         gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
