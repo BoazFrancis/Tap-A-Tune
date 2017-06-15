@@ -7,12 +7,11 @@
 \usepackage{wrapfig}
 
 
-
 \let\LaTeXsubsection\subsubsection
 \def\subsubsection{\setlength{\parindent}{5mm}\LaTeXsubsection}
 
 \usepackage{titling}
-\setlength{\droptitle}{-3em}
+\setlength{\droptitle}{-2em}
 
 \usepackage{enumitem}
 \setlist{leftmargin=5.5mm}
@@ -20,8 +19,6 @@
 \newenvironment{myquote}%
   {\list{}{\leftmargin=0.0in\rightmargin=0.0in}\item[]}%
   {\endlist}
-
-\usepackage{caption}
 
 \begin{document}
 
@@ -31,52 +28,13 @@
 
 \maketitle
 
-\vspace{0.1in}
+\vspace{0.2in}
 
 \section{Implementing the Assembler}
 
 \subsection{Creation of a Symbol Table}
 
-After creating an emulator to read and execute a binary file, our next task was to create an assembler to output ARM-binary code to a source file. Creating the assembler was broken into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. The setup of the symbol table was accomplished through creating two \emph{structs} in C. One improvement that we made while creating objects in the assembler compared to creating objects in the emulator was the fact that we preceded each struct with \texttt{typedef}. This allowed us to call the symbol table in other programs without preceding the call with the word \texttt{struct}. In order to define the symbol table, we had to first create a separate typedef, which we called \texttt{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \texttt{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.\\
-
-\begin{table}[htbp]
-\begin{tabular}{ p{5cm} p{5cm} }
-
-  \fontsize{8}{8}\selectfont
-  \begin{tabular}{ p{1cm} p{3cm} }
-   \textbf{1}  & bar: \\
-   \textbf{2}  & mov r2, \#4 \\
-   \textbf{3}  & cmp r2, \#1 \\
-   \textbf{4}  & bne end \\
-   \textbf{5}  & foo: \\
-   \textbf{6}  & add r2, \#3 \\
-   \textbf{7}  & b end \\
-   \textbf{8}  & add r2, \#1 \\
-   \textbf{9}  & end: \\
-   \textbf{10}  & sub r2, \#3
-  \end{tabular}
-
-
-  &
-
-  \fontsize{9}{16}\selectfont
-  \begin{tabular}{ |p{1cm}||p{1.5cm}|p{2.5cm}| }
-   \hline
-   \multicolumn{3}{|l|}{\textbf{Symbol Table}} \\
-   \hline
-   Entry & Label & Address\\
-   \hline
-   1 & bar & 0x00000000 \\
-   2 & foo & 0x00000010 \\
-   3 & end & 0x00000020 \\
-   \hline
-  \end{tabular}
-
-\end{tabular}
-\setlength{\abovecaptionskip}{6pt}
-\captionsetup{justification=justified,singlelinecheck=false}
-\caption*{\fontsize{9}{9}\selectfont \textbf{Figure 1.} The first pass of our assembler, which builds the symbol table. It extracts all the ``labels" in the program by searching for the ':' character and stores their relative addresses using the line number count. }
-\end{table}
+After creating an emulator to read and execute a binary file, our next task was to create an assembler to output ARM-binary code to a source file. Creating the assembler was broken into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. The setup of the symbol table was accomplished through creating two \emph{structs} in C. One improvement that we made while creating objects in the assembler compared to creating objects in the emulator was the fact that we preceded each struct with \texttt{typedef}. This allowed us to call the symbol table in other programs without preceding the call with the word \texttt{struct}. In order to define the symbol table, we had to first create a separate typedef, which we called \texttt{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \texttt{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.
 
 \subsection{Generating Instructions}
 
@@ -90,14 +48,10 @@ Creating the assembler and emulator made us appreciate the designs of computer a
 
 \subsection{Design}
 
-\begin{wrapfigure}{R}{10em}
-  \raggedleft
+\begin{wrapfigure}{R}{0.3\textwidth}
+  \centering
   \includesvg[width = 90pt]{keypress}
-  \captionsetup{justification=justified,singlelinecheck=false}
-  \caption*{\fontsize{9}{9}\selectfont \textbf{Figure 2.} Key press event listener process. The event listener waits for a key press, and displays the pressed button on the screen. It then checks if a note is on the corresponding track in the ``correct" range. If there is a note in the range, the score is incremented. The process then repeats.}
-
 \end{wrapfigure}
-
 
 
 Having all played Guitar Hero in our childhoods at one point or another, we had an idea of where to start in order to successfully implement our extension. We split into groups of two to do some preliminary research on how to implement sound and GUIs in C. Notably, progress in the graphics area was made much faster than progress in the sound area, as we were able to quickly code a user interface for our game. One member of the group also was quickly able to setup a program which read user input through the keyboard. This was important as it corresponded to the user's pressing of the GUI's buttons, each of which represented a different guitar string.
