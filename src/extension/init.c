@@ -108,7 +108,10 @@ void start_screen_text(ctap_t *game) {
   PangoFontDescription *font_desc;
   GdkColor color;
 
-  GtkWidget *title = gtk_label_new("Welcome to Tap Tap!");
+  GdkPixbuf *logo = create_pixbuf("img/TapATune2.png");
+  GtkWidget *logo_widget = gtk_image_new_from_pixbuf(logo);
+
+  GtkWidget *title = gtk_label_new("Welcome to TapATune!");
   GtkWidget *sub = gtk_label_new("Press <ENTER> to start.");
 
   /* Change default font throughout the widget */
@@ -128,6 +131,7 @@ void start_screen_text(ctap_t *game) {
   GtkWidget *align_title = gtk_alignment_new(0, 0, 0, 0);
   gtk_container_add(GTK_CONTAINER(align_title), title);
 
+  gtk_fixed_put(GTK_FIXED(game->content), logo_widget, 290, 200);
   gtk_fixed_put(GTK_FIXED(game->content), align_title, 300, 300);
   gtk_fixed_put(GTK_FIXED(game->content), sub, 300, 400);
   gtk_fixed_put(GTK_FIXED(game->container), game->content, 0, 0);
