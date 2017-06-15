@@ -8,8 +8,3 @@ all: assemble
 
 assemble: $(H) $(SOURCES)
 	$(CC) $(CFLAGS) $(SOURCES) -lm -o ../../bin/assemble
-
-clean:
-	rm -f $(wildcard *.o)
-	rm -f assemble
-	rm -f emulate
