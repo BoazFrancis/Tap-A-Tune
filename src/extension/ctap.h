@@ -50,6 +50,7 @@ typedef struct {
   int x;
   int y;
   char note;
+  int pressed;
 } ctap_dot_t;
 
 typedef struct {
