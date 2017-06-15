@@ -2,28 +2,81 @@
 
 \usepackage{fullpage}
 \usepackage{indentfirst}
+\usepackage[a4paper, total={6.5in, 10in}]{geometry}
+\usepackage{svg}
+\usepackage{wrapfig}
+
+
 
 \let\LaTeXsubsection\subsubsection
 \def\subsubsection{\setlength{\parindent}{5mm}\LaTeXsubsection}
 
 \usepackage{titling}
-\setlength{\droptitle}{-4em} 
+\setlength{\droptitle}{-3em}
+
+\usepackage{enumitem}
+\setlist{leftmargin=5.5mm}
+
+\newenvironment{myquote}%
+  {\list{}{\leftmargin=0.0in\rightmargin=0.0in}\item[]}%
+  {\endlist}
+
+\usepackage{caption}
 
 \begin{document}
 
-\title{\textbf{C Project - Final Report}}
+\title{\textbf{TapATune - C Project \\Final Report}}
 \author{Shravan Nageswaran, Jason Lipowicz,\\ Alexandr Zakon, Boaz Francis}
 \date{20th June 2017}
 
 \maketitle
 
-\vspace{0.2in}
+\vspace{0.1in}
 
 \section{Implementing the Assembler}
 
 \subsection{Creation of a Symbol Table}
 
-After creating an emulator to read and execute a binary file, our next task was to create an assembler to output ARM-binary code to a source file. Creating the assembler was broken into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. The setup of the symbol table was accomplished through creating two \emph{structs} in C. One improvement that we made while creating objects in the assembler compared to creating objects in the emulator was the fact that we preceded each struct with \emph{typedef}. This allowed us to call the symbol table in other programs without preceding the call with the word \emph{struct}. In order to define the symbol table, we had to first create a separate typedef, which we called \emph{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \emph{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.
+After creating an emulator to read and execute a binary file, our next task was to create an assembler to output ARM-binary code to a source file. Creating the assembler was broken into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. The setup of the symbol table was accomplished through creating two \emph{structs} in C. One improvement that we made while creating objects in the assembler compared to creating objects in the emulator was the fact that we preceded each struct with \texttt{typedef}. This allowed us to call the symbol table in other programs without preceding the call with the word \texttt{struct}. In order to define the symbol table, we had to first create a separate typedef, which we called \texttt{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \texttt{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.\\
+
+\begin{table}[htbp]
+\begin{tabular}{ p{5cm} p{5cm} }
+
+  \fontsize{8}{8}\selectfont
+  \begin{tabular}{ p{1cm} p{3cm} }
+   \textbf{1}  & bar: \\
+   \textbf{2}  & mov r2, \#4 \\
+   \textbf{3}  & cmp r2, \#1 \\
+   \textbf{4}  & bne end \\
+   \textbf{5}  & foo: \\
+   \textbf{6}  & add r2, \#3 \\
+   \textbf{7}  & b end \\
+   \textbf{8}  & add r2, \#1 \\
+   \textbf{9}  & end: \\
+   \textbf{10}  & sub r2, \#3
+  \end{tabular}
+
+
+  &
+
+  \fontsize{9}{16}\selectfont
+  \begin{tabular}{ |p{1cm}||p{1.5cm}|p{2.5cm}| }
+   \hline
+   \multicolumn{3}{|l|}{\textbf{Symbol Table}} \\
+   \hline
+   Entry & Label & Address\\
+   \hline
+   1 & bar & 0x00000000 \\
+   2 & foo & 0x00000010 \\
+   3 & end & 0x00000020 \\
+   \hline
+  \end{tabular}
+
+\end{tabular}
+\setlength{\abovecaptionskip}{6pt}
+\captionsetup{justification=justified,singlelinecheck=false}
+\caption*{\fontsize{9}{9}\selectfont \textbf{Figure 1.} The first pass of our assembler, which builds the symbol table. It extracts all the ``labels" in the program by searching for the ':' character and stores their relative addresses using the line number count. }
+\end{table}
 
 \subsection{Generating Instructions}
 
@@ -33,22 +86,32 @@ Once the symbol table structure was created, we had to write code for the assemb
 
 \subsection{Concept}
 
-Creating the assembler and emulator made us appreciate the designs of computer architecture. However, for our extension, we also wanted to immerse ourselves in the interactive aspects of C, and we endeavored to create an extension that would let us use GUIs, I/O, etc. Our main objective was to create an extension that would respond in real-time to user input, so we decided to code a game similar to the classic video game \emph{Guitar Hero}. Our vision for this was the synchronization of an animated GUI with chosen sound files. Different coloured buttons would flash on the GUI, which would correspond to "notes" generated from the sound file. The user would have to press the corresponding key to the button on the keyboard before the next button presented itself.
+Creating the assembler and emulator made us appreciate the designs of computer architecture. However, for our extension, we also wanted to immerse ourselves in the interactive aspects of C, and we endeavored to create an extension that would let us use GUIs, I/O, etc. Our main objective was to create an extension that would respond in real-time to user input, so we decided to code a game similar to the classic video game \emph{Guitar Hero}. Our vision for this was the synchronization of an animated GUI with chosen sound files. Different coloured buttons would flash on the GUI, which would correspond to ``notes" generated from the sound file. The user would have to press the corresponding key to the button on the keyboard before the next button presented itself.
 
 \subsection{Design}
 
-Having all played Guitar Hero in our childhoods at one point or another, we had an idea of where to start in order to successfully implement our extension. We split into groups of two to do some preliminary research on how to implement sound and GUIs in C. Notably, progress in the graphics area was made much faster than progress in the sound area, as we were able to quickly code a user interface for our game. One member of the group also was quickly able to setup a program which read user input through the keyboard. This was important as it corresponded to the user's pressing of the GUI's buttons, each of which represented a different guitar string. 
-\\ \hspace{10mm} As is good practice in C, we created a header file, called \emph{ctap.h}, which consisted of numerous constant, enumeration, struct, and function definitions. A button was represented as a struct, with characteristics from the \emph{GtkWidget} platform in C. We were able to code the graphics within three days, after which we started to make tests on the graphics, while we waited to integrate the sound component of the extension.
-\\ \hspace{10mm} Once we were able to figure out how to play a sound, using the \emph{SDL Mixer} platform, the ball was rolling. We extended our progress to have the program play multiple songs at once, to create a more realistic interpretation of a guitar. We were now able to read sounds from a file, read user input, and integrate both into our advanced graphics. Our game has come along nicely.
+\begin{wrapfigure}{R}{10em}
+  \raggedleft
+  \includesvg[width = 90pt]{keypress}
+  \captionsetup{justification=justified,singlelinecheck=false}
+  \caption*{\fontsize{9}{9}\selectfont \textbf{Figure 2.} Key press event listener process. The event listener waits for a key press, and displays the pressed button on the screen. It then checks if a note is on the corresponding track in the ``correct" range. If there is a note in the range, the score is incremented. The process then repeats.}
+\end{wrapfigure}
+
+
+
+Having all played Guitar Hero in our childhoods at one point or another, we had an idea of where to start in order to successfully implement our extension. We split into groups of two to do some preliminary research on how to implement sound and GUIs in C. Notably, progress in the graphics area was made much faster than progress in the sound area, as we were able to quickly code a user interface for our game. One member of the group also was quickly able to setup a program which read user input through the keyboard. This was important as it corresponded to the user's pressing of the GUI's buttons, each of which represented a different guitar string.
+\\ \hspace{10mm} As is good practice in C, we created a header file, called \texttt{ctap.h}, which consisted of numerous constant, enumeration, struct, and function definitions. A button was represented as a struct, with characteristics from the \texttt{GtkWidget} platform in C. We were able to code the graphics within three days, after which we started to make tests on the graphics, while we waited to integrate the sound component of the extension.
+\\ \hspace{10mm} Once we were able to figure out how to play a sound, using the SDL Mixer platform, the ball was rolling. We extended our progress to have the program play multiple songs at once, to create a more realistic interpretation of a guitar. We were now able to read sounds from a file, read user input, and integrate both into our advanced graphics. Our game has come along nicely.
 
 \subsection{Challenges}
 
 \begin{itemize}
+
 \item Lag/Memory - The GUI that we coded initially encountered a tremendous amount of lag as the buttons were falling down the screen. To fix this, we optimized the graphics so that the buttons would immediately free memory after their termination. This also improved lag time.
 
 \item Playing Multiple Sounds - This challenge was fixed through copious amounts of research. We were trying to play sounds simultaneously along with the GUI, so we could also respond to the pressing of multiple buttons. This was finally accomplished after thorough research and extensive development.
 
-\item Loop Delay (Assembler) - Going back to the assembler, there were times when certain test cases would not pass on certain computers - namely, the tests with loops. We found that if other processes were running in the background of the tests, then the code would take longer to run, ultimately failing our tests. We accounted for this interference in our updated code and ultimately ran the tests on machines that were not busy. This was how the tests were intended to be run, and the initial ones that failed then passed. 
+\item Loop Delay (Assembler) - Going back to the assembler, there were times when certain test cases would not pass on certain computers - namely, the tests with loops. We found that if other processes were running in the background of the tests, then the code would take longer to run, ultimately failing our tests. We accounted for this interference in our updated code and ultimately ran the tests on machines that were not busy. This was how the tests were intended to be run, and the initial ones that failed then passed.
 
 \end{itemize}
 
@@ -60,7 +123,7 @@ Testing our assembler code was done much more efficiently than testing our exten
 
 \subsection{Group Reflection}
 
-This group project served as a true test to both our individual programming abilities and our teamwork skills. Throughout the duration of the project, it was essential to maintain good communication, and effectively distribute work. Overall, it is our pleasure to say that the group dynamic was exceptional throughout the duration of the project, and this resulted in completing the first three parts of the project at excellent pace, along with creating an excellent extension. 
+This group project served as a true test to both our individual programming abilities and our teamwork skills. Throughout the duration of the project, it was essential to maintain good communication, and effectively distribute work. Overall, it is our pleasure to say that the group dynamic was exceptional throughout the duration of the project, and this resulted in completing the first three parts of the project at excellent pace, along with creating an excellent extension.
 
 \vspace{0.2in}
 
@@ -72,33 +135,39 @@ We prided ourselves on using multiple branches in our Git repository. This ensur
 
 \vspace{0.2in}
 
-Splitting the work, for the most part, was ideal. Just as a proper code format was expected by the group, so to was a proper written format for the checkpoint and the report. In this project, most of the report was written by one member to keep a standardized format, but we are okay with this because the other members heavily influenced the report by playing greater roles in the extension. However, for future assignments (especially with next year's group project on the horizon), we aim to better split the written part of the project. The code, from the emulator to the extension, was split very well and we would not change anything with that. We are happy with the group dynamic, as is also seen from the individual reflections.
+Splitting the work, for the most part, was ideal. Just as a proper code format was expected by the group, so too was a proper written format for the checkpoint and the report. In this project, most of the report was written by one member to keep a standardized format, but we are okay with this because the other members heavily influenced the report by playing greater roles in the extension. However, for future assignments (especially with next year's group project on the horizon), we aim to better split the written part of the project. The code, from the emulator to the extension, was split very well and we would not change anything with that. We are happy with the group dynamic, as is also seen from the individual reflections.
 
 \subsection{Individual Reflections}
 
-\subsubsection{Shravan Nageswaran} 
-\begin{quote}
-``\textit{Shravan to fill out}"
-\end{quote}
+\begin{myquote}
+``Doing this group project was definitely the most challenging - and, in turn, the most rewarding - experience of my first year at Imperial. While we had a spec to follow while creating the emulator and assembler, the extension truly tested our creativity and programming abilities. There was never a time when the project came easy to us, but there never were any challenges that the group could not overcome.
+\\Reflecting on my own performance, I am very satisfied with my contributions to the group. I was in charge of Part III, writing GPIO and getting the LED to turn on in the Raspberry Pi. Additionally, as the strongest writer in the group, I wrote the contents of both the checkpoint and the report. Of course, in every part of the project, the work did not fall on just one person. I felt that the group was able to collaborate really well on all parts, as I coded certain instructions in both the assembler and emulator, as well.
+\\If I could make one change to the whole process, I would definitely focus on getting our assembler code to understand comments. Though this was not a requirement, I know that our group has the intelligence and understanding to be able to implement this feature if we had more time. Otherwise, this project - especially the extension - brought out the best in my programming abilities and was integral to my first year at Imperial!"
+\end{myquote}
+\rightline{{\rm --- Shravan Nageswaran}}
 
 
-\subsubsection{Jason Lipowicz}
-\begin{quote}
-``\textit{I am very happy with the performance of my entire group in this project, and I have really enjoyed the challenge. It has been exciting and rewarding to be the group leader and I believe that I have managed the group well throughout. Having a lot of experience in programming has proved very useful during this project, and it meant that I was able to assist my group in the more complicated aspects to the C language. One aspect of the WebPA assessment that I am most proud of is being able to point other people in the right direction when they are struggling with coding - especially when it is a segmentation fault!} 
-\textit{\\Reflecting on my progress throughout, I think that I made a slower start to Part I than I had hoped. It took a few days for all of us to get a full understanding of the requirements of the emulator, and the hardest part of the whole project in my opinion, was the initial setup of the emulator, which involved reading in the binary file and loading in the instructions into the \emph{pipeline}. I felt a lot more comfortable after that, and we were able to make much better progress are overcoming this initial hurdle.} 
-\textit {\\In the future, if I were to repeat this project, I would have probably started out differently. Instead of trying to understand the  specification in its entirety, I would break down the first part and get straight to programming the binary file reader. That way, we'd be in a better position to continue and work systematically. Other than that, I can't fault anything else in our group and I am extremely happy with the finished products!}"
-\end{quote}
-
-\subsubsection{Alexandr Zakon} 
-\begin{quote}
-``\textit{Alexandr to fill out}"
-\end{quote}
+\begin{myquote}\noindent
+``I am very happy with the performance of my entire group in this project, and I have really enjoyed the challenge. It has been exciting and rewarding to be the group leader and I believe that I have managed the group well throughout. Having a lot of experience in programming has proved very useful during this project, and it meant that I was able to assist my group in the more complicated aspects to the C language. One aspect of the WebPA assessment that I am most proud of is being able to point other people in the right direction when they are struggling with coding - especially when it is a segmentation fault!
+\\Reflecting on my progress throughout, I think that I made a slower start to Part I than I had hoped. It took a few days for all of us to get a full understanding of the requirements of the emulator, and the hardest part of the whole project in my opinion, was the initial setup of the emulator, which involved reading in the binary file and loading in the instructions into the \emph{pipeline}. I felt a lot more comfortable after that, and we were able to make much better progress are overcoming this initial hurdle.
+\\In the future, if I were to repeat this project, I would have probably started out differently. Instead of trying to understand the  specification in its entirety, I would break down the first part and get straight to programming the binary file reader. That way, we'd be in a better position to continue and work systematically. Other than that, I can't fault anything else in our group and I am extremely happy with the finished products!"
+\end{myquote}
+\rightline{{\rm --- Jason Lipowicz}}
 
 
-\subsubsection{Boaz Francis}
-\begin{quote}
-``\textit{Boaz to fill out}"
-\end{quote}
+\begin{myquote}
+``Overall, working in this group has been enjoyable and challenging at the same time. While the group dynamic has been outstanding, there were situations where the communication between group members could have been better. There was one point where two members of the group worked on the same function in the same file which resulted in many merge conflicts. This took a long time to solve, but it was a good learning experience for all of us, in terms of both communication and using gitlab appropriately. There were also multiple disagreements on how to implement certain functions as well as extension ideas, but we were always able to find compromises.
+\\
+I am very grateful to other members of my group for patiently helping me overcome the challenges that I faced, which made me a better C programmer."
+\end{myquote}
+\rightline{{\rm --- Alexandr Zakon}}
+
+
+\begin{myquote}
+Boaz to fill out
+\end{myquote}
+\rightline{{\rm --- Boaz Francis}}
+
 
 \section{Conclusion}
 
