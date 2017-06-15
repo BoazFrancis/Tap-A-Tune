@@ -2,7 +2,6 @@
 
 char** read_file(char *filepath) {
   int lines_allocated = 128;
-  int max_line_len = 100;
 
   /* Allocate lines of text */
   char **words = malloc(sizeof(char*)*lines_allocated);
@@ -20,11 +19,11 @@ char** read_file(char *filepath) {
 
 
   int i = 0;
-  words[i] = malloc(max_line_len);
-  while (fgets(words[i], max_line_len-1,fp) != NULL) {
+  words[i] = malloc(MAX_LINE_LENGTH);
+  while (fgets(words[i], MAX_LINE_LENGTH-1,fp) != NULL) {
     words[i] = trim_whitespace(words[i]);
     i++;
-    words[i] = malloc(max_line_len);
+    words[i] = malloc(MAX_LINE_LENGTH);
   }
 
   fclose(fp);
@@ -32,22 +31,15 @@ char** read_file(char *filepath) {
 }
 
 int count_lines(char *filepath) {
-
   FILE *fp = fopen(filepath, "r");
   if (fp == NULL) {
     fprintf(stderr,"Error opening file.\n");
     exit(2);
   }
-  int ch = 0;
-  int lines = 0;
-  while (!feof(fp)) {
-    ch = fgetc(fp);
-    if (ch == '\n') {
-      lines++;
-    }
+  char buff[MAX_LINE_LENGTH];
+  int count = 0;
+  while(fgets(buff, MAX_LINE_LENGTH, fp) != NULL) {
+    count++;
   }
-
-  fclose(fp);
-
-  return lines;
+  return count;
 }

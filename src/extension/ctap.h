@@ -30,6 +30,7 @@
 
 #define WINDOW_SIZE 500
 #define NUM_NOTES 7
+#define MAX_LINE_LENGTH 100
 
 // Images
 #define IMG_PATH "img/"
