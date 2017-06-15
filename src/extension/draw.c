@@ -51,3 +51,28 @@ void draw_dot(ctap_t *game, char note) {
   }
 
 }
+
+void draw_score(ctap_t *game) {
+
+  game->score_box = gtk_label_new("ME");
+  PangoFontDescription *font_desc;
+  GdkColor color;
+
+  gchar* buf = g_strdup_printf("Score: %i", game->score);
+  gtk_label_set_text(GTK_LABEL(game->score_box), buf);
+
+  /* Change default font throughout the widget */
+  font_desc = pango_font_description_from_string("Serif 70");
+  gtk_widget_modify_font(game->score_box, font_desc);
+  pango_font_description_free(font_desc);
+
+  gdk_color_parse("white", &color);
+  gtk_widget_modify_fg(game->score_box, GTK_STATE_NORMAL, &color);
+
+  gtk_fixed_put(GTK_FIXED(game->container), game->score_box, gdk_screen_width() - 1000, gdk_screen_height()/2 - 100);
+  gtk_widget_set_size_request(game->score_box, 1000, 200);
+
+  gtk_widget_show_all(game->window);
+
+
+}

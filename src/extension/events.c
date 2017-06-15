@@ -78,6 +78,8 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
             sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
             play_sound(sound_file, -1);
             game->score++;
+            gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+            draw_score(game);
           }
         }
       }
