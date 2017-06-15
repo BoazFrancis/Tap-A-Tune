@@ -62,6 +62,7 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
   ctap_t *game = user_data;
 
   for (int i=0; i<game->num_buttons; i++) {
+    int within_range = 0;
     if (game->buttons[i].is_selected == 1) {
 
       gtk_container_remove(GTK_CONTAINER(game->container), game->buttons[i].selected);
@@ -73,6 +74,7 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
           // If in boundary to press
           int total_distance = (game->max_height-BUTTONS_YOFFSET);
           if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && !(game->dots[j].pressed == 1)) {
+            within_range = 1;
             // Play the sound
             game->dots[j].pressed = 1;
             char *sound_file = malloc(sizeof(char)*12);
@@ -81,13 +83,22 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
             game->score+=2;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
             draw_score(game);
-          } else if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && game->dots[j].pressed == 1) {
+          }
+          else if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && game->dots[j].pressed == 1) {
+            within_range = 1;
             //Deduct score
             game->score--;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
             draw_score(game);
-          } 
+          }
         }
+      }
+
+      if (!within_range) {
+        //Deduct score
+        game->score-=2;
+        gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+        draw_score(game);
       }
 
     }
