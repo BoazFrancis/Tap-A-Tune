@@ -23,12 +23,18 @@ void process_instructions(int total_size, int *num_no_labels, char **instruction
     char *rest = instructions[i];
     // Edge case: if empty line
     if (!strcmp(rest, "")) {
-      break;
+      continue;
     }
+    if (rest[0] == '-') {
+      continue;
+    }
+    printf("%s\n", rest);
     char *mnem = strtok_r(rest, space, &rest);
     char *pos = strchr(mnem, ':');
-    if (pos == NULL && strcmp(trim_whitespace(mnem), "") != 0) {
-      // If this is a proper instruction (not a label)
+    mnem = trim_whitespace(mnem);
+
+    if (pos == NULL && strcmp(mnem, "") != 0) {
+      // If this is a proper instruction (not a label or a comment)
       int data = identify_instruction(mnem, rest, st, instruction_addr, num_no_labels, &memory);
       // Store the result in the memory
       memory[instruction_addr/WORD_SIZE] = data;

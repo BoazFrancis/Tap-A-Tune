@@ -1,5 +1,5 @@
 ldr r0,=0x20200004
-
+--asdfg
 mov r1,#0x00040000
 str r1,[r0]
 
