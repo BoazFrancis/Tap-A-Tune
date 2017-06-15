@@ -77,6 +77,34 @@ void init_buttons(ctap_t *game) {
 
 }
 
+void init_score(ctap_t *game) {
+  GtkWidget *score_box = gtk_label_new("ME");
+  PangoFontDescription *font_desc;
+  GdkColor color;
+
+  game->score = 0;
+
+  gchar* buf = g_strdup_printf("Score: %i", game->score);
+  gtk_label_set_text(GTK_LABEL(score_box), buf);
+
+  /* Change default font throughout the widget */
+  font_desc = pango_font_description_from_string("Serif 70");
+  gtk_widget_modify_font(score_box, font_desc);
+  pango_font_description_free(font_desc);
+
+  gdk_color_parse("white", &color);
+  gtk_widget_modify_fg(score_box, GTK_STATE_NORMAL, &color);
+
+
+  //g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_fixed_put(GTK_FIXED(game->container), score_box, gdk_screen_width() - 1000, gdk_screen_height()/2 - 100);
+  gtk_widget_set_size_request(score_box, 1000, 200);
+
+  gtk_widget_show_all(game->window);
+
+}
+
 void set_bg(ctap_t *game) {
 
   // Initialise bg pixmap

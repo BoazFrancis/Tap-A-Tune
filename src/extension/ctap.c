@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
   init_startscreen(game);
   init_buttons(game);
 
+
   // Start the main loop
   gtk_main();
 
