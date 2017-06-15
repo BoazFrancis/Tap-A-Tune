@@ -151,7 +151,7 @@ void exit_button(ctap_t *game) {
 
 void init_notetable(ctap_t *game) {
 
-  // Make an array of length 7 for notes A-E
+  // Make an array of length 7 for notes A-G
   // Fill it with numbers 0-4 as there are 5 buttons
   game->map = malloc(sizeof(int)*NUM_NOTES);
   const int map[NUM_NOTES] = {0, 0, 1, 1, 2, 3, 4};

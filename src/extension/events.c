@@ -6,6 +6,9 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
     ctap_t *game = user_data;
 
+    // Get screen height
+    gtk_window_get_size(GTK_WINDOW(game->window), NULL, &game->max_height);
+
     gtk_container_remove(GTK_CONTAINER(game->container), game->content);
 
     // Draw lines and buttons
@@ -29,8 +32,6 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
   ctap_t *game = user_data;
-  int height;
-  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
   char *label;
 
   switch (event->keyval) {
@@ -45,7 +46,7 @@ void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
   for (int i=0; i<game->num_buttons; i++) {
     if (strcmp(game->buttons[i].key, label) == 0 && game->buttons[i].is_selected == 0) {
       // Highlight the button
-      gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].selected, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
+      gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].selected, BUTTONS_XOFFSET + i*BUTTONS_XINC, game->max_height-BUTTONS_YOFFSET);
       g_object_ref(game->buttons[i].selected);
       game->buttons[i].is_selected = 1;
     }

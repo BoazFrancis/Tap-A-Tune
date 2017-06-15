@@ -63,6 +63,7 @@ typedef struct {
   int speed;
   int tempo;
   int *map;
+  int max_height;
 } ctap_t;
 
 enum {
