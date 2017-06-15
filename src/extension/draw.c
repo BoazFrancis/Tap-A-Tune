@@ -2,10 +2,8 @@
 
 void draw_buttons(ctap_t *game) {
 
-  int height;
-  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
   for (int i=0; i<game->num_buttons; i++) {
-    gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].widget, BUTTONS_XOFFSET + i*BUTTONS_XINC, height-BUTTONS_YOFFSET);
+    gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].widget, BUTTONS_XOFFSET + i*BUTTONS_XINC, game->max_height-BUTTONS_YOFFSET);
   }
 
   gtk_widget_show_all(game->window);
@@ -44,9 +42,7 @@ void draw_dot(ctap_t *game, char note) {
 
   gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1].widget, game->dots[game->num_dots - 1].x, game->dots[game->num_dots - 1].y);
 
-  int height;
-  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
-  for (int i=0; i<height+BUTTONS_SIZE; i++) {
+  for (int i=0; i<game->max_height+BUTTONS_SIZE; i++) {
     GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
     g_object_set_data(params, "game", game);
     g_object_set_data(params, "track", GINT_TO_POINTER(game->num_dots - 1));

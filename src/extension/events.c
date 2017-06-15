@@ -61,8 +61,6 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
   ctap_t *game = user_data;
 
-  int height;
-  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
   for (int i=0; i<game->num_buttons; i++) {
     if (game->buttons[i].is_selected == 1) {
 
@@ -73,12 +71,13 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
       for (int j=0; j<game->num_dots; j++) {
         if (game->dots[j].track == i) {
           // If in boundary to press
-          int total_distance = (height-BUTTONS_YOFFSET);
+          int total_distance = (game->max_height-BUTTONS_YOFFSET);
           if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY) {
             // Play the sound
             char *sound_file = malloc(sizeof(char)*12);
             sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
             play_sound(sound_file, -1);
+            game->score++;
           }
         }
       }
@@ -98,9 +97,6 @@ gboolean move_dot(gpointer user_data) {
 
   game->dots[track].y++;
   gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
-
-  int height;
-  gtk_window_get_size(GTK_WINDOW(game->window), NULL, &height);
 
   return FALSE;
 

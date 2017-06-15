@@ -64,7 +64,7 @@ typedef struct {
   int tempo;
   int *map;
   int max_height;
-  int score
+  int score;
 } ctap_t;
 
 enum {

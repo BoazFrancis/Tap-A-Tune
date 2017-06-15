@@ -96,8 +96,6 @@ void init_score(ctap_t *game) {
   gtk_widget_modify_fg(score_box, GTK_STATE_NORMAL, &color);
 
 
-  //g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(gtk_main_quit), NULL);
-
   gtk_fixed_put(GTK_FIXED(game->container), score_box, gdk_screen_width() - 1000, gdk_screen_height()/2 - 100);
   gtk_widget_set_size_request(score_box, 1000, 200);
 
