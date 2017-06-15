@@ -25,12 +25,14 @@ int main(int argc, char **argv) {
     FILE *output = fopen(output_file, "wb");
     output = freopen(output_file, "ab", output);
 
-    char** instructions = malloc(sizeof(char*) * input_lines);
+    char** instructions = calloc(input_lines, sizeof(char*));
 
     if (instructions == NULL) {
-      perror("Instructions malloc in assemble main");
+      perror("Instructions calloc in assemble main");
       exit(EXIT_FAILURE);
     }
+
+  
 
     int total_size = read_file(input, input_lines, instructions);
 

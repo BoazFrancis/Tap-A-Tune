@@ -1,9 +1,14 @@
 CC      = gcc
-CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
+CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic -Lsdl/lib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -Isdl/include/SDL
+OBJS = ctap.o draw.o init.o utils.o play_sound.o read_file.o events.o song.o
+GTK = `pkg-config --libs --cflags gtk+-2.0`
 
 all: extension
 
-GUI_SOURCES = ctap.c draw.c init.c utils.c play_sound.c read_file.c events.c song.c
+# Make every object file from its individual .c source file
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS) $(GTK)
 
-extension: $(GUI_SOURCES)
-	$(CC) $(CFLAGS) -Isdl/include/SDL $(GUI_SOURCES) -Lsdl/lib64 -lSDL_mixer -lSDL -lpthread -lm -ldl -lpthread -o bin/extension `pkg-config --libs --cflags gtk+-2.0`
+# Link all the object files together to get the full binary game
+extension: $(OBJS)
+	$(CC) -o $@ $^ $(CFLAGS) -o ./bin/extension $(GTK)

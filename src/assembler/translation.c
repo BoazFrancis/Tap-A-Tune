@@ -2,7 +2,7 @@
 
 /*
  * Process all the instructions using the symbol table
- * @param total_size - The total size of the file
+ * @param total_size - The total size of the file - instructions and labels
  * @param num_no_labels - A pointer to the number of instructions without labels
  * @param instructions - A pointer to the array of instructions
  * @param output - A pointer to the output file
@@ -18,9 +18,9 @@ void process_instructions(int total_size, int *num_no_labels, char **instruction
     perror("memory malloc in process_instructions");
     exit(EXIT_FAILURE);
   }
-
+  char *rest;
   for (int i=0; i<total_size; i++) {
-    char *rest = instructions[i];
+    rest = instructions[i];
     // Edge case: if empty line
     if (!strcmp(rest, "")) {
       continue;
