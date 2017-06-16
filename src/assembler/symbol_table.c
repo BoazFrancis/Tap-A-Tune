@@ -42,8 +42,8 @@ int build_symbol_table(int total_size, char **instructions, SymbolTable *st) {
 
 
     }
-    else if (strcmp(trim_whitespace(instructions[i]), "")) {
-      // This is not a label, add it to the instruction count
+    else if (strcmp(trim_whitespace(instructions[i]), "") && instructions[i][0] != '-') {
+      // This is not a label, empty line or a comment, add it to the instruction count
       instruction_count++;
     }
   }

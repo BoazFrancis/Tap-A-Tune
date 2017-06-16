@@ -9,10 +9,11 @@ str r1,[r0]
 mov r2,#0x00010000
 
 --pin off
-ldr r3,=0x20200028
+ldr r3,=0x2020001C
+
 
 --pin on
-ldr r4,=0x2020001C
+ldr r4,=0x20200028
 
 while:
 
@@ -31,9 +32,9 @@ str r2,[r3]
 
 --break again
 mov r5,#0x3F0000
-delay:
+delay_2:
 sub r5,r5,#1
 cmp r5,#0xFF
-bne delay
+bne delay_2
 
 b while
