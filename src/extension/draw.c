@@ -71,10 +71,34 @@ void draw_score(ctap_t *game) {
   gdk_color_parse("white", &color);
   gtk_widget_modify_fg(game->score_box, GTK_STATE_NORMAL, &color);
 
-  gtk_fixed_put(GTK_FIXED(game->container), game->score_box, gdk_screen_width() - 1000, gdk_screen_height()/2 - 100);
+  gtk_fixed_put(GTK_FIXED(game->container), game->score_box, gdk_screen_width() - 1010, gdk_screen_height() - 300);
   gtk_widget_set_size_request(game->score_box, 1000, 200);
 
   gtk_widget_show_all(game->window);
 
+}
+
+void draw_escape(ctap_t *game) {
+
+    PangoFontDescription *font_desc;
+    GdkColor color;
+
+    GtkWidget *escape = gtk_label_new("Press ESC button to exit game");
+
+
+    /* Change default font throughout the widget */
+    font_desc = pango_font_description_from_string("Serif 30");
+    gtk_widget_modify_font(escape, font_desc);
+    pango_font_description_free(font_desc);
+
+
+    /* Change default color throughout the widget */
+    gdk_color_parse("white", &color);
+    gtk_widget_modify_fg(escape, GTK_STATE_NORMAL, &color);
+
+    GtkWidget *align_escape = gtk_alignment_new(0, 0, 0, 0);
+    gtk_container_add(GTK_CONTAINER(align_escape), escape);
+
+    gtk_fixed_put(GTK_FIXED(game->container), align_escape, gdk_screen_width() - 700, gdk_screen_height() - 50);
 
 }

@@ -102,6 +102,7 @@ void draw_buttons(ctap_t *game);
 void draw_dot(ctap_t *game, char note);
 void draw_lines(ctap_t *game);
 void draw_score(ctap_t *game);
+void draw_escape(ctap_t *game);
 
 // Event callbacks
 void start_game(GtkWidget*widget, GdkEventKey *event, gpointer user_data);
