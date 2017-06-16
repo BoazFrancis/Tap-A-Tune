@@ -6,7 +6,7 @@
 speed 2
 
 # The number of milliseconds between each block
-tempo 500
+tempo 700
 
 # The song
 begin
