@@ -108,18 +108,22 @@ There were times when specific test cases would not pass on certain computers - 
   \vspace{-4em}
   \hspace*{1.5em}
   \includegraphics[width=18em]{song}
+  \setlength{\belowcaptionskip}{-4em}
   \captionsetup{justification=justified,singlelinecheck=false}
-  \caption*{\fontsize{9}{9}\selectfont \textbf{Figure 2.} The contents of the Twinkle Twinkle song, which is read into our game. The first few lines of the file detail how fast the dots move on the screen and the tempo of the song, and then the `begin' and `end' keywords signal when to start reading in the notes. }
+  \caption*{\hspace*{1.4em}\fontsize{9}{9}\selectfont\textbf{Figure 2.} The contents of the Twinkle \\\hspace*{1.6em}Twinkle song, which is read into our game.\\\hspace*{1.6em}The first few lines of the file detail how fast\\\hspace*{1.6em}the dots move on the screen and the tempo of\\\hspace*{1.6em}the song, and then the `begin' and `end' key-\\\hspace*{1.7em}words signal when to start reading the notes. }
 \end{wrapfigure}
 
 For our extension, we wanted to immerse ourselves in the interactive aspects of C, and we endeavoured to create an extension that would let us use a GUI library, I/O and sound. Our main objective was to create an extension that would respond in real-time to user input, so we decided to code a game which challenged a user to play along to the notes of a song. Different coloured buttons would flash on the GUI, which would correspond to key pressed by the user.
 \\ In our opinion, the most impressive feature of our extension is supplying the game with a custom sound file. To be able to do this, we have written a custom file format specially for our game, which makes it very easy for any user to ``code" their own song into TapATune. A sample sound file can be seen in \textbf{Figure 2} which scores Twinkle Twinkle. In this file, the user can specify how quickly the song plays, and the list of notes that should appear on the screen.
 
-\begin{wrapfigure}{r}{10em}
-  \hspace*{1.5em}
+\begin{wrapfigure}{r}{15em}
+  \vspace{-1em}
+  \hspace*{4em}
+  \raggedright
   \includesvg[width = 90pt]{keypress}
+  \setlength{\belowcaptionskip}{-4em}
   \captionsetup{justification=justified,singlelinecheck=false}
-  \caption*{\fontsize{9}{9}\selectfont \textbf{Figure 3.} Key press event listener process. The event listener waits for a key press, and displays the pressed button on the screen. It then checks if a note is on the corresponding track in the ``correct" range. If there is a note in the range, the score is incremented. The process then repeats.}
+  \caption*{\hspace*{2.0em}\fontsize{9}{9}\selectfont \textbf{Figure 3.} Key press event listener \\\hspace*{2.2em}process. The event listener waits for \\\hspace*{2.2em}a key press, and displays the pressed \\\hspace*{2.2em}button on the screen. It then checks\\\hspace*{2.2em}if a note is on the corresponding\\\hspace*{2.2em}track in the ``correct" range. If there\\\hspace*{2.2em}is a note in the range, the score is \\\hspace*{2.2em}incremented. The process then\\\hspace*{2.2em}repeats.}
 \end{wrapfigure}
 
 \subsection{Design}
