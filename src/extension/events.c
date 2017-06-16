@@ -77,24 +77,17 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
         if (game->dots[j].track == i) {
           // If in boundary to press
           int total_distance = (game->max_height-BUTTONS_YOFFSET);
-          if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && !(game->dots[j].pressed == 1)) {
+          if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && !game->dots[j].pressed) {
             within_range = 1;
             game->dots[j].pressed = 1;
             // Play the sound
             char *sound_file = malloc(sizeof(char)*12);
             sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
             play_sound(sound_file, -1);
-            game->score+=2;
+            game->score+=1;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
             game->dots[j].removed = 1;
             gtk_container_remove(GTK_CONTAINER(game->container), game->dots[j].widget);
-            draw_score(game);
-          }
-          else if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && game->dots[j].pressed == 1) {
-            within_range = 1;
-            //Deduct score
-            game->score--;
-            gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
             draw_score(game);
           }
         }
@@ -105,12 +98,13 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
         char *sound_file = malloc(sizeof(char)*12);
         sprintf(sound_file, "wav/error.wav");
         play_sound(sound_file, -1);
-        //Deduct score
-        game->score-=2;
-        gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
-        draw_score(game);
+        //Deduct score if score > 0;
+        if (game->score > 0) {
+          game->score-=1;
+          gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+          draw_score(game);
+        }
       }
-
     }
   }
 
@@ -124,9 +118,18 @@ gboolean move_dot(gpointer user_data) {
   ctap_t *game = g_object_get_data(params, "game");
   int track = GPOINTER_TO_INT(g_object_get_data(params, "track"));
 
-  if (!(game->dots[track].removed == 1)) {
+  if (!game->dots[track].removed) {
     game->dots[track].y++;
     gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
+    if (game->dots[track].y > game->max_height) {
+      game->dots[track].removed = 1;
+      gtk_container_remove(GTK_CONTAINER(game->container), game->dots[track].widget);
+      if (game->score > 0) {
+        game->score-=1;
+        gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+        draw_score(game);
+      }
+    }
   }
 
   return FALSE;
