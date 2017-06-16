@@ -82,7 +82,14 @@ Our next task was to create an assembler to output ARM assembly code to a source
 
 \subsection{Data Structures}
 
- In order to define the symbol table, we had to first create a separate typedef, which we called \texttt{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \texttt{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.
+Throughout the programming of the assembler, we created some ADTs which would be useful in building the symbol table. When creating an ADT in C, we initialised them in header files as structs, and then added a typedef which enabled us to refer to structs directly as types, without the need to initialise them constantly.
+
+\begin{itemize}
+  \item[--] A \textbf{Map} type is simply one entry of the symbol table. A Map creates a relationship between label and address, and so consists of the label of type string (\emph{char *}), and a 32-bit unsigned integer to its corresponding address.
+
+  \item[--] The \textbf{SymbolTable} type contains an array of type \textbf{Map}. The only other piece of information we need in the SymbolTable is its size, stored as an integer. This allows us to iterate over the symbol table without accessing unallocated memory which potentially could have caused segmentation faults.
+
+\end{itemize}
 
 \subsection{Generating Instructions}
 
