@@ -95,6 +95,10 @@ Throughout the programming of the assembler, we created some ADTs which would be
 
 Once the symbol table structure was created, we had to write code for the assembler to generate binary encodings of instructions that are passed through opcode \emph{mnemonics}. This was the second pass of the assembler's \emph{two-pass} setup. Firstly, we had to create a tokenizer to break up each line into multiple parts using a space delimiter. Using the \textbf{strtok\_r} and \textbf{strtol} functions in C, this was quite easy, and we finished this task quickly as a group. The second task was to write functions for the assembler to assemble instructions, where each opcode was mapped to its expected operand count using the aforementioned symbol table abstract data type. Then we made methods for handling each of the 5 types of instructions: data processing, multiply, single data transfer, branch and special. Thus, we assigned each group member an instruction to handle, and in turn the dynamic of the group in Part II was notably smoother than its dynamic in Part I. Tasks were distributed much more efficiently, which led to a faster completion of the assembler. However, this required more time to be spent on standardising the code format, as many parts of the second pass of the assembler were coded independently.
 
+\subsection{Challenges}
+
+There were times when specific test cases would not pass on certain computers - namely, the case \emph{loop01}. After looking more closely into how this test case was written, we realised that the program was iterating 4 million times. We then decided to optimise our assembler, by using \textbf{Valgrind} to identify and remove memory leaks. We then found that sometimes other processes were running in the background of the tests, using high percentages of the CPU, causing the code to take longer to run - ultimately failing our tests. By running the test suite in an environment with full access to CPU resources and with our assembler fully optimised, we were able to pass all the test cases with no further problems.
+
 \section{Extension}
 
 \subsection{Concept}
@@ -113,24 +117,22 @@ For our extension, we wanted to immerse ourselves in the interactive aspects of 
 
 
 When planning the design of our game, we drew lots of parallels with the well-known game \emph{Guitar Hero}, and this helped us with setting realistic goals and milestones based on the various features of the game. We split into groups of two to do some preliminary research on how to implement sound and GUIs in C. Notably, progress in the graphics area was made much faster than progress in the sound area, as we were able to quickly code a user interface for our game. One member of the group also was quickly able to setup a program which read user input through the keyboard. This was important as it corresponded to the user's pressing of the GUI's buttons, each of which represented a different guitar string.
-\\ \hspace{10mm} As is good practice in C, we created a header file, which consisted of numerous constants, enumerations, structs, and function definitions. We created a main game object, which we passed around to all methods as a pointer. This gave us the most flexibility in terms of accessing all the game properties, without needing to make any variables global. We were able to code the graphics within a few days, after which we started to make tests on the graphics, while we waited to integrate the sound component of the extension.
-\\ \hspace{10mm} Once we were able to figure out how to play a sound, using the SDL Mixer platform, the ball was rolling. We extended our progress to have the program play multiple sound effects at once, to create a more realistic interpretation of pressing several notes. We were now able to read sounds from a file, read user input, and integrate both into our advanced graphics. Our game has come along nicely.
+\\ \\ \hspace{10mm} As is good practice in C, we created a header file, which consisted of numerous constants, enumerations, structs, and function definitions. We created a main game object, which we passed around to all methods as a pointer. This gave us the most flexibility in terms of accessing all the game properties, without needing to make any variables global. We were able to code the graphics within a few days, after which we started to make tests on the graphics, while we waited to integrate the sound component of the extension.
+\\ \\ \hspace{10mm} Once we were able to figure out how to play a sound, using the SDL Mixer platform, the ball was rolling. We extended our progress to have the program play multiple sound effects at once, to create a more realistic interpretation of pressing several notes. We were now able to read sounds from a file, read user input, and integrate both into our advanced graphics. Our game has come along nicely.
 
 \subsection{Challenges}
 
 \begin{itemize}
 
-\item Lag/Memory - The GUI that we coded initially encountered a tremendous amount of lag as the buttons were falling down the screen. To fix this, we optimised the graphics so that the buttons would immediately free memory after their termination. This also improved lag time.
+\item Lag - The GUI that we coded initially encountered a tremendous amount of lag as the buttons were falling down the screen. To fix this, we optimised the graphics so that the buttons would immediately free memory after their termination. This also improved lag time.
 
 \item Playing Multiple Sounds - This challenge was fixed through copious amounts of research. We were trying to play sounds simultaneously along with the GUI, so we could also respond to the pressing of multiple buttons. This was finally accomplished after thorough research and extensive development.
-
-\item Loop Delay (Assembler) - Going back to the assembler, there were times when certain test cases would not pass on certain computers - namely, the tests with loops. We found that if other processes were running in the background of the tests, then the code would take longer to run, ultimately failing our tests. We accounted for this interference in our updated code and ultimately ran the tests on machines that were not busy. This was how the tests were intended to be run, and the initial ones that failed then passed.
 
 \end{itemize}
 
 \subsection{Testing}
 
-Testing our assembler code was done much more efficiently than testing our extension, thanks to the provided test suite. Considering that we tested each method after coding it, the tests in the assembler suite passed quite easily. Testing for the extension was more freeform. After each stage in the extension, we ``tested" it by having the other group members look and critique the progress made. After we combined all of the phases, and had the general format of our Guitar Hero-esque game, we invited members of the Department of Computing to try out the initial interface and give us their thoughts. We initially received a wide range of responses, which encouraged us to keep fine-tuning the graphics and sound so that they would synchronize more smoothly. This was the extent of our testing, but we felt this to be appropriate as our extension's success was based off of the satisfaction of our users.
+To be written.
 
 \section{Reflections and Conclusion}
 
