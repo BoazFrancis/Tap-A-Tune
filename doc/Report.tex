@@ -123,7 +123,7 @@ For our extension, we wanted to immerse ourselves in the interactive aspects of 
   \includesvg[width = 90pt]{keypress}
   \setlength{\belowcaptionskip}{-4em}
   \captionsetup{justification=justified,singlelinecheck=false}
-  \caption*{\hspace*{2.0em}\fontsize{9}{9}\selectfont \textbf{Figure 3.} Key press event listener \\\hspace*{2.2em}process. The event listener waits for \\\hspace*{2.2em}a key press, and displays the pressed \\\hspace*{2.2em}button on the screen. It then checks\\\hspace*{2.2em}if a note is on the corresponding\\\hspace*{2.2em}track in the ``correct" range. If there\\\hspace*{2.2em}is a note in the range, the score is \\\hspace*{2.2em}incremented. The process then\\\hspace*{2.2em}repeats.}
+  \caption*{\hspace*{1.9em}\fontsize{9}{9}\selectfont \textbf{Figure 3.} Key press event listener \\\hspace*{2.2em}process. The event listener waits for \\\hspace*{2.2em}a key press, and displays the pressed \\\hspace*{2.2em}button on the screen. It then checks\\\hspace*{2.2em}if a note is on the corresponding\\\hspace*{2.2em}track in the ``correct" range. If there\\\hspace*{2.2em}is a note in the range, the score is \\\hspace*{2.2em}incremented. The process then\\\hspace*{2.2em}repeats.}
 \end{wrapfigure}
 
 \subsection{Design}
@@ -150,7 +150,10 @@ Once we were able to figure out how to play a sound, using the SDL Mixer platfor
 
 \subsection{Testing}
 
-To be written.
+Testing for our extension has been much more difficult than the previous parts as we have not been given a set test suite. User feedback, to us, was very important. We therefore asked other members of the department to play the game and ensure that it meets the requirements we had intended. To properly test the code itself, we tried lots of edge-cases to test the extreme circumstances. For example, pressing more than one key at the same time did in fact highlight both buttons and subtracted two penalties from the score. As well as this, we tested the song file that we customise by entering in commands that don't exist and alternating between capital and lower case letters.
+\\
+As a further extension, we could use a unit testing library and write specification based scripts describing our intended outcomes. If we had more time for this project, that's definitely something we would consider from the beginning. It would allow us to take a TDD (Test-driven-development) approach to our extension.
+
 
 \section{Reflections}
 
