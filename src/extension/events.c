@@ -84,17 +84,10 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
             char *sound_file = malloc(sizeof(char)*12);
             sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
             play_sound(sound_file, -1);
-            game->score+=2;
+            game->score+=1;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
             game->dots[j].removed = 1;
             gtk_container_remove(GTK_CONTAINER(game->container), game->dots[j].widget);
-            draw_score(game);
-          }
-          else if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && game->dots[j].pressed == 1) {
-            within_range = 1;
-            //Deduct score
-            game->score--;
-            gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
             draw_score(game);
           }
         }
@@ -106,11 +99,10 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
         sprintf(sound_file, "wav/error.wav");
         play_sound(sound_file, -1);
         //Deduct score
-        game->score-=2;
+        game->score-=1;
         gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
         draw_score(game);
       }
-
     }
   }
 
