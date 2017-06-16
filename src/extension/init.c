@@ -53,8 +53,10 @@ void init_buttons(ctap_t *game) {
 
   game->buttons = malloc(sizeof(ctap_button_t *) * game->num_buttons);
 
-  for (int i=0; i<game->num_buttons; i++) {
 
+
+  for (int i=0; i<game->num_buttons; i++) {
+    
     char *filename = malloc(sizeof(char)*100);
     char *filename_selected = malloc(sizeof(char)*100);
     sprintf(filename, "img/%s.png", button_names[i]);
@@ -71,9 +73,14 @@ void init_buttons(ctap_t *game) {
 
   }
 
+  // Free the filename and filename_selected variables
+  //free(filename);
+  //free(filename_selected);
+
   // Init dots as empty
   game->num_dots = 0;
   game->dots = malloc(sizeof(ctap_dot_t *));
+
 
 }
 
