@@ -19,11 +19,6 @@ int main(int argc, char *argv[]) {
   // Start the main loop
   gtk_main();
 
-  // Free game struct attributes
-  free(game->buttons);
-  free(game->dots);
-  free(game->map);
-  // Free the game
   free(game);
 
   return 0;
