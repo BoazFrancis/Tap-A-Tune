@@ -10,6 +10,7 @@
 
 // Constants
 #define ENTER_KEY 65293
+#define ESC_KEY 65307
 #define Q_KEY 113
 #define W_KEY 119
 #define E_KEY 101

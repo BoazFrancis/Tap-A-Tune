@@ -27,6 +27,9 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     start_song(game);
 
   }
+  else if (event->keyval == ESC_KEY) {
+    gtk_main_quit();
+  }
 
 }
 
@@ -41,6 +44,7 @@ void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     case GREEN_KEY:   label = GREEN_LABEL; break;
     case YELLOW_KEY:  label = YELLOW_LABEL; break;
     case PURPLE_KEY:  label = PURPLE_LABEL; break;
+    case ESC_KEY:     gtk_main_quit(); return;
     default: return;
   }
 
