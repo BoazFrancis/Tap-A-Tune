@@ -39,6 +39,8 @@ void draw_dot(ctap_t *game, char note) {
   game->dots[game->num_dots - 1].x = BUTTONS_XOFFSET + track*BUTTONS_XINC;
   game->dots[game->num_dots - 1].y = 0;
   game->dots[game->num_dots - 1].note = note;
+  game->dots[game->num_dots - 1].pressed = 0;
+  game->dots[game->num_dots - 1].removed = 0;
 
   gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1].widget, game->dots[game->num_dots - 1].x, game->dots[game->num_dots - 1].y);
 
