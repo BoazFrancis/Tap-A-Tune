@@ -98,10 +98,12 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
         char *sound_file = malloc(sizeof(char)*12);
         sprintf(sound_file, "wav/error.wav");
         play_sound(sound_file, -1);
-        //Deduct score
-        game->score-=1;
-        gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
-        draw_score(game);
+        //Deduct score if score > 0;
+        if (game->score > 0) {
+          game->score-=1;
+          gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+          draw_score(game);
+        }
       }
     }
   }

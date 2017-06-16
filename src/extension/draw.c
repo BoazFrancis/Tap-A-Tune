@@ -54,7 +54,7 @@ void draw_dot(ctap_t *game, char note) {
 
 void draw_score(ctap_t *game) {
 
-  game->score_box = gtk_label_new("ME");
+  game->score_box = gtk_label_new("");
   PangoFontDescription *font_desc;
   GdkColor color;
 
