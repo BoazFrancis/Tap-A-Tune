@@ -28,7 +28,6 @@ void process_instructions(int total_size, int *num_no_labels, char **instruction
     if (rest[0] == '-') {
       continue;
     }
-    printf("%s\n", rest);
     char *mnem = strtok_r(rest, space, &rest);
     char *pos = strchr(mnem, ':');
     mnem = trim_whitespace(mnem);

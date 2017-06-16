@@ -2,11 +2,13 @@
 ldr r0,=0x20200004
 
 --Set GPIO 16 as an output pin
-mov r1,#0x00040000
+mov r1,#1
+lsl r1,#18
 str r1,[r0]
 
 --Clear pin 16
-mov r2,#0x00010000
+mov r2,#1
+lsl r2,#16
 
 --pin off
 ldr r3,=0x2020001C
@@ -20,21 +22,23 @@ while:
 --turn pin on
 str r2,[r4]
 
---break
+--Delay by iteratively decrementing a large number by 1
+--until it is equal to a smaller number
 mov r5,#0x3F0000
-delay:
+off_delay:
 sub r5,r5,#1
 cmp r5,#0xFF
-bne delay
+bne off_delay
 
 --turn pin off
 str r2,[r3]
 
---break again
+--Delay by iteratively decrementing a large number by 1
+--until it is equal to a smaller number
 mov r5,#0x3F0000
-delay_2:
+on_delay:
 sub r5,r5,#1
 cmp r5,#0xFF
-bne delay_2
+bne on_delay
 
 b while
