@@ -34,6 +34,10 @@ void draw_dot(ctap_t *game, char note) {
 
   game->num_dots++;
   game->dots = realloc(game->dots, sizeof(ctap_dot_t) * game->num_dots);
+  if (game->dots == NULL) {
+    perror("game->dots realloc in draw");
+    exit(EXIT_FAILURE);
+  }
   game->dots[game->num_dots - 1].widget = align;
   game->dots[game->num_dots - 1].track = track;
   game->dots[game->num_dots - 1].x = BUTTONS_XOFFSET + track*BUTTONS_XINC;
