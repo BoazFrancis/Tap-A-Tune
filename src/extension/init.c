@@ -53,12 +53,28 @@ void init_buttons(ctap_t *game) {
 
   game->buttons = malloc(sizeof(ctap_button_t *) * game->num_buttons);
 
+  if (game->buttons == NULL) {
+    perror("game->buttons malloc in init");
+    exit(EXIT_FAILURE);
+  }
 
 
   for (int i=0; i<game->num_buttons; i++) {
-    
+
     char *filename = malloc(sizeof(char)*100);
+
+    if (filename == NULL) {
+      perror("filename malloc in init");
+      exit(EXIT_FAILURE);
+    }
+
     char *filename_selected = malloc(sizeof(char)*100);
+
+    if (filename_selected == NULL) {
+      perror("filename_selected malloc in init");
+      exit(EXIT_FAILURE);
+    }
+
     sprintf(filename, "img/%s.png", button_names[i]);
     sprintf(filename_selected, "img/%s_selected.png", button_names[i]);
     GdkPixbuf *image = create_pixbuf(filename);
@@ -80,7 +96,10 @@ void init_buttons(ctap_t *game) {
   // Init dots as empty
   game->num_dots = 0;
   game->dots = malloc(sizeof(ctap_dot_t *));
-
+  if (game->dots == NULL) {
+    perror("game->dots malloc in init");
+    exit(EXIT_FAILURE);
+  }
 
 }
 
@@ -166,6 +185,10 @@ void init_notetable(ctap_t *game) {
   // Make an array of length 7 for notes A-G
   // Fill it with numbers 0-4 as there are 5 buttons
   game->map = malloc(sizeof(int)*NUM_NOTES);
+  if (game->map == NULL) {
+    perror("game->map malloc in init");
+    exit(EXIT_FAILURE);
+  }
   const int map[NUM_NOTES] = {0, 0, 1, 1, 2, 3, 4};
   memcpy(game->map, map, sizeof(map));
 

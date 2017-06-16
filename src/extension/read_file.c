@@ -7,8 +7,8 @@ char** read_file(char *filepath) {
   /* Allocate lines of text */
   char **words = malloc(sizeof(char*)*lines_allocated);
   if (words == NULL) {
-    fprintf(stderr,"Out of memory (1).\n");
-    exit(1);
+    perror("words malloc in read_file");
+    exit(EXIT_FAILURE);
   }
 
   FILE *fp = fopen(filepath, "r");
@@ -21,10 +21,18 @@ char** read_file(char *filepath) {
 
   int i = 0;
   words[i] = malloc(max_line_len);
+  if (words[i] == NULL) {
+    perror("words malloc in read_file");
+    exit(EXIT_FAILURE);
+  }
   while (fgets(words[i], max_line_len-1,fp) != NULL) {
     words[i] = trim_whitespace(words[i]);
     i++;
     words[i] = malloc(max_line_len);
+    if (words[i] == NULL) {
+      perror("words malloc in read_file");
+      exit(EXIT_FAILURE);
+    }
   }
 
   fclose(fp);
