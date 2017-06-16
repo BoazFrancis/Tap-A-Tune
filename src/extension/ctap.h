@@ -10,6 +10,7 @@
 
 // Constants
 #define ENTER_KEY 65293
+#define ESC_KEY 65307
 #define Q_KEY 113
 #define W_KEY 119
 #define E_KEY 101
@@ -51,6 +52,8 @@ typedef struct {
   int x;
   int y;
   char note;
+  int pressed;
+  int removed;
 } ctap_dot_t;
 
 typedef struct {
@@ -78,7 +81,7 @@ enum {
   BUTTON_BOUNDARY = 50
 };
 
-// Utils methodss
+// Utils methods
 GdkPixbuf *create_pixbuf(const gchar *filename);
 char *trim_whitespace(char *str);
 char *str_lower(char *str);
@@ -100,6 +103,7 @@ void draw_buttons(ctap_t *game);
 void draw_dot(ctap_t *game, char note);
 void draw_lines(ctap_t *game);
 void draw_score(ctap_t *game);
+void draw_escape(ctap_t *game);
 
 // Event callbacks
 void start_game(GtkWidget*widget, GdkEventKey *event, gpointer user_data);

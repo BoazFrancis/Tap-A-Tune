@@ -53,10 +53,28 @@ void init_buttons(ctap_t *game) {
 
   game->buttons = malloc(sizeof(ctap_button_t *) * game->num_buttons);
 
+  if (game->buttons == NULL) {
+    perror("game->buttons malloc in init");
+    exit(EXIT_FAILURE);
+  }
+
+
   for (int i=0; i<game->num_buttons; i++) {
 
     char *filename = malloc(sizeof(char)*100);
+
+    if (filename == NULL) {
+      perror("filename malloc in init");
+      exit(EXIT_FAILURE);
+    }
+
     char *filename_selected = malloc(sizeof(char)*100);
+
+    if (filename_selected == NULL) {
+      perror("filename_selected malloc in init");
+      exit(EXIT_FAILURE);
+    }
+
     sprintf(filename, "img/%s.png", button_names[i]);
     sprintf(filename_selected, "img/%s_selected.png", button_names[i]);
     GdkPixbuf *image = create_pixbuf(filename);
@@ -71,9 +89,13 @@ void init_buttons(ctap_t *game) {
 
   }
 
-  // Init dots as empty
+  // Initialise dots as empty
   game->num_dots = 0;
   game->dots = malloc(sizeof(ctap_dot_t *));
+  if (game->dots == NULL) {
+    perror("game->dots malloc in init");
+    exit(EXIT_FAILURE);
+  }
 
 }
 
@@ -84,10 +106,10 @@ void init_score(ctap_t *game) {
 
 void set_bg(ctap_t *game) {
 
-  // Initialise bg pixmap
+  // Initialise background pixmap
   GdkPixmap *bg;
 
-  // Load bg image file into pixbuf
+  // Load background image file into pixbuf
   GdkPixbuf *image = create_pixbuf(IMG_BG);
 
   // Image should fill screen size
@@ -108,22 +130,19 @@ void start_screen_text(ctap_t *game) {
   PangoFontDescription *font_desc;
   GdkColor color;
 
-  GdkPixbuf *logo = create_pixbuf("img/TapATune2.png");
-  GtkWidget *logo_widget = gtk_image_new_from_pixbuf(logo);
-
   GtkWidget *title = gtk_label_new("Welcome to TapATune!");
   GtkWidget *sub = gtk_label_new("Press <ENTER> to start.");
 
-  /* Change default font throughout the widget */
-  font_desc = pango_font_description_from_string("Serif 40");
+  // Change default font throughout the widget
+  font_desc = pango_font_description_from_string("Serif 80");
   gtk_widget_modify_font(title, font_desc);
   pango_font_description_free(font_desc);
 
-  font_desc = pango_font_description_from_string("Serif 25");
+  font_desc = pango_font_description_from_string("Serif 40");
   gtk_widget_modify_font(sub, font_desc);
   pango_font_description_free(font_desc);
 
-  /* Change default color throughout the widget */
+  // Change default color throughout the widget
   gdk_color_parse("white", &color);
   gtk_widget_modify_fg(title, GTK_STATE_NORMAL, &color);
   gtk_widget_modify_fg(sub, GTK_STATE_NORMAL, &color);
@@ -131,9 +150,8 @@ void start_screen_text(ctap_t *game) {
   GtkWidget *align_title = gtk_alignment_new(0, 0, 0, 0);
   gtk_container_add(GTK_CONTAINER(align_title), title);
 
-  gtk_fixed_put(GTK_FIXED(game->content), logo_widget, 290, 200);
-  gtk_fixed_put(GTK_FIXED(game->content), align_title, 300, 300);
-  gtk_fixed_put(GTK_FIXED(game->content), sub, 300, 400);
+  gtk_fixed_put(GTK_FIXED(game->content), align_title, 50, 300);
+  gtk_fixed_put(GTK_FIXED(game->content), sub, 50, 600);
   gtk_fixed_put(GTK_FIXED(game->container), game->content, 0, 0);
 
 }
@@ -163,6 +181,10 @@ void init_notetable(ctap_t *game) {
   // Make an array of length 7 for notes A-G
   // Fill it with numbers 0-4 as there are 5 buttons
   game->map = malloc(sizeof(int)*NUM_NOTES);
+  if (game->map == NULL) {
+    perror("game->map malloc in init");
+    exit(EXIT_FAILURE);
+  }
   const int map[NUM_NOTES] = {0, 0, 1, 1, 2, 3, 4};
   memcpy(game->map, map, sizeof(map));
 

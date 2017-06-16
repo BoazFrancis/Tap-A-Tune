@@ -17,7 +17,9 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     gtk_widget_show_all(game->window);
 
     init_score(game);
-    // Don't care about this key press event anymore
+
+    draw_escape(game);
+    // Disconnect key press event
     gtk_signal_disconnect_by_func(GTK_OBJECT(game->window), GTK_SIGNAL_FUNC(start_game), user_data);
 
     // Key presses for 5 different buttons
@@ -26,6 +28,9 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
     start_song(game);
 
+  }
+  else if (event->keyval == ESC_KEY) {
+    gtk_main_quit();
   }
 
 }
@@ -41,6 +46,7 @@ void select_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     case GREEN_KEY:   label = GREEN_LABEL; break;
     case YELLOW_KEY:  label = YELLOW_LABEL; break;
     case PURPLE_KEY:  label = PURPLE_LABEL; break;
+    case ESC_KEY:     gtk_main_quit(); return;
     default: return;
   }
 
@@ -62,6 +68,7 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
   ctap_t *game = user_data;
 
   for (int i=0; i<game->num_buttons; i++) {
+    int within_range = 0;
     if (game->buttons[i].is_selected == 1) {
 
       gtk_container_remove(GTK_CONTAINER(game->container), game->buttons[i].selected);
@@ -72,18 +79,46 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
         if (game->dots[j].track == i) {
           // If in boundary to press
           int total_distance = (game->max_height-BUTTONS_YOFFSET);
-          if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY) {
+          if (game->dots[j].y >= total_distance - BUTTON_BOUNDARY && game->dots[j].y <= total_distance + BUTTON_BOUNDARY && !game->dots[j].pressed) {
+            within_range = 1;
+            game->dots[j].pressed = 1;
             // Play the sound
             char *sound_file = malloc(sizeof(char)*12);
+
+            if (sound_file == NULL) {
+              perror("sound_file malloc in events");
+              exit(EXIT_FAILURE);
+            }
+
             sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
             play_sound(sound_file, -1);
-            game->score++;
+            game->score+=1;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+            game->dots[j].removed = 1;
+            gtk_container_remove(GTK_CONTAINER(game->container), game->dots[j].widget);
             draw_score(game);
           }
         }
       }
 
+      if (!within_range) {
+        // Play error sound
+        char *sound_file = malloc(sizeof(char)*12);
+
+        if (sound_file == NULL) {
+          perror("sound_file malloc in events");
+          exit(EXIT_FAILURE);
+        }
+
+        sprintf(sound_file, "wav/error.wav");
+        play_sound(sound_file, -1);
+        // Deduct score if score > 0;
+        if (game->score > 0) {
+          game->score-=1;
+          gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+          draw_score(game);
+        }
+      }
     }
   }
 
@@ -97,8 +132,19 @@ gboolean move_dot(gpointer user_data) {
   ctap_t *game = g_object_get_data(params, "game");
   int track = GPOINTER_TO_INT(g_object_get_data(params, "track"));
 
-  game->dots[track].y++;
-  gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
+  if (!game->dots[track].removed) {
+    game->dots[track].y++;
+    gtk_fixed_move(GTK_FIXED(game->container), game->dots[track].widget, game->dots[track].x, game->dots[track].y);
+    if (game->dots[track].y > game->max_height) {
+      game->dots[track].removed = 1;
+      gtk_container_remove(GTK_CONTAINER(game->container), game->dots[track].widget);
+      if (game->score > 0) {
+        game->score-=1;
+        gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
+        draw_score(game);
+      }
+    }
+  }
 
   return FALSE;
 

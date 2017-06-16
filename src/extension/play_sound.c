@@ -28,9 +28,4 @@ void play_sound(char *wav_file_name, int length) {
     printf("Unable to play WAV file: %s\n", Mix_GetError());
   }
 
-  // TODO: NEED TO DO THIS
-  //Mix_FreeChunk(sound);
-  //Mix_CloseAudio();
-  //SDL_Quit();
-
 }

@@ -8,6 +8,11 @@ int main(int argc, char *argv[]) {
   // Create the main program struct which will be passed around the program
   ctap_t *game = malloc(sizeof(ctap_t));
 
+  if (game == NULL) {
+    perror("game malloc in ctap");
+    exit(EXIT_FAILURE);
+  }
+
   // Initialise the game
   init_notetable(game);
   init_window(game);
@@ -19,7 +24,6 @@ int main(int argc, char *argv[]) {
   // Start the main loop
   gtk_main();
 
-  // Free the game
   free(game);
 
   return 0;
