@@ -30,31 +30,8 @@ character. As we cycled through the instructions, we kept a running
 count of the address in memory where this instruction would be stored.
 Therefore, when it came to adding the instruction to the symbol table,
 as can be seen in **Figure 1**, we already had easy access to the label
-string and its relative address to jump to.\
+string and its relative address to jump to.
 
-[htbp]
-
-<span> p<span>5cm</span> p<span>5cm</span> </span>
-
-<span> p<span>1cm</span> p<span>3cm</span> </span> **1** & bar:\
-**2** & mov r2, \#4\
-**3** & cmp r2, \#1\
-**4** & bne end\
-**5** & foo:\
-**6** & add r2, \#3\
-**7** & b end\
-**8** & add r2, \#1\
-**9** & end:\
-**10** & sub r2, \#3
-
-&
-
-<span> |p<span>1cm</span>||p<span>1.5cm</span>|p<span>2.5cm</span>|
-</span>\
-Entry & Label & Address\
-1 & bar & 0x00000000\
-2 & foo & 0x00000010\
-3 & end & 0x00000020\
 
 Data Structures
 ---------------
@@ -119,10 +96,6 @@ Extension
 Concept
 -------
 
-<span>r</span><span>18em</span>
-
-![image](song)
-
 For our extension, we wanted to immerse ourselves in the interactive
 aspects of C, and we endeavoured to create an extension that would let
 us use a GUI library, I/O and sound. Our main objective was to create an
@@ -137,8 +110,6 @@ very easy for any user to \`\`code" their own song into TapATune. A
 sample sound file can be seen in **Figure 2** which scores Twinkle
 Twinkle. In this file, the user can specify how quickly the song plays,
 and the list of notes that should appear on the screen.
-
-<span>r</span><span>10em</span>
 
 Design
 ------
@@ -187,10 +158,6 @@ Challenges
     multiple buttons. This was finally accomplished after thorough
     research and extensive development.
 
-Testing
--------
-
-To be written.
 
 Reflections
 ===========
