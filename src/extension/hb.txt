@@ -1,5 +1,4 @@
 ###### CTap: Happy Birthday #########
-###### Scored by Boaz Francis #######
 #####################################
 
 # The speed at which dots move to the user

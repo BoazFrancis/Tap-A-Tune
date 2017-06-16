@@ -1,5 +1,4 @@
 ###### CTap: Twinkle Twinkle ########
-###### Scored by Jason Lipowicz #####
 #####################################
 
 # The speed at which dots move to the user

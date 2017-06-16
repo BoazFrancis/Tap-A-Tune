@@ -19,7 +19,7 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     init_score(game);
 
     draw_escape(game);
-    // Don't care about this key press event anymore
+    // Disconnect key press event
     gtk_signal_disconnect_by_func(GTK_OBJECT(game->window), GTK_SIGNAL_FUNC(start_game), user_data);
 
     // Key presses for 5 different buttons
@@ -102,7 +102,7 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
       }
 
       if (!within_range) {
-        //Play error sound
+        // Play error sound
         char *sound_file = malloc(sizeof(char)*12);
 
         if (sound_file == NULL) {
@@ -112,7 +112,7 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
         sprintf(sound_file, "wav/error.wav");
         play_sound(sound_file, -1);
-        //Deduct score if score > 0;
+        // Deduct score if score > 0;
         if (game->score > 0) {
           game->score-=1;
           gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);

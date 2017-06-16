@@ -89,11 +89,7 @@ void init_buttons(ctap_t *game) {
 
   }
 
-  // Free the filename and filename_selected variables
-  //free(filename);
-  //free(filename_selected);
-
-  // Init dots as empty
+  // Initialise dots as empty
   game->num_dots = 0;
   game->dots = malloc(sizeof(ctap_dot_t *));
   if (game->dots == NULL) {
@@ -110,10 +106,10 @@ void init_score(ctap_t *game) {
 
 void set_bg(ctap_t *game) {
 
-  // Initialise bg pixmap
+  // Initialise background pixmap
   GdkPixmap *bg;
 
-  // Load bg image file into pixbuf
+  // Load background image file into pixbuf
   GdkPixbuf *image = create_pixbuf(IMG_BG);
 
   // Image should fill screen size
@@ -137,7 +133,7 @@ void start_screen_text(ctap_t *game) {
   GtkWidget *title = gtk_label_new("Welcome to Tap Tap!");
   GtkWidget *sub = gtk_label_new("Press <ENTER> to start.");
 
-  /* Change default font throughout the widget */
+  // Change default font throughout the widget
   font_desc = pango_font_description_from_string("Serif 40");
   gtk_widget_modify_font(title, font_desc);
   pango_font_description_free(font_desc);
@@ -146,7 +142,7 @@ void start_screen_text(ctap_t *game) {
   gtk_widget_modify_font(sub, font_desc);
   pango_font_description_free(font_desc);
 
-  /* Change default color throughout the widget */
+  // Change default color throughout the widget
   gdk_color_parse("white", &color);
   gtk_widget_modify_fg(title, GTK_STATE_NORMAL, &color);
   gtk_widget_modify_fg(sub, GTK_STATE_NORMAL, &color);

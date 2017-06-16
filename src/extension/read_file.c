@@ -4,7 +4,7 @@ char** read_file(char *filepath) {
   int lines_allocated = 128;
   int max_line_len = 100;
 
-  /* Allocate lines of text */
+  // Allocate lines of text 
   char **words = malloc(sizeof(char*)*lines_allocated);
   if (words == NULL) {
     perror("words malloc in read_file");

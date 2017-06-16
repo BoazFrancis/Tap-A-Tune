@@ -3,7 +3,8 @@
 void draw_buttons(ctap_t *game) {
 
   for (int i=0; i<game->num_buttons; i++) {
-    gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].widget, BUTTONS_XOFFSET + i*BUTTONS_XINC, game->max_height-BUTTONS_YOFFSET);
+    gtk_fixed_put(GTK_FIXED(game->container), game->buttons[i].widget,
+            BUTTONS_XOFFSET + i*BUTTONS_XINC, game->max_height-BUTTONS_YOFFSET);
   }
 
   gtk_widget_show_all(game->window);
@@ -46,7 +47,8 @@ void draw_dot(ctap_t *game, char note) {
   game->dots[game->num_dots - 1].pressed = 0;
   game->dots[game->num_dots - 1].removed = 0;
 
-  gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1].widget, game->dots[game->num_dots - 1].x, game->dots[game->num_dots - 1].y);
+  gtk_fixed_put(GTK_FIXED(game->container), game->dots[game->num_dots - 1].widget,
+          game->dots[game->num_dots - 1].x, game->dots[game->num_dots - 1].y);
 
   for (int i=0; i<game->max_height+BUTTONS_SIZE; i++) {
     GObject *params = g_object_new(G_TYPE_OBJECT, NULL);
@@ -67,7 +69,7 @@ void draw_score(ctap_t *game) {
   gchar* buf = g_strdup_printf("Score: %i", game->score);
   gtk_label_set_text(GTK_LABEL(game->score_box), buf);
 
-  /* Change default font throughout the widget */
+  // Change default font throughout the widget
   font_desc = pango_font_description_from_string("Serif 70");
   gtk_widget_modify_font(game->score_box, font_desc);
   pango_font_description_free(font_desc);
@@ -75,7 +77,8 @@ void draw_score(ctap_t *game) {
   gdk_color_parse("white", &color);
   gtk_widget_modify_fg(game->score_box, GTK_STATE_NORMAL, &color);
 
-  gtk_fixed_put(GTK_FIXED(game->container), game->score_box, gdk_screen_width() - 1010, gdk_screen_height() - 300);
+  gtk_fixed_put(GTK_FIXED(game->container), game->score_box,
+          gdk_screen_width() - 1010, gdk_screen_height() - 300);
   gtk_widget_set_size_request(game->score_box, 1000, 200);
 
   gtk_widget_show_all(game->window);
@@ -84,25 +87,26 @@ void draw_score(ctap_t *game) {
 
 void draw_escape(ctap_t *game) {
 
-    PangoFontDescription *font_desc;
-    GdkColor color;
+  PangoFontDescription *font_desc;
+  GdkColor color;
 
-    GtkWidget *escape = gtk_label_new("Press ESC button to exit game");
-
-
-    /* Change default font throughout the widget */
-    font_desc = pango_font_description_from_string("Serif 30");
-    gtk_widget_modify_font(escape, font_desc);
-    pango_font_description_free(font_desc);
+  GtkWidget *escape = gtk_label_new("Press ESC button to exit game");
 
 
-    /* Change default color throughout the widget */
-    gdk_color_parse("white", &color);
-    gtk_widget_modify_fg(escape, GTK_STATE_NORMAL, &color);
+  // Change default font throughout the widget
+  font_desc = pango_font_description_from_string("Serif 30");
+  gtk_widget_modify_font(escape, font_desc);
+  pango_font_description_free(font_desc);
 
-    GtkWidget *align_escape = gtk_alignment_new(0, 0, 0, 0);
-    gtk_container_add(GTK_CONTAINER(align_escape), escape);
 
-    gtk_fixed_put(GTK_FIXED(game->container), align_escape, gdk_screen_width() - 700, gdk_screen_height() - 50);
+  // Change default color throughout the widget
+  gdk_color_parse("white", &color);
+  gtk_widget_modify_fg(escape, GTK_STATE_NORMAL, &color);
+
+  GtkWidget *align_escape = gtk_alignment_new(0, 0, 0, 0);
+  gtk_container_add(GTK_CONTAINER(align_escape), escape);
+
+  gtk_fixed_put(GTK_FIXED(game->container), align_escape,
+          gdk_screen_width() - 700, gdk_screen_height() - 50);
 
 }

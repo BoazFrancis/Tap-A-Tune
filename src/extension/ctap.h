@@ -80,7 +80,7 @@ enum {
   BUTTON_BOUNDARY = 50
 };
 
-// Utils methodss
+// Utils methods
 GdkPixbuf *create_pixbuf(const gchar *filename);
 char *trim_whitespace(char *str);
 char *str_lower(char *str);
