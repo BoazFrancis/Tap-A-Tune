@@ -6,8 +6,6 @@
 \usepackage{svg}
 \usepackage{wrapfig}
 
-
-
 \let\LaTeXsubsection\subsubsection
 \def\subsubsection{\setlength{\parindent}{5mm}\LaTeXsubsection}
 
@@ -33,11 +31,15 @@
 
 \vspace{0.1in}
 
-\section{Implementing the Assembler}
+\section{Introduction}
 
-\subsection{Creation of a Symbol Table}
+In this project, we had to complete 4 tasks. We first had to program an emulator which, as discussed in our Checkpoint report, needed to run binary instructions as if it were on a Raspberry Pi, by outputting the emulated state of the registers and memory. Then we had to write an assembler, which reads in assembly code, and produces the binary file - which in turn, can be processed by the emulator. Combining these two sections, the third part was two write a simple assembly program to flash LEDs on and off using GPIO pins. We successfully managed to implement this program and were able to test this by assembling it and executing it using the previous two parts. Our extension, called \textbf{TapATune}, is discussed in more detail below.
 
-After creating an emulator to read and execute a binary file, our next task was to create an assembler to output ARM-binary code to a source file. Creating the assembler was broken into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. The setup of the symbol table was accomplished through creating two \emph{structs} in C. One improvement that we made while creating objects in the assembler compared to creating objects in the emulator was the fact that we preceded each struct with \texttt{typedef}. This allowed us to call the symbol table in other programs without preceding the call with the word \texttt{struct}. In order to define the symbol table, we had to first create a separate typedef, which we called \texttt{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \texttt{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.\\
+\section{Assembler}
+
+\subsection{The Symbol Table}
+
+Our next task was to create an assembler to output ARM assembly code to a source file. Creating the assembler was broken down into two steps. The first step was for the group to create a \emph{symbol table} to associate labels with memory addresses. We decided to go for a \emph{two-pass} approach to our assembler, which made it much simpler to create our simple table. We first opened a \emph{FILE} pointer and then read in every instruction to identify the labels - these were any lines which contained a `:' character. As we cycled through the instructions, we kept a running count of the address in memory where this instruction would be stored. Therefore, when it came to adding the instruction to the symbol table, as can be seen in \textbf{Figure 1}, we already had easy access to the label string and its relative address to jump to. \\
 
 \begin{table}[htbp]
 \begin{tabular}{ p{5cm} p{5cm} }
@@ -75,12 +77,16 @@ After creating an emulator to read and execute a binary file, our next task was 
 \end{tabular}
 \setlength{\abovecaptionskip}{6pt}
 \captionsetup{justification=justified,singlelinecheck=false}
-\caption*{\fontsize{9}{9}\selectfont \textbf{Figure 1.} The first pass of our assembler, which builds the symbol table. It extracts all the ``labels" in the program by searching for the ':' character and stores their relative addresses using the line number count. }
+\caption*{\fontsize{9}{9}\selectfont \textbf{Figure 1.} The first pass of our assembler, which builds the symbol table. It extracts all the ``labels" in the program by searching for the `:' character and stores their relative addresses using the line number count. }
 \end{table}
+
+\subsection{Data Structures}
+
+ In order to define the symbol table, we had to first create a separate typedef, which we called \texttt{Map}. A Map contained a char pointer to the label, and an integer to its corresponding address. Meanwhile, we created another typedef, called \texttt{SymbolTable}, which contained an array of Maps, and an integer corresponding to its size.
 
 \subsection{Generating Instructions}
 
-Once the symbol table structure was created, we had to write code for the assembler to generate binary encodings of instructions that are passed through opcode \emph{mnemonics}. This was the second pass of the assembler's \emph{two-pass} setup. The second pass consisted of two major designs. The first task was to create a tokenizer to break each line into its label. Using the \textbf{strtok\_r} and \textbf{strtol} functions in C, this was quite easy, and we finished this task quickly as a group. the second task was to write functions for the assembler to assemble instructions, where each opcode was mapped to its expected operand count using the aforementioned symbol table abstract data type. Similar to coding the emulator, there were four instructions that we had to code: data processing, multiply, single data transfer, and branch. Thus, we assigned each group member an instruction to handle, and in turn the dynamic of the group in Part II was notably smoother than its dynamic in Part I. Tasks were distributed much more efficiently, which led to a faster completion of the assembler. However, this required more time to be spent on standardizing the code format, as many parts of the second pass of the assembler were coded independently.
+Once the symbol table structure was created, we had to write code for the assembler to generate binary encodings of instructions that are passed through opcode \emph{mnemonics}. This was the second pass of the assembler's \emph{two-pass} setup. The second pass consisted of two major designs. The first task was to create a tokenizer to break each line into its label. Using the \textbf{strtok\_r} and \textbf{strtol} functions in C, this was quite easy, and we finished this task quickly as a group. The second task was to write functions for the assembler to assemble instructions, where each opcode was mapped to its expected operand count using the aforementioned symbol table abstract data type. Similar to coding the emulator, there were four instructions that we had to code: data processing, multiply, single data transfer, and branch. Thus, we assigned each group member an instruction to handle, and in turn the dynamic of the group in Part II was notably smoother than its dynamic in Part I. Tasks were distributed much more efficiently, which led to a faster completion of the assembler. However, this required more time to be spent on standardizing the code format, as many parts of the second pass of the assembler were coded independently.
 
 \section{Extension}
 
@@ -156,19 +162,18 @@ Splitting the work, for the most part, was ideal. Just as a proper code format w
 
 
 \begin{myquote}
-``Overall, working in this group has been enjoyable and challenging at the same time. While the group dynamic has been outstanding, there were situations where the communication between group members could have been better. There was one point where two members of the group worked on the same function in the same file which resulted in many merge conflicts. This took a long time to solve, but it was a good learning experience for all of us, in terms of both communication and using gitlab appropriately. There were also multiple disagreements on how to implement certain functions as well as extension ideas, but we were always able to find compromises.
-\\
-I am very grateful to other members of my group for patiently helping me overcome the challenges that I faced, which made me a better C programmer."
+``Overall, working in this group has been enjoyable and challenging at the same time. While the group dynamic has been outstanding, there were situations where the communication between the group members could have been better. At one point two members of the group worked on the same function in the same file which resulted in many merge conflicts, which then took a long time to solve. However, this was a good learning experience for all of us in terms of both communication and using gitlab appropriately. There were also multiple disagreements on how to implement certain functions as well as extension ideas, but we were always able to find compromises.
+\\This has been my first programming group project, which has proved to be a great learning experience.  I am very grateful to other members of my group for patiently helping me overcome the challenges that I faced, which made me a better C programmer. Although I believe that I have put a lot of effort into this project, I admittedly had a slower start than other members of the group, but I hope that I have managed to compensate for that by working harder for the assembler and extension parts of the project. The increase in my WebPA assessment grade has shown to me that other group members value the extra effort that I've put in, which motivated me further to work even harder to further improve our extension."
 \end{myquote}
 \rightline{{\rm --- Alexandr Zakon}}
 
 
 \begin{myquote}
-``This project gave us the freedom to develop and implement our own ideas which motivated us to advance at a faster pace until its successful completion. 
+``This project gave us the freedom to develop and implement our own ideas which motivated us to advance at a faster pace until its successful completion.
 \\
 Reflecting on my progress, I believe that once I have passed the beginning and gained a deeper understanding of the C programming language I could really enjoy solving problems and realising my vision through the development of the project, and especially the extension. The primary stages took more time to complete. At about the midpoint of the project, after completing the emulator, I became more eager to succeed and this was driven by seeing my vision take shape. This is also reflected in the feedback I received from my group members in WebPA. I contributed to all parts of the project and enjoyed understanding the computer memory through C and being in charge of memory management.
 \\
-Reflecting on our performance as a group, I am very satisfied with our work and the dynamics of our group. We communicated well, which I felt made us a strong group and allowed us all to contribute the most. This project was very challenging, though rewarding and enjoyable at the same time. 
+Reflecting on our performance as a group, I am very satisfied with our work and the dynamics of our group. We communicated well, which I felt made us a strong group and allowed us all to contribute the most. This project was very challenging, though rewarding and enjoyable at the same time.
 \\
 If I could change one thing in the process, I would split the first parts into smaller tasks to allow a faster completion and have more time to develop the extension."
 
