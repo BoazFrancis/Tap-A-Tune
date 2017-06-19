@@ -5,6 +5,7 @@ void start_song(ctap_t *game) {
   int playing_song = 0;
   int note_number = 0;
   char *filename = "music.txt";
+  play_sound("wav/twinkle.wav", -1);
   char **words = read_file(filename);
   int num_lines = count_lines(filename);
   for (int i = 0; i < num_lines; i++) {

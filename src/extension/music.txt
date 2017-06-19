@@ -5,10 +5,42 @@
 speed 2
 
 # The number of milliseconds between each block
-tempo 1000
+tempo 660
 
 # The song
 begin
+C
+C
+G
+G
+A
+A
+G
+-
+F
+F
+E
+E
+D
+D
+C
+-
+G
+G
+F
+F
+E
+E
+D
+-
+G
+G
+F
+F
+E
+E
+D
+-
 C
 C
 G
