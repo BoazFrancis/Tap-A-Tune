@@ -14,7 +14,9 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  game->path = dirname(argv[0]);
+  char *p = malloc(sizeof(char)*250);
+  strcpy(p, dirname(argv[0]));
+  game->path = p;
 
   // Initialise the game
   init_notetable(game);
@@ -23,10 +25,17 @@ int main(int argc, char *argv[]) {
   init_startscreen(game);
   init_buttons(game);
 
-
   // Start the main loop
   gtk_main();
 
+  for (int i=0; i<game->num_buttons; i++) {
+    free(game->buttons[i].key);
+  }
+
+  free(game->path);
+  free(game->buttons);
+  free(game->dots);
+  free(game->map);
   free(game);
 
   return 0;

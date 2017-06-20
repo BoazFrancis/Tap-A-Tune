@@ -43,6 +43,7 @@ void draw_dot(ctap_t *game, char note) {
     perror("game->dots realloc in draw");
     exit(EXIT_FAILURE);
   }
+
   game->dots[game->num_dots - 1].widget = align;
   game->dots[game->num_dots - 1].track = track;
   game->dots[game->num_dots - 1].x = BUTTONS_XOFFSET + track*BUTTONS_XINC;
@@ -95,7 +96,6 @@ void draw_escape(ctap_t *game) {
   GdkColor color;
 
   GtkWidget *escape = gtk_label_new("Press ESC button to exit game");
-
 
   // Change default font throughout the widget
   font_desc = pango_font_description_from_string("Serif 30");

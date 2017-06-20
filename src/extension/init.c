@@ -10,7 +10,8 @@ void init_window(ctap_t *game) {
   gtk_window_set_default_size(GTK_WINDOW(game->window), WINDOW_SIZE, WINDOW_SIZE);
   gtk_window_set_position(GTK_WINDOW(game->window), GTK_WIN_POS_CENTER);
   gtk_window_fullscreen(GTK_WINDOW(game->window));
-  char filename[100];
+
+  char filename[250];
   sprintf(filename, "%s/../src/extension/%s", game->path, IMG_ICON);
   gtk_window_set_icon_from_file(GTK_WINDOW(game->window), filename, NULL);
 
@@ -22,6 +23,7 @@ void init_container(ctap_t *game) {
 
   // Every visible object on the screen
   game->container = gtk_fixed_new();
+
   gtk_container_add(GTK_CONTAINER(game->window), game->container);
   exit_button(game);
 
@@ -46,44 +48,36 @@ void init_startscreen(ctap_t *game) {
 void init_buttons(ctap_t *game) {
 
   game->num_buttons = 5;
-  char *button_names[game->num_buttons];
-  button_names[0] = "red";
-  button_names[1] = "blue";
-  button_names[2] = "green";
-  button_names[3] = "yellow";
-  button_names[4] = "purple";
+  char button_names[game->num_buttons][10];
+  strcpy(button_names[0], "red");
+  strcpy(button_names[1], "blue");
+  strcpy(button_names[2], "green");
+  strcpy(button_names[3], "yellow");
+  strcpy(button_names[4], "purple");
 
-  game->buttons = malloc(sizeof(ctap_button_t *) * game->num_buttons);
+  game->buttons = malloc(sizeof(ctap_button_t) * game->num_buttons);
 
   if (game->buttons == NULL) {
     perror("game->buttons malloc in init");
     exit(EXIT_FAILURE);
   }
 
+  char filename[250];
+
   for (int i=0; i<game->num_buttons; i++) {
 
-    char *filename = malloc(sizeof(char)*100);
-
-    if (filename == NULL) {
-      perror("filename malloc in init");
-      exit(EXIT_FAILURE);
-    }
-
-    char *filename_selected = malloc(sizeof(char)*100);
-
-    if (filename_selected == NULL) {
-      perror("filename_selected malloc in init");
-      exit(EXIT_FAILURE);
-    }
-
     sprintf(filename, "%s/../src/extension/img/%s.png", game->path, button_names[i]);
-    sprintf(filename_selected, "%s/../src/extension/img/%s_selected.png", game->path, button_names[i]);
     GdkPixbuf *image = create_pixbuf(filename);
-    GdkPixbuf *image_selected = create_pixbuf(filename_selected);
+
+    sprintf(filename, "%s/../src/extension/img/%s_selected.png", game->path, button_names[i]);
+    GdkPixbuf *image_selected = create_pixbuf(filename);
     image = gdk_pixbuf_scale_simple(image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
     image_selected = gdk_pixbuf_scale_simple(image_selected, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
 
-    game->buttons[i].key = button_names[i];
+    char *k = malloc(sizeof(char)*100);
+    strcpy(k, button_names[i]);
+
+    game->buttons[i].key = k;
     game->buttons[i].widget = gtk_image_new_from_pixbuf(image);
     game->buttons[i].selected = gtk_image_new_from_pixbuf(image_selected);
     game->buttons[i].is_selected = 0;
@@ -92,7 +86,7 @@ void init_buttons(ctap_t *game) {
 
   // Initialise dots as empty
   game->num_dots = 0;
-  game->dots = malloc(sizeof(ctap_dot_t *));
+  game->dots = malloc(sizeof(ctap_dot_t));
   if (game->dots == NULL) {
     perror("game->dots malloc in init");
     exit(EXIT_FAILURE);
@@ -111,7 +105,7 @@ void set_bg(ctap_t *game) {
   GdkPixmap *bg;
 
   // Load background image file into pixbuf
-  char filename[100];
+  char filename[250];
   sprintf(filename, "%s/../src/extension/%s", game->path, IMG_BG);
   GdkPixbuf *image = create_pixbuf(filename);
 
@@ -168,7 +162,7 @@ void exit_button(ctap_t *game) {
   gdk_color_parse("black", &bg);
   gtk_widget_modify_bg(event_box, GTK_STATE_NORMAL, &bg);
 
-  char filename[100];
+  char filename[250];
   sprintf(filename, "%s/../src/extension/%s", game->path, IMG_EXIT);
   GdkPixbuf *icon = create_pixbuf(filename);
   GtkWidget *exit_image = gtk_image_new_from_pixbuf(icon);
