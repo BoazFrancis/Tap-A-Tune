@@ -83,14 +83,14 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
             within_range = 1;
             game->dots[j].pressed = 1;
             // Play the sound
-            char *sound_file = malloc(sizeof(char)*12);
+            char sound_file[100];
 
             if (sound_file == NULL) {
               perror("sound_file malloc in events");
               exit(EXIT_FAILURE);
             }
 
-            sprintf(sound_file, "wav/%c1.wav", game->dots[j].note);
+            sprintf(sound_file, "%s/../src/extension/wav/%c1.wav", game->path, game->dots[j].note);
             play_sound(sound_file, -1);
             game->score+=1;
             gtk_container_remove(GTK_CONTAINER(game->container), game->score_box);
@@ -103,14 +103,14 @@ void release_button(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
 
       if (!within_range) {
         // Play error sound
-        char *sound_file = malloc(sizeof(char)*12);
+        char sound_file[100];
 
         if (sound_file == NULL) {
           perror("sound_file malloc in events");
           exit(EXIT_FAILURE);
         }
 
-        sprintf(sound_file, "wav/error.wav");
+        sprintf(sound_file, "%s/../src/extension/wav/error.wav", game->path);
         play_sound(sound_file, -1);
         // Deduct score if score > 0;
         if (game->score > 0) {

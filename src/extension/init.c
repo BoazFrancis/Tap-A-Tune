@@ -10,7 +10,9 @@ void init_window(ctap_t *game) {
   gtk_window_set_default_size(GTK_WINDOW(game->window), WINDOW_SIZE, WINDOW_SIZE);
   gtk_window_set_position(GTK_WINDOW(game->window), GTK_WIN_POS_CENTER);
   gtk_window_fullscreen(GTK_WINDOW(game->window));
-  gtk_window_set_icon_from_file(GTK_WINDOW(game->window), IMG_ICON, NULL);
+  char filename[100];
+  sprintf(filename, "%s/../src/extension/%s", game->path, IMG_ICON);
+  gtk_window_set_icon_from_file(GTK_WINDOW(game->window), filename, NULL);
 
   set_bg(game);
 
@@ -58,7 +60,6 @@ void init_buttons(ctap_t *game) {
     exit(EXIT_FAILURE);
   }
 
-
   for (int i=0; i<game->num_buttons; i++) {
 
     char *filename = malloc(sizeof(char)*100);
@@ -75,8 +76,8 @@ void init_buttons(ctap_t *game) {
       exit(EXIT_FAILURE);
     }
 
-    sprintf(filename, "img/%s.png", button_names[i]);
-    sprintf(filename_selected, "img/%s_selected.png", button_names[i]);
+    sprintf(filename, "%s/../src/extension/img/%s.png", game->path, button_names[i]);
+    sprintf(filename_selected, "%s/../src/extension/img/%s_selected.png", game->path, button_names[i]);
     GdkPixbuf *image = create_pixbuf(filename);
     GdkPixbuf *image_selected = create_pixbuf(filename_selected);
     image = gdk_pixbuf_scale_simple(image, BUTTONS_SIZE, BUTTONS_SIZE, GDK_INTERP_BILINEAR);
@@ -110,7 +111,9 @@ void set_bg(ctap_t *game) {
   GdkPixmap *bg;
 
   // Load background image file into pixbuf
-  GdkPixbuf *image = create_pixbuf(IMG_BG);
+  char filename[100];
+  sprintf(filename, "%s/../src/extension/%s", game->path, IMG_BG);
+  GdkPixbuf *image = create_pixbuf(filename);
 
   // Image should fill screen size
   image = gdk_pixbuf_scale_simple(image, gdk_screen_width(), gdk_screen_height(), GDK_INTERP_BILINEAR);
@@ -165,7 +168,9 @@ void exit_button(ctap_t *game) {
   gdk_color_parse("black", &bg);
   gtk_widget_modify_bg(event_box, GTK_STATE_NORMAL, &bg);
 
-  GdkPixbuf *icon = create_pixbuf(IMG_EXIT);
+  char filename[100];
+  sprintf(filename, "%s/../src/extension/%s", game->path, IMG_EXIT);
+  GdkPixbuf *icon = create_pixbuf(filename);
   GtkWidget *exit_image = gtk_image_new_from_pixbuf(icon);
   gtk_container_add(GTK_CONTAINER(event_box), exit_image);
 

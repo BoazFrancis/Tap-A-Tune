@@ -13,7 +13,9 @@ void draw_buttons(ctap_t *game) {
 
 void draw_lines(ctap_t *game) {
 
-  GdkPixbuf *line = create_pixbuf("img/line.png");
+  char filename[100];
+  sprintf(filename, "%s/../src/extension/img/line.png", game->path);
+  GdkPixbuf *line = create_pixbuf(filename);
   int posX = BUTTONS_XOFFSET + BUTTONS_SIZE/2 - LINE_SIZE/2;
 
   for (int i=0; i<game->num_buttons; i++) {
@@ -29,7 +31,9 @@ void draw_dot(ctap_t *game, char note) {
   int track = game->map[index];
 
   GtkWidget *align = gtk_alignment_new(0, 0, 0, 0);
-  GdkPixbuf *dot = create_pixbuf("img/dot.png");
+  char filename[100];
+  sprintf(filename, "%s/../src/extension/img/dot.png", game->path);
+  GdkPixbuf *dot = create_pixbuf(filename);
   GtkWidget *dot_widget = gtk_image_new_from_pixbuf(dot);
   gtk_container_add(GTK_CONTAINER(align), dot_widget);
 

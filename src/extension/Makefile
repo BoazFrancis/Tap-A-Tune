@@ -11,4 +11,4 @@ all: extension
 
 # Link all the object files together to get the full binary game
 extension: $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS) -o ./bin/extension $(GTK)
+	$(CC) -o $@ $^ $(CFLAGS) -o ../../bin/extension $(GTK)

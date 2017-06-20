@@ -1,4 +1,5 @@
 #include "ctap.h"
+#include <libgen.h>
 
 int main(int argc, char *argv[]) {
 
@@ -12,6 +13,8 @@ int main(int argc, char *argv[]) {
     perror("game malloc in ctap");
     exit(EXIT_FAILURE);
   }
+
+  game->path = dirname(argv[0]);
 
   // Initialise the game
   init_notetable(game);

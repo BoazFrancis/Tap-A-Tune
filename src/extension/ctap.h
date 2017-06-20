@@ -57,6 +57,7 @@ typedef struct {
 } ctap_dot_t;
 
 typedef struct {
+  char *path;
   GtkWidget *window;
   GtkWidget *container;
   GtkWidget *content;
