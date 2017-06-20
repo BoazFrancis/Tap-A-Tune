@@ -18,8 +18,9 @@ void draw_lines(ctap_t *game) {
 
   for (int i=0; i<game->num_buttons; i++) {
     GtkWidget *line_widget = gtk_image_new_from_pixbuf(line);
-    gtk_fixed_put(GTK_FIXED(game->container), line_widget, posX + i*BUTTONS_XINC, 0);
+    gtk_fixed_put(GTK_FIXED(game->lines_container), line_widget, posX + i*BUTTONS_XINC, 0);
   }
+  //gtk_fixed_put(GTK_FIXED(game->container), game->lines_container, 0, 0);
 
 }
 

@@ -61,6 +61,7 @@ typedef struct {
   GtkWidget *container;
   GtkWidget *content;
   GtkWidget *score_box;
+  GtkWidget *lines_container;
   ctap_button_t *buttons;
   int num_buttons;
   ctap_dot_t *dots;
@@ -96,6 +97,7 @@ void start_screen_text(ctap_t *game);
 void exit_button(ctap_t *game);
 void init_notetable(ctap_t *game);
 void init_score(ctap_t *game);
+void init_lines(ctap_t *game);
 
 
 // Draw methods

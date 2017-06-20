@@ -12,7 +12,7 @@ void start_game(GtkWidget *window, GdkEventKey *event, gpointer user_data) {
     gtk_container_remove(GTK_CONTAINER(game->container), game->content);
 
     // Draw lines and buttons
-    draw_lines(game);
+    init_lines(game);
     draw_buttons(game);
     gtk_widget_show_all(game->window);
 

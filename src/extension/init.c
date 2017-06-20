@@ -41,6 +41,12 @@ void init_startscreen(ctap_t *game) {
 
 }
 
+void init_lines(ctap_t *game) {
+  game->lines_container = gtk_fixed_new();
+  gtk_container_add(GTK_CONTAINER(game->container), game->lines_container);
+  draw_lines(game);
+}
+
 void init_buttons(ctap_t *game) {
 
   game->num_buttons = 5;
